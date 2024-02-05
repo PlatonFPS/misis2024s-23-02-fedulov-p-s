@@ -52,9 +52,13 @@ void Stack::Pop() noexcept {
 
 void Stack::Push(const Complex& value) {
   if (capacity_ == top_) {
-    capacity_ = capacity_ * 2 + 1;
+    if (capacity_ == 0) {
+      capacity_ = 8;
+    } else {
+      capacity_ = capacity_ * 2;
+    }
     Complex* temp_ptr = new Complex[capacity_];
-    std::copy(bottom_ptr_, (bottom_ptr_ + top_), top_);
+    std::copy(bottom_ptr_, (bottom_ptr_ + top_), temp_ptr);
     delete[] bottom_ptr_;
     bottom_ptr_ = temp_ptr;
   }
