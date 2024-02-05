@@ -21,7 +21,15 @@ int main() {
   std::cout << s.Top() << " | expected {3,4}\n";
 
   Stack s2(s);
+  std::cout << s2.Top() << " | expected {3,4}\n";
+  s2.Pop();
+  std::cout << s2.Top() << " | expected {2,3}\n";
   std::cout << s.Top() << " | expected {3,4}\n";
-  s.Pop();
-  std::cout << s.Top() << " | expected {2,3}\n";
+
+  Stack s3;
+  s3 = s;
+  std::cout << s3.Top() << " | expected {3,4}\n";
+  s3.Pop();
+  std::cout << s3.Top() << " | expected {2,3}\n";
+  std::cout << s.Top() << " | expected {3,4}\n";
 }

@@ -13,7 +13,6 @@ public:
 
   Stack& operator=(const Stack& value);
 
-  [[nodiscard]] std::ptrdiff_t Size() const noexcept;
   [[nodiscard]] bool IsEmpty() noexcept;
 
   [[nodiscard]] const Complex& Top();

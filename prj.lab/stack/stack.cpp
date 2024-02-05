@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 Stack::Stack(const Stack& copy)
-  : top_(copy.Size())
+  : top_(copy.top_)
   , capacity_(top_){
   bottom_ptr_ = new Complex[top_];
   std::copy(copy.bottom_ptr_, (copy.bottom_ptr_ + top_), bottom_ptr_);
@@ -20,16 +20,12 @@ Stack::~Stack() {
 Stack& Stack::operator=(const Stack& value) {
   if (this != &value) {
     delete[] bottom_ptr_;
-    top_ = value.Size();
+    top_ = value.top_;
     capacity_ = top_;
     bottom_ptr_ = new Complex[top_];
     std::copy(value.bottom_ptr_, (value.bottom_ptr_ + top_), bottom_ptr_);
   }
   return *this;
-}
-
-std::ptrdiff_t Stack::Size() const noexcept {
-  return top_;
 }
 
 bool Stack::IsEmpty() noexcept {
@@ -40,7 +36,7 @@ const Complex& Stack::Top() {
   if (top_ == 0) {
     throw std::out_of_range("Can't get top element of empty stack");
   } else {
-    return *(bottom_ptr_ + top_);
+    return *(bottom_ptr_ + top_ - 1);
   }
 }
 
@@ -63,5 +59,5 @@ void Stack::Push(const Complex& value) {
     bottom_ptr_ = temp_ptr;
   }
   top_ += 1;
-  *(bottom_ptr_ + top_) = value;
+  *(bottom_ptr_ + top_ - 1) = value;
 }
