@@ -28,11 +28,11 @@ Stack& Stack::operator=(const Stack& value) {
   return *this;
 }
 
-std::ptrdiff_t Stack::Size() const {
+std::ptrdiff_t Stack::Size() const noexcept {
   return top_;
 }
 
-bool Stack::IsEmpty() {
+bool Stack::IsEmpty() noexcept {
   return top_ == 0;
 }
 
@@ -44,7 +44,7 @@ const Complex& Stack::Top() {
   }
 }
 
-void Stack::Pop() {
+void Stack::Pop() noexcept {
   if (top_ != 0) {
     top_ -= 1;
   }
