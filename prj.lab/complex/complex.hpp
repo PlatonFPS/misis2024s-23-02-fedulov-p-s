@@ -44,6 +44,8 @@ struct Complex {
   static const char rightBrace{ '}' };
 };
 
+[[nodiscard]] bool operator==(const Complex& lhs, const Complex& rhs) noexcept;
+
 [[nodiscard]] Complex operator+(const Complex& lhs, const Complex& rhs) noexcept;
 [[nodiscard]] Complex operator+(const Complex& lhs, const double rhs) noexcept;
 [[nodiscard]] Complex operator+(const double lhs, const Complex& rhs) noexcept;

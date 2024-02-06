@@ -1,17 +1,16 @@
-#ifndef STACK_HPP
-#define STACK_HPP
-
-#include<complex/complex.hpp>
+#pragma once
 
 #include <cstddef>
 
-class Stack {
-public:
-  [[nodiscard]] Stack() = default;
-  [[nodiscard]] explicit Stack(const Stack& copy);
-  ~Stack();
+struct Complex;
 
-  Stack& operator=(const Stack& value);
+class StackArr {
+public:
+  [[nodiscard]] StackArr() = default;
+  [[nodiscard]] explicit StackArr(const StackArr& copy);
+  ~StackArr();
+
+  StackArr& operator=(const StackArr& value);
 
   [[nodiscard]] bool IsEmpty() noexcept;
 
@@ -23,5 +22,3 @@ private:
   std::ptrdiff_t capacity_ = 0;
   Complex* bottom_ptr_ = nullptr;
 };
-
-#endif //STACK_HPP

@@ -1,23 +1,24 @@
-#include "stack.hpp"
+#include "stackarr.hpp"
+#include<complex/complex.hpp>
 
 #include <algorithm>
 #include <stdexcept>
 
-Stack::Stack(const Stack& copy)
+StackArr::StackArr(const StackArr& copy)
   : top_(copy.top_)
   , capacity_(top_){
   bottom_ptr_ = new Complex[top_];
   std::copy(copy.bottom_ptr_, (copy.bottom_ptr_ + top_), bottom_ptr_);
 }
 
-Stack::~Stack() {
+StackArr::~StackArr() {
   delete[] bottom_ptr_;
   bottom_ptr_ = nullptr;
   top_ = 0;
   capacity_ = 0;
 }
 
-Stack& Stack::operator=(const Stack& value) {
+StackArr& StackArr::operator=(const StackArr& value) {
   if (this != &value) {
     delete[] bottom_ptr_;
     top_ = value.top_;
@@ -28,11 +29,11 @@ Stack& Stack::operator=(const Stack& value) {
   return *this;
 }
 
-bool Stack::IsEmpty() noexcept {
+bool StackArr::IsEmpty() noexcept {
   return top_ == 0;
 }
 
-const Complex& Stack::Top() {
+const Complex& StackArr::Top() {
   if (top_ == 0) {
     throw std::out_of_range("Can't get top element of empty stack");
   } else {
@@ -40,13 +41,13 @@ const Complex& Stack::Top() {
   }
 }
 
-void Stack::Pop() noexcept {
+void StackArr::Pop() noexcept {
   if (top_ != 0) {
     top_ -= 1;
   }
 }
 
-void Stack::Push(const Complex& value) {
+void StackArr::Push(const Complex& value) {
   if (capacity_ == top_) {
     if (capacity_ == 0) {
       capacity_ = 8;

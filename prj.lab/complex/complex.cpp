@@ -51,6 +51,10 @@ Complex& Complex::operator+=(const double rhs) noexcept {
   return *this;
 }
 
+bool operator==(const Complex& lhs, const Complex& rhs) noexcept {
+  return lhs.re == rhs.re && lhs.im == rhs.im;
+}
+
 Complex operator+(const Complex& lhs, const Complex& rhs) noexcept {
   return Complex(lhs) += Complex(rhs);
 }

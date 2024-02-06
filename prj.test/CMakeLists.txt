@@ -1,2 +1,2 @@
-add_executable(test_stack test_stack.cpp)
-target_link_libraries(test_stack stack)
+add_executable(test_stackarr test_stackarr.cpp)
+target_link_libraries(test_stackarr stackarr)
