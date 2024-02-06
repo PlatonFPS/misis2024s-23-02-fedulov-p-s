@@ -1,0 +1,1 @@
+add_executable(1921a 1921a.cpp)
