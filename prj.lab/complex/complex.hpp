@@ -45,6 +45,7 @@ struct Complex {
 };
 
 [[nodiscard]] bool operator==(const Complex& lhs, const Complex& rhs) noexcept;
+[[nodiscard]] bool operator!=(const Complex& lhs, const Complex& rhs) noexcept;
 
 [[nodiscard]] Complex operator+(const Complex& lhs, const Complex& rhs) noexcept;
 [[nodiscard]] Complex operator+(const Complex& lhs, const double rhs) noexcept;

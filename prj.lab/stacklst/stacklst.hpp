@@ -22,7 +22,10 @@ public:
 
   void Clear() noexcept;
 private:
-  std::ptrdiff_t top_ = 0;
-  std::ptrdiff_t capacity_ = 0;
+  struct Node {
+    Complex value;
+    Node* next = nullptr;
+  };
+  std::ptrdiff_t size_ = 0;
   Complex* bottom_ptr_ = nullptr;
 };
