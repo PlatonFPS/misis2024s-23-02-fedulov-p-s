@@ -36,17 +36,14 @@ Complex& StackArr::Top() {
   if (top_ == 0) {
     throw std::out_of_range("Can't get top element of empty stack");
   }
-  else {
-    return *(bottom_ptr_ + top_ - 1);
-  }
+  return *(bottom_ptr_ + top_ - 1);
 }
 
 const Complex& StackArr::Top() const {
   if (top_ == 0) {
     throw std::out_of_range("Can't get top element of empty stack");
-  } else {
-    return *(bottom_ptr_ + top_ - 1);
   }
+  return *(bottom_ptr_ + top_ - 1);
 }
 
 void StackArr::Pop() noexcept {

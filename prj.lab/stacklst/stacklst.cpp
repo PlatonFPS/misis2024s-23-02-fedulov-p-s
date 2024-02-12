@@ -48,12 +48,7 @@ bool StackLst::IsEmpty() const noexcept {
 }
 
 void StackLst::Push(const Complex& value) {
-  Node* temp = new Node;
-  temp->value = value;
-  if (!IsEmpty()) {
-    temp->next = head_;
-  }
-  head_ = temp;
+  head_ = new Node{ value, head_ };
 }
 
 void StackLst::Pop() noexcept {
@@ -68,18 +63,15 @@ void StackLst::Pop() noexcept {
 Complex& StackLst::Top() {
   if (IsEmpty()) {
     throw std::out_of_range("Can't get top element of empty stack");
-  } else {
-    return head_->value;
   }
+  return head_->value;
 }
 
 const Complex& StackLst::Top() const {
   if (IsEmpty()) {
     throw std::out_of_range("Can't get top element of empty stack");
   }
-  else {
-    return head_->value;
-  }
+  return head_->value;
 }
 
 void StackLst::Clear()  noexcept {
