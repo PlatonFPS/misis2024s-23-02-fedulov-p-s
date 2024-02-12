@@ -22,6 +22,7 @@ StackLst& StackLst::operator=(const StackLst& value) {
     Push(valueNode->value);
     valueNode = valueNode->next;
   }
+  return *this;
 }
 
 bool StackLst::IsEmpty() const noexcept {
@@ -63,7 +64,7 @@ const Complex& StackLst::Top() const {
   }
 }
 
-void StackLst::Clear() {
+void StackLst::Clear()  noexcept {
   while (!IsEmpty()) {
     Pop();
   }
