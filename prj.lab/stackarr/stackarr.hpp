@@ -12,11 +12,15 @@ public:
 
   StackArr& operator=(const StackArr& value);
 
-  [[nodiscard]] bool IsEmpty() noexcept;
+  [[nodiscard]] bool IsEmpty() const noexcept;
 
-  [[nodiscard]] const Complex& Top();
+  [[nodiscard]] Complex& Top();
+  [[nodiscard]] const Complex& Top() const;
+
   void Push(const Complex& value);
   void Pop() noexcept;
+
+  void Clear() noexcept;
 private:
   std::ptrdiff_t top_ = 0;
   std::ptrdiff_t capacity_ = 0;

@@ -29,11 +29,20 @@ StackArr& StackArr::operator=(const StackArr& value) {
   return *this;
 }
 
-bool StackArr::IsEmpty() noexcept {
+bool StackArr::IsEmpty() const noexcept {
   return top_ == 0;
 }
 
-const Complex& StackArr::Top() {
+Complex& StackArr::Top() {
+  if (top_ == 0) {
+    throw std::out_of_range("Can't get top element of empty stack");
+  }
+  else {
+    return *(bottom_ptr_ + top_ - 1);
+  }
+}
+
+const Complex& StackArr::Top() const {
   if (top_ == 0) {
     throw std::out_of_range("Can't get top element of empty stack");
   } else {
@@ -61,4 +70,8 @@ void StackArr::Push(const Complex& value) {
   }
   top_ += 1;
   *(bottom_ptr_ + top_ - 1) = value;
+}
+
+void StackArr::Clear() noexcept {
+  top_ = 0;
 }
