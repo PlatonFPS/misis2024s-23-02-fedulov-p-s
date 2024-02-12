@@ -2,7 +2,7 @@
 
 #include <cstddef>
 
-struct Complex;
+#include<complex/complex.hpp>
 
 class StackArr {
 public:

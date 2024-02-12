@@ -2,15 +2,15 @@
 
 #include <cstddef>
 
-struct Complex;
+#include<complex/complex.hpp>
 
-class StackArr {
+class StackLst {
 public:
-  [[nodiscard]] StackArr() = default;
-  [[nodiscard]] explicit StackArr(const StackArr& copy);
-  ~StackArr();
+  [[nodiscard]] StackLst() = default;
+  [[nodiscard]] explicit StackLst(const StackLst& copy);
+  ~StackLst();
 
-  StackArr& operator=(const StackArr& value);
+  StackLst& operator=(const StackLst& value);
 
   [[nodiscard]] bool IsEmpty() const noexcept;
 
@@ -26,6 +26,5 @@ private:
     Complex value;
     Node* next = nullptr;
   };
-  std::ptrdiff_t size_ = 0;
-  Complex* bottom_ptr_ = nullptr;
+  Node* head_ = nullptr;
 };

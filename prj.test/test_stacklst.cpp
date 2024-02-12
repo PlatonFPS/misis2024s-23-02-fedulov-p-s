@@ -9,7 +9,7 @@ static const Complex b(1, 3);
 static const Complex c(2, 3);
 
 TEST_CASE("Initialization") {
-  StackArr stack;
+  StackLst stack;
   CHECK_THROWS(stack.Top());
   CHECK(stack.IsEmpty());
   CHECK_NOTHROW(stack.Pop());
@@ -18,11 +18,11 @@ TEST_CASE("Initialization") {
 }
 
 TEST_CASE("Copy") {
-  StackArr stack;
+  StackLst stack;
   stack.Push(a);
   stack.Push(b);
 
-  StackArr stack2(stack);
+  StackLst stack2(stack);
   CHECK_EQ(stack2.Top(), stack.Top());
   CHECK_EQ(stack2.Top(), b);
   stack2.Pop();
