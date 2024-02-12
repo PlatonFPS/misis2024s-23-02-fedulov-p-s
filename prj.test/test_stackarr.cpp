@@ -22,6 +22,11 @@ TEST_CASE("Copy") {
   stack.Push(a);
   stack.Push(b);
 
+  CHECK_EQ(stack.Top(), b);
+  stack.Pop();
+  CHECK_EQ(stack.Top(), a);
+  stack.Push(b);
+
   StackArr stack2(stack);
   CHECK_EQ(stack2.Top(), stack.Top());
   CHECK_EQ(stack2.Top(), b);

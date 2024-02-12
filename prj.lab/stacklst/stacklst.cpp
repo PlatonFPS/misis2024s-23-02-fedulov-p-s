@@ -4,10 +4,19 @@
 #include <stdexcept>
 
 StackLst::StackLst(const StackLst& copy) {
+  //reserving space
   Node* copyNode = copy.head_;
   while (copyNode != nullptr) {
-    Push(copyNode->value);
+    Push(Complex(0, 0));
     copyNode = copyNode->next;
+  }
+  //setting values;
+  copyNode = copy.head_;
+  Node* node = head_;
+  while (copyNode != nullptr) {
+    node->value = copyNode->value;
+    copyNode = copyNode->next;
+    node = node->next;
   }
 }
 
@@ -17,10 +26,19 @@ StackLst::~StackLst() {
 
 StackLst& StackLst::operator=(const StackLst& value) {
   Clear();
+  //reserving space
   Node* valueNode = value.head_;
   while (valueNode != nullptr) {
-    Push(valueNode->value);
+    Push(Complex(0, 0));
     valueNode = valueNode->next;
+  }
+  //setting values;
+  valueNode = value.head_;
+  Node* node = head_;
+  while (valueNode != nullptr) {
+    node->value = valueNode->value;
+    valueNode = valueNode->next;
+    node = node->next;
   }
   return *this;
 }
