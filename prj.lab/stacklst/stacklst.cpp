@@ -5,13 +5,9 @@
 
 StackLst::StackLst(const StackLst& copy) {
   //reserving space
-  Node* copyNode = copy.head_;
-  while (copyNode != nullptr) {
-    Push(Complex(0, 0));
-    copyNode = copyNode->next;
-  }
+  for (int i = 0; i < copy.size_; i++) Push(Complex(0, 0));
   //setting values;
-  copyNode = copy.head_;
+  Node* copyNode = copy.head_;
   Node* node = head_;
   while (copyNode != nullptr) {
     node->value = copyNode->value;
@@ -25,15 +21,14 @@ StackLst::~StackLst() {
 }
 
 StackLst& StackLst::operator=(const StackLst& value) {
-  Clear();
   //reserving space
-  Node* valueNode = value.head_;
-  while (valueNode != nullptr) {
-    Push(Complex(0, 0));
-    valueNode = valueNode->next;
+  if (value.size_ > size_) {
+    for (int i = 0; i < value.size_ - size_; i++) Push(Complex(0, 0));
+  } else {
+    for (int i = 0; i < size_ - value.size_; i++) Pop();
   }
   //setting values;
-  valueNode = value.head_;
+  Node* valueNode = value.head_;
   Node* node = head_;
   while (valueNode != nullptr) {
     node->value = valueNode->value;
@@ -49,6 +44,7 @@ bool StackLst::IsEmpty() const noexcept {
 
 void StackLst::Push(const Complex& value) {
   head_ = new Node{ value, head_ };
+  size_ += 1;
 }
 
 void StackLst::Pop() noexcept {
@@ -57,6 +53,7 @@ void StackLst::Pop() noexcept {
     head_ = head_->next;
     delete temp;
     temp = nullptr;
+    size_ -= 1;
   }
 }
 

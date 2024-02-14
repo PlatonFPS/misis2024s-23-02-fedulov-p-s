@@ -27,4 +27,5 @@ private:
     Node* next = nullptr;
   };
   Node* head_ = nullptr;
+  std::ptrdiff_t size_ = 0;
 };
