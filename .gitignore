@@ -36,3 +36,6 @@
 
 # VS files
 /.vs
+
+# Test files
+/prj.lab/test

@@ -53,11 +53,11 @@ Complex& Complex::operator+=(const double rhs) noexcept {
 
 
 bool operator==(const Complex& lhs, const Complex& rhs) noexcept {
-  return lhs.re == rhs.re && lhs.im == rhs.im;
+  return (std::abs(lhs.re - rhs.re) < epsilon && std::abs(lhs.im - rhs.im) < epsilon);
 }
 
 bool operator!=(const Complex& lhs, const Complex& rhs) noexcept {
-  return !lhs.re == !rhs.re || !lhs.im == !rhs.im;
+  return !operator==(lhs, rhs);
 }
 
 
