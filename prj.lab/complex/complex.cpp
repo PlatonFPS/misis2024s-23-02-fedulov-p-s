@@ -57,7 +57,7 @@ bool operator==(const Complex& lhs, const Complex& rhs) noexcept {
 }
 
 bool operator!=(const Complex& lhs, const Complex& rhs) noexcept {
-  return !operator==(lhs, rhs);
+  return !lhs.re == !rhs.re || !lhs.im == !rhs.im;
 }
 
 
