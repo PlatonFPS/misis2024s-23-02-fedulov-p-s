@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <cstdlib>
 
 static const double epsilon = 2 * std::numeric_limits<double>::epsilon();
 
