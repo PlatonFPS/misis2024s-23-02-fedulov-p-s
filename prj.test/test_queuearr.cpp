@@ -79,3 +79,46 @@ TEST_CASE("Copy operator") {
   CHECK_EQ(queue4.IsEmpty(), queue3.IsEmpty());
   CHECK_EQ(queue4.IsEmpty(), true);
 }
+
+TEST_CASE("Cycle") {
+  QueueArr queue;
+  for(int i_cycle = 0; i_cycle < 100; i_cycle++) {
+    queue.Push(a);
+    queue.Push(b);
+    CHECK_EQ(queue.Top(), a);
+    queue.Pop();
+    CHECK_EQ(queue.Top(), b);
+    queue.Pop();
+    CHECK_EQ(queue.IsEmpty(), true);
+  }
+
+  queue.Push(a);
+  queue.Push(b);
+
+  QueueArr queue2(queue);
+  CHECK_EQ(queue2.Top(), queue.Top());
+  CHECK_EQ(queue2.Top(), a);
+  CHECK_NOTHROW(queue2.Pop());
+  CHECK_NOTHROW(queue.Pop());
+  CHECK_EQ(queue2.Top(), queue.Top());
+  CHECK_EQ(queue2.Top(), b);
+  CHECK_NOTHROW(queue2.Pop());
+  CHECK_NOTHROW(queue.Pop());
+  CHECK_EQ(queue2.IsEmpty(), queue.IsEmpty());
+  CHECK_EQ(queue2.IsEmpty(), true);
+
+  queue.Push(a);
+  queue.Push(b);
+
+  QueueArr queue3 = queue;
+  CHECK_EQ(queue3.Top(), queue.Top());
+  CHECK_EQ(queue3.Top(), a);
+  CHECK_NOTHROW(queue3.Pop());
+  CHECK_NOTHROW(queue.Pop());
+  CHECK_EQ(queue3.Top(), queue.Top());
+  CHECK_EQ(queue3.Top(), b);
+  CHECK_NOTHROW(queue3.Pop());
+  CHECK_NOTHROW(queue.Pop());
+  CHECK_EQ(queue3.IsEmpty(), queue.IsEmpty());
+  CHECK_EQ(queue3.IsEmpty(), true);
+}
