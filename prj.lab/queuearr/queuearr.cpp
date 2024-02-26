@@ -7,7 +7,7 @@ QueueArr::QueueArr(const QueueArr& copy)
   , tail_(0) {
   data_ = new Complex[copy.head_ - copy.tail_];
   capacity_ = copy.head_ - copy.tail_;
-  for (int i = 0; i < head_ - tail_; i++) {
+  for (int i = 0; i < copy.head_ - copy.tail_; i++) {
     Push(copy.data_[(copy.tail_ + i) % copy.capacity_]);
   }
 }
