@@ -3,15 +3,18 @@
 
 #include <stdexcept>
 #include <cstddef>
+#include <memory>
 
 class DynArr {
 public:
   [[nodiscard]] DynArr() = default;
   [[nodiscard]] explicit DynArr(const DynArr& copy);
+  [[nodiscard]] DynArr(DynArr&& other) noexcept;
   [[nodiscard]] explicit DynArr(const ptrdiff_t size);
   ~DynArr();
 
   DynArr& operator=(const DynArr& value);
+  DynArr& operator=(DynArr&& other) noexcept;
 
   [[nodiscard]] std::ptrdiff_t Size() const noexcept { return size_; }
   [[nodiscard]] std::ptrdiff_t Capacity() const noexcept { return capacity_; }
@@ -24,7 +27,7 @@ public:
 private:
   std::ptrdiff_t size_ = 0;
   std::ptrdiff_t capacity_ = 0;
-  float* data_ = nullptr;
+  std::unique_ptr<float[]> data_;
   float default_value = 0;
 };
 

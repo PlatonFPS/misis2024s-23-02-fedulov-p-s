@@ -5,8 +5,17 @@
 DynArr::DynArr(const DynArr& copy) 
   : size_(copy.Size())
   , capacity_(size_) {
-  data_ = new float[size_];
-  std::memcpy(data_, copy.data_, sizeof(float) * size_);
+  data_ = std::make_unique<float[]>(size_);
+  std::memcpy(data_.get(), copy.data_.get(), sizeof(float) * size_);
+}
+
+DynArr::DynArr(DynArr&& other) noexcept 
+  : size_(other.Size())
+  , capacity_(other.Capacity())
+  , data_(std::move(other.data_)) {
+  other.data_ = nullptr;
+  other.size_ = 0;
+  other.capacity_ = 0;
 }
 
 DynArr::DynArr(const ptrdiff_t size) {
@@ -15,12 +24,12 @@ DynArr::DynArr(const ptrdiff_t size) {
   }
   size_ = size;
   capacity_ = size_;
-  data_ = new float[size_];
-  std::memset(data_, default_value, sizeof(float) * size_);
+  data_ = std::make_unique<float[]>(size_);
+  std::memset(data_.get(), default_value, sizeof(float) * size_);
 }
 
 DynArr::~DynArr() {
-  delete[] data_;
+  data_.release();
   data_ = nullptr;
   capacity_ = 0;
   size_ = 0;
@@ -32,18 +41,18 @@ void DynArr::Resize(const std::ptrdiff_t size) {
   } 
   if (capacity_ > size) {
     for (int i_float = size; i_float < size_; i_float += 1) {
-      *(data_ + i_float) = default_value;
+      *(data_.get() + i_float) = default_value;
     }
   } else {
     float* temp_data = new float[size];
     for (int i_float = 0; i_float < size_; i_float += 1) {
-      *(temp_data + i_float) = *(data_ + i_float);
+      *(temp_data + i_float) = *(data_.get() + i_float);
     }
     for (int i_float = size_; i_float < size; i_float += 1) {
       *(temp_data + i_float) = default_value;
     }
-    delete[] data_;
-    data_ = temp_data;
+    data_.release();
+    data_.reset(temp_data);
     capacity_ = size;
   }
   size_ = size;
@@ -52,11 +61,24 @@ void DynArr::Resize(const std::ptrdiff_t size) {
 
 DynArr& DynArr::operator=(const DynArr& value) {
   if (this != &value) {
-    delete[] data_;
+    data_.release();
     size_ = value.Size();
     capacity_ = value.Capacity();
-    data_ = new float[size_];
-    std::memcpy(data_, value.data_, sizeof(float) * size_);
+    data_ = std::make_unique<float[]>(size_);
+    std::memcpy(data_.get(), value.data_.get(), sizeof(float) * size_);
+  }
+  return *this;
+}
+
+DynArr& DynArr::operator=(DynArr&& value) noexcept {
+  if(this != &value) {
+    data_.release();
+    size_ = value.Size();
+    capacity_ = value.Capacity();
+    data_ = std::move(value.data_);
+    value.data_ = nullptr;
+    value.size_ = 0;
+    value.capacity_ = 0;
   }
   return *this;
 }
@@ -65,13 +87,13 @@ float& DynArr::operator[](const std::ptrdiff_t index) {
   if (index >= size_ || index < 0) {
     throw std::invalid_argument("Index out of range");
   }
-  return *(data_ + index);
+  return *(data_.get() + index);
 }
 
 const float& DynArr::operator[](const std::ptrdiff_t index) const {
   if (index >= size_ || index < 0) {
     throw std::invalid_argument("Index out of range");
   }
-  return *(data_ + index);
+  return *(data_.get() + index);
 }
 
