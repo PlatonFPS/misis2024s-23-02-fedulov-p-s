@@ -46,3 +46,17 @@ TEST_CASE("Copy") {
   stack.Pop();
   CHECK_EQ(stack2.Top(), stack.Top());
 }
+
+TEST_CASE("Cycle") {
+  StackLst stack;
+  for (int i = 0; i < 10000; i += 1) stack.Push(a);
+  for (int i_cycle = 0; i_cycle < 100; i_cycle += 1) {
+    StackLst stack2;
+    stack2 = stack;
+    CHECK_EQ(stack2.Top(), stack.Top());
+    stack2.Pop();
+    stack.Pop();
+    CHECK_EQ(stack2.Top(), stack.Top());
+    stack.Push(b);
+  }
+}
