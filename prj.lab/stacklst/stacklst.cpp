@@ -2,8 +2,22 @@
 
 #include <algorithm>
 #include <stdexcept>
+#include <iostream>
 
 StackLst::StackLst(const StackLst& copy) {
+  //reserving space
+  for (int i = 0; i < copy.size_; i++) Push(Complex(0, 0));
+  //setting values;
+  Node* copyNode = copy.head_;
+  Node* node = head_;
+  while (copyNode != nullptr) {
+    node->value = copyNode->value;
+    copyNode = copyNode->next;
+    node = node->next;
+  }
+}
+
+StackLst::StackLst(StackLst&& copy) noexcept {
   //reserving space
   for (int i = 0; i < copy.size_; i++) Push(Complex(0, 0));
   //setting values;
@@ -21,19 +35,22 @@ StackLst::~StackLst() {
 }
 
 StackLst& StackLst::operator=(const StackLst& value) {
-  //reserving space
-  if (value.size_ > size_) {
-    for (int i = 0; i < value.size_ - size_; i++) Push(Complex(0, 0));
-  } else {
-    for (int i = 0; i < size_ - value.size_; i++) Pop();
-  }
-  //setting values;
-  Node* valueNode = value.head_;
-  Node* node = head_;
-  while (valueNode != nullptr) {
-    node->value = valueNode->value;
-    valueNode = valueNode->next;
-    node = node->next;
+  if (this != &value) {
+    //reserving space
+    if (value.size_ > size_) {
+      for (int i = 0; i < value.size_ - size_; i += 1) Push(Complex(0, 0));
+    }
+    else {
+      for (int i = 0; i < size_ - value.size_; i += 1) Pop();
+    }
+    //setting values;
+    Node* valueNode = value.head_;
+    Node* node = head_;
+    while (valueNode != nullptr) {
+      node->value = valueNode->value;
+      valueNode = valueNode->next;
+      node = node->next;
+    }
   }
   return *this;
 }

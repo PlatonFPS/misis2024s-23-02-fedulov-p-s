@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstddef>
-
+#include <memory>
 #include<complex/complex.hpp>
 
 class StackArr {
@@ -24,5 +24,5 @@ public:
 private:
   std::ptrdiff_t top_ = 0;
   std::ptrdiff_t capacity_ = 0;
-  Complex* bottom_ptr_ = nullptr;
+  std::unique_ptr<Complex[]> bottom_ptr_;
 };

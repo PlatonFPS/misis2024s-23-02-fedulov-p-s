@@ -1,6 +1,7 @@
-#include "queuearr.hpp"
+ #include "queuearr.hpp"
 #include <complex/complex.hpp>
 #include <stdexcept>
+#include <memory>
 
 QueueArr::QueueArr(const QueueArr& copy)
   : head_(0)
@@ -30,8 +31,8 @@ QueueArr& QueueArr::operator=(const QueueArr& value) {
     for (int i = 0; i < value.head_ - value.tail_; i++) {
       Push(value.data_[(value.tail_ + i) % value.capacity_]);
     }
-    return *this;
   }
+  return *this;
 }
 
 bool QueueArr::IsEmpty() const noexcept {

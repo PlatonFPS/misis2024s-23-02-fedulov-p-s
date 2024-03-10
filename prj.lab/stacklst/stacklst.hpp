@@ -8,6 +8,7 @@ class StackLst {
 public:
   [[nodiscard]] StackLst() = default;
   [[nodiscard]] explicit StackLst(const StackLst& copy);
+  StackLst(StackLst&& copy) noexcept;
   ~StackLst();
 
   StackLst& operator=(const StackLst& value);

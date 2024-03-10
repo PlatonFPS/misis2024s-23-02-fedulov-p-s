@@ -15,11 +15,13 @@ QueueLst::~QueueLst() {
 }
 
 QueueLst& QueueLst::operator=(const QueueLst& value) {
-  Clear();
-  Node* temp = value.head_;
-  while (temp != nullptr) {
-    Push(temp->value);
-    temp = temp->next;
+  if (this != &value) {
+    Clear();
+    Node* temp = value.head_;
+    while (temp != nullptr) {
+      Push(temp->value);
+      temp = temp->next;
+    }
   }
   return *this;
 }

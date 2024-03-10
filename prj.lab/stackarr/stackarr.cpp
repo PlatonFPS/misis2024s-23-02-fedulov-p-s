@@ -6,24 +6,23 @@
 StackArr::StackArr(const StackArr& copy)
   : top_(copy.top_)
   , capacity_(top_){
-  bottom_ptr_ = new Complex[top_];
-  std::copy(copy.bottom_ptr_, (copy.bottom_ptr_ + top_), bottom_ptr_);
+  bottom_ptr_ = std::make_unique<Complex[]>(capacity_);
+  std::copy(copy.bottom_ptr_.get(), (copy.bottom_ptr_.get() + top_), bottom_ptr_.get());
 }
 
 StackArr::~StackArr() {
-  delete[] bottom_ptr_;
-  bottom_ptr_ = nullptr;
+  bottom_ptr_.reset();
   top_ = 0;
   capacity_ = 0;
 }
 
 StackArr& StackArr::operator=(const StackArr& value) {
   if (this != &value) {
-    delete[] bottom_ptr_;
+    bottom_ptr_.reset();
     top_ = value.top_;
     capacity_ = top_;
-    bottom_ptr_ = new Complex[top_];
-    std::copy(value.bottom_ptr_, (value.bottom_ptr_ + top_), bottom_ptr_);
+    bottom_ptr_ = std::make_unique<Complex[]>(capacity_);
+    std::copy(value.bottom_ptr_.get(), (value.bottom_ptr_.get() + top_), bottom_ptr_.get());
   }
   return *this;
 }
@@ -36,14 +35,14 @@ Complex& StackArr::Top() {
   if (top_ == 0) {
     throw std::out_of_range("Can't get top element of empty stack");
   }
-  return *(bottom_ptr_ + top_ - 1);
+  return *(bottom_ptr_.get() + top_ - 1);
 }
 
 const Complex& StackArr::Top() const {
   if (top_ == 0) {
     throw std::out_of_range("Can't get top element of empty stack");
   }
-  return *(bottom_ptr_ + top_ - 1);
+  return *(bottom_ptr_.get() + top_ - 1);
 }
 
 void StackArr::Pop() noexcept {
@@ -59,13 +58,13 @@ void StackArr::Push(const Complex& value) {
     } else {
       capacity_ = capacity_ * 2;
     }
-    Complex* temp_ptr = new Complex[capacity_];
-    std::copy(bottom_ptr_, (bottom_ptr_ + top_), temp_ptr);
-    delete[] bottom_ptr_;
-    bottom_ptr_ = temp_ptr;
+    std::unique_ptr<Complex[]> temp_ptr = std::make_unique<Complex[]>(capacity_);
+    std::copy(bottom_ptr_.get(), (bottom_ptr_.get() + top_), temp_ptr.get());
+    bottom_ptr_.reset();
+    bottom_ptr_ = std::move(temp_ptr);
   }
   top_ += 1;
-  *(bottom_ptr_ + top_ - 1) = value;
+  *(bottom_ptr_.get() + top_ - 1) = value;
 }
 
 void StackArr::Clear() noexcept {
