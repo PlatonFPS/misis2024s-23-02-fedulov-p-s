@@ -25,7 +25,7 @@ QueueLst& QueueLst::operator=(const QueueLst& value) {
 }
 
 bool QueueLst::IsEmpty() const noexcept {
-  return head_ == nullptr;
+  return (head_ == nullptr);
 }
 
 void QueueLst::Push(const Complex& value) {

@@ -11,7 +11,7 @@ public:
   [[nodiscard]] explicit DynArr(const DynArr& copy);
   [[nodiscard]] DynArr(DynArr&& other) noexcept;
   [[nodiscard]] explicit DynArr(const ptrdiff_t size);
-  ~DynArr();
+  ~DynArr() = default;
 
   DynArr& operator=(const DynArr& value);
   DynArr& operator=(DynArr&& other) noexcept;

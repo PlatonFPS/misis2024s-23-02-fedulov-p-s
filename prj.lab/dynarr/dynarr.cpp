@@ -28,13 +28,6 @@ DynArr::DynArr(const ptrdiff_t size) {
   std::memset(data_.get(), default_value, sizeof(float) * size_);
 }
 
-DynArr::~DynArr() {
-  data_.release();
-  data_ = nullptr;
-  capacity_ = 0;
-  size_ = 0;
-}
-
 void DynArr::Resize(const std::ptrdiff_t size) {
   if (size <= 0) {
     throw std::invalid_argument("Positive size is required");
