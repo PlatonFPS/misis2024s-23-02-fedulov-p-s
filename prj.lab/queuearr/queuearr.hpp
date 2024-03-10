@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstddef>
-
+#include <memory>
 #include <complex/complex.hpp>
 
 class QueueArr {
@@ -22,7 +22,7 @@ public:
 
 	void Clear();
 private:
-  Complex* data_ = nullptr;
+  std::unique_ptr<Complex[]> data_;
   std::ptrdiff_t head_ = 0;
   std::ptrdiff_t tail_ = 0;
   std::ptrdiff_t capacity_ = 0;
