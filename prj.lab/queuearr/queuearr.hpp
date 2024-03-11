@@ -8,9 +8,11 @@ class QueueArr {
 public:
   QueueArr() = default;
 	QueueArr(const QueueArr& copy);
+  QueueArr(QueueArr&& copy) noexcept;
   ~QueueArr() = default;
 
   QueueArr& operator=(const QueueArr& value);
+  QueueArr& operator=(QueueArr&& value) noexcept;
 
   [[nodiscard]] bool IsEmpty() const noexcept;
 

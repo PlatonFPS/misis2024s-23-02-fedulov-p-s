@@ -13,6 +13,13 @@ QueueArr::QueueArr(const QueueArr& copy)
   }
 }
 
+QueueArr::QueueArr(QueueArr&& copy) noexcept {
+  std::swap(data_, copy.data_);
+  std::swap(head_, copy.head_);
+  std::swap(tail_, copy.tail_);
+  std::swap(capacity_, copy.capacity_);
+}
+
 QueueArr& QueueArr::operator=(const QueueArr& value) {
   if (this != &value) {
     if (capacity_ < value.head_ - value.tail_) {
@@ -26,6 +33,17 @@ QueueArr& QueueArr::operator=(const QueueArr& value) {
     }
   }
   return *this;
+}
+
+QueueArr& QueueArr::operator=(QueueArr&& value) noexcept {
+  data_ = std::move(value.data_);
+  head_ = value.head_;
+  tail_ = value.tail_;
+  capacity_ = value.capacity_;
+  value.data_.release();
+  value.head_ = 0;
+  value.tail_ = 0;
+  value.capacity_ = 0;
 }
 
 bool QueueArr::IsEmpty() const noexcept {
