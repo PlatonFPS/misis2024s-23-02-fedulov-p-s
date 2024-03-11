@@ -6,9 +6,11 @@ class QueueLst {
 public:
   QueueLst() = default;
 	QueueLst(const QueueLst& copy);
+	QueueLst(QueueLst&& copy) noexcept;
   ~QueueLst();
 
   QueueLst& operator=(const QueueLst& value);
+  QueueLst& operator=(QueueLst&& value) noexcept;
 
   [[nodiscard]] bool IsEmpty() const noexcept;
 

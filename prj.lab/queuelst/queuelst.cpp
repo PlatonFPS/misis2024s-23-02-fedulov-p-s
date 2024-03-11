@@ -10,6 +10,11 @@ QueueLst::QueueLst(const QueueLst& copy) {
   }
 }
 
+QueueLst::QueueLst(QueueLst&& copy) noexcept {
+  std::swap(head_, copy.head_);
+  std::swap(tail_, copy.tail_);
+}
+
 QueueLst::~QueueLst() {
   Clear();
 }
@@ -22,6 +27,16 @@ QueueLst& QueueLst::operator=(const QueueLst& value) {
       Push(temp->value);
       temp = temp->next;
     }
+  }
+  return *this;
+}
+
+QueueLst& QueueLst::operator=(QueueLst&& value) noexcept {
+  if (this != &value) {
+    head_ = value.head_;
+    tail_ = value.tail_;
+    value.head_ = nullptr;
+    value.tail_ = nullptr;
   }
   return *this;
 }
