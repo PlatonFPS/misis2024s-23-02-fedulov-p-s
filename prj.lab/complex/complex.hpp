@@ -5,16 +5,18 @@
 #include <stdexcept>
 
 struct Complex {
-  [[nodiscard]] Complex() = default;
-  [[nodiscard]] explicit Complex(const double real);
-  [[nodiscard]] explicit Complex(const double real, const double imaginary);
-  [[nodiscard]] Complex(const Complex& copy) = default;
+  Complex() = default;
+  explicit Complex(const double real);
+  explicit Complex(const double real, const double imaginary);
+  Complex(const Complex& copy) = default;
+  Complex(Complex&& copy) noexcept = default;
 
   ~Complex() = default;
 
   inline Complex Conjugate() const noexcept;
 
-  [[nodiscard]] Complex& operator=(const Complex& copy) noexcept = default;
+  Complex& operator=(const Complex& copy) = default;
+  Complex& operator=(Complex&& copy) noexcept = default;
 
   [[nodiscard]] Complex operator-() const noexcept { return Complex(-re, -im); }
 

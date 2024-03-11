@@ -6,17 +6,19 @@
 
 class Rational {
 public:
-  [[nodiscard]] Rational() = default;
-  [[nodiscard]] explicit Rational(const int64_t number);
-  [[nodiscard]] Rational(const int64_t number, const int64_t denominator);
-  [[nodiscard]] Rational(const Rational& c) = default;
+  Rational() = default;
+  explicit Rational(const int64_t number);
+  Rational(const int64_t number, const int64_t denominator);
+  Rational(const Rational& c) = default;
+  Rational(Rational&& copy) noexcept = default;
 
   ~Rational() = default;
 
   [[nodiscard]] int64_t num() const noexcept { return num_; }
   [[nodiscard]] int64_t den() const noexcept { return den_; }
 
-  [[nodiscard]] Rational& operator=(const Rational& copy) = default;
+  Rational& operator=(const Rational& copy) = default;
+  Rational& operator=(Rational&& copy) noexcept = default;
 
   [[nodiscard]] Rational operator-() const noexcept { return { -num_, den_ }; }
 
