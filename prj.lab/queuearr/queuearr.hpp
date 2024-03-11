@@ -8,7 +8,7 @@ class QueueArr {
 public:
   QueueArr() = default;
 	QueueArr(const QueueArr& copy);
-  ~QueueArr();
+  ~QueueArr() = default;
 
   QueueArr& operator=(const QueueArr& value);
 

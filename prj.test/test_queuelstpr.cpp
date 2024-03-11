@@ -6,6 +6,7 @@
 
 float a(1.0f);
 float b(2.0f);
+float c(3.0f);
 
 TEST_CASE("Initialization") {
   QueueLstPr queue;
@@ -69,5 +70,19 @@ TEST_CASE("Push, Pop, Top, Clear") {
   queue.Push(a);
   CHECK_NOTHROW(queue.Top());
   queue.Clear();
+  CHECK_EQ(queue.IsEmpty(), true);
+}
+
+TEST_CASE("sort test") {
+  QueueLstPr queue;
+  queue.Push(b);
+  queue.Push(a);
+  queue.Push(c);
+  CHECK_EQ(queue.Top(), a);
+  queue.Pop();
+  CHECK_EQ(queue.Top(), b);
+  queue.Pop();
+  CHECK_EQ(queue.Top(), c);
+  queue.Pop();
   CHECK_EQ(queue.IsEmpty(), true);
 }

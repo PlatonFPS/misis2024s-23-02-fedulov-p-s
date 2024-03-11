@@ -12,6 +12,7 @@ public:
   ~StackLst();
 
   StackLst& operator=(const StackLst& value);
+  StackLst& operator=(StackLst&& value) noexcept;
 
   [[nodiscard]] bool IsEmpty() const noexcept;
 

@@ -18,16 +18,7 @@ StackLst::StackLst(const StackLst& copy) {
 }
 
 StackLst::StackLst(StackLst&& copy) noexcept {
-  //reserving space
-  for (int i = 0; i < copy.size_; i++) Push(Complex(0, 0));
-  //setting values;
-  Node* copyNode = copy.head_;
-  Node* node = head_;
-  while (copyNode != nullptr) {
-    node->value = copyNode->value;
-    copyNode = copyNode->next;
-    node = node->next;
-  }
+  std::swap(head_, copy.head_);
 }
 
 StackLst::~StackLst() {
@@ -53,6 +44,11 @@ StackLst& StackLst::operator=(const StackLst& value) {
     }
   }
   return *this;
+}
+
+StackLst& StackLst::operator=(StackLst&& value) noexcept {
+  head_ = value.head_;
+  value.head_ = nullptr;
 }
 
 bool StackLst::IsEmpty() const noexcept {

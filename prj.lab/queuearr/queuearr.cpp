@@ -13,13 +13,6 @@ QueueArr::QueueArr(const QueueArr& copy)
   }
 }
 
-QueueArr::~QueueArr() {
-  data_.reset();
-  head_ = 0;
-  tail_ = 0;
-  capacity_ = 0;
-}
-
 QueueArr& QueueArr::operator=(const QueueArr& value) {
   if (this != &value) {
     if (capacity_ < value.head_ - value.tail_) {
