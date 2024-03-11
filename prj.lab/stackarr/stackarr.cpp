@@ -11,7 +11,9 @@ StackArr::StackArr(const StackArr& copy)
 }
 
 StackArr::StackArr(StackArr&& copy) noexcept {
+  std::swap(bottom_ptr_, copy.bottom_ptr_);
   std::swap(top_, copy.top_);
+  std::swap(capacity_, copy.capacity_);
 }
 
 StackArr::~StackArr() {
@@ -32,7 +34,12 @@ StackArr& StackArr::operator=(const StackArr& value) {
 }
 
 StackArr& StackArr::operator=(StackArr&& copy) noexcept {
-
+  bottom_ptr_ = std::move(copy.bottom_ptr_);
+  top_ = copy.top_;
+  capacity_ = copy.capacity_;
+  copy.bottom_ptr_.release();
+  copy.top_ = 0;
+  copy.capacity_ = 0;
 }
 
 bool StackArr::IsEmpty() const noexcept {
