@@ -9,13 +9,10 @@ DynArr::DynArr(const DynArr& copy)
   std::memcpy(data_.get(), copy.data_.get(), sizeof(float) * size_);
 }
 
-DynArr::DynArr(DynArr&& other) noexcept 
-  : size_(other.Size())
-  , capacity_(other.Capacity())
-  , data_(std::move(other.data_)) {
-  other.data_ = nullptr;
-  other.size_ = 0;
-  other.capacity_ = 0;
+DynArr::DynArr(DynArr&& other) noexcept {
+  data_ = std::move(other.data_);
+  std::swap(size_, other.size_);
+  std::swap(capacity_, other.capacity_);
 }
 
 DynArr::DynArr(const ptrdiff_t size) {
@@ -65,11 +62,10 @@ DynArr& DynArr::operator=(const DynArr& value) {
 
 DynArr& DynArr::operator=(DynArr&& value) noexcept {
   if(this != &value) {
-    data_.release();
+    data_ = std::move(value.data_);
     size_ = value.Size();
     capacity_ = value.Capacity();
-    data_ = std::move(value.data_);
-    value.data_ = nullptr;
+    value.data_.release();
     value.size_ = 0;
     value.capacity_ = 0;
   }

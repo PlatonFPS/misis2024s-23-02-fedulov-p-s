@@ -47,8 +47,11 @@ StackLst& StackLst::operator=(const StackLst& value) {
 }
 
 StackLst& StackLst::operator=(StackLst&& value) noexcept {
-  head_ = value.head_;
-  value.head_ = nullptr;
+  if (this != &value) {
+    head_ = value.head_;
+    value.head_ = nullptr;
+  }
+  return *this;
 }
 
 bool StackLst::IsEmpty() const noexcept {
