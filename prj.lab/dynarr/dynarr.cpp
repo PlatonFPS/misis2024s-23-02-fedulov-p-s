@@ -10,7 +10,7 @@ DynArr::DynArr(const DynArr& copy)
 }
 
 DynArr::DynArr(DynArr&& other) noexcept {
-  data_ = std::move(other.data_);
+  std::swap(data_, other.data_);
   std::swap(size_, other.size_);
   std::swap(capacity_, other.capacity_);
 }

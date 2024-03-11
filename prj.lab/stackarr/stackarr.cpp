@@ -10,6 +10,10 @@ StackArr::StackArr(const StackArr& copy)
   std::copy(copy.bottom_ptr_.get(), (copy.bottom_ptr_.get() + top_), bottom_ptr_.get());
 }
 
+StackArr::StackArr(StackArr&& copy) noexcept {
+  std::swap(top_, copy.top_);
+}
+
 StackArr::~StackArr() {
   bottom_ptr_.reset();
   top_ = 0;
@@ -25,6 +29,10 @@ StackArr& StackArr::operator=(const StackArr& value) {
     std::copy(value.bottom_ptr_.get(), (value.bottom_ptr_.get() + top_), bottom_ptr_.get());
   }
   return *this;
+}
+
+StackArr& StackArr::operator=(StackArr&& copy) noexcept {
+
 }
 
 bool StackArr::IsEmpty() const noexcept {

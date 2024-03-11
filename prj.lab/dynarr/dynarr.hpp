@@ -7,10 +7,10 @@
 
 class DynArr {
 public:
-  [[nodiscard]] DynArr() = default;
-  [[nodiscard]] explicit DynArr(const DynArr& copy);
-  [[nodiscard]] DynArr(DynArr&& other) noexcept;
-  [[nodiscard]] explicit DynArr(const ptrdiff_t size);
+  DynArr() = default;
+  explicit DynArr(const DynArr& copy);
+  DynArr(DynArr&& other) noexcept;
+  explicit DynArr(const ptrdiff_t size);
   ~DynArr() = default;
 
   DynArr& operator=(const DynArr& value);

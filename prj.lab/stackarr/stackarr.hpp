@@ -6,11 +6,13 @@
 
 class StackArr {
 public:
-  [[nodiscard]] StackArr() = default;
-  [[nodiscard]] explicit StackArr(const StackArr& copy);
+  StackArr() = default;
+  explicit StackArr(const StackArr& copy);
+  StackArr(StackArr&& copy) noexcept;
   ~StackArr();
 
   StackArr& operator=(const StackArr& value);
+  StackArr& operator=(StackArr&& copy) noexcept;
 
   [[nodiscard]] bool IsEmpty() const noexcept;
 
