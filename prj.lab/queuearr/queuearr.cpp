@@ -36,14 +36,17 @@ QueueArr& QueueArr::operator=(const QueueArr& value) {
 }
 
 QueueArr& QueueArr::operator=(QueueArr&& value) noexcept {
-  data_ = std::move(value.data_);
-  head_ = value.head_;
-  tail_ = value.tail_;
-  capacity_ = value.capacity_;
-  value.data_.release();
-  value.head_ = 0;
-  value.tail_ = 0;
-  value.capacity_ = 0;
+  if (this != &value) {
+    data_ = std::move(value.data_);
+    head_ = value.head_;
+    tail_ = value.tail_;
+    capacity_ = value.capacity_;
+    value.data_.release();
+    value.head_ = 0;
+    value.tail_ = 0;
+    value.capacity_ = 0;
+  }
+  return *this;
 }
 
 bool QueueArr::IsEmpty() const noexcept {

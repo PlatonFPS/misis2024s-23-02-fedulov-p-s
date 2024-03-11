@@ -33,13 +33,16 @@ StackArr& StackArr::operator=(const StackArr& value) {
   return *this;
 }
 
-StackArr& StackArr::operator=(StackArr&& copy) noexcept {
-  bottom_ptr_ = std::move(copy.bottom_ptr_);
-  top_ = copy.top_;
-  capacity_ = copy.capacity_;
-  copy.bottom_ptr_.release();
-  copy.top_ = 0;
-  copy.capacity_ = 0;
+StackArr& StackArr::operator=(StackArr&& value) noexcept {
+  if (this != &value) {
+    bottom_ptr_ = std::move(value.bottom_ptr_);
+    top_ = value.top_;
+    capacity_ = value.capacity_;
+    value.bottom_ptr_.release();
+    value.top_ = 0;
+    value.capacity_ = 0;
+  }
+  return *this;
 }
 
 bool StackArr::IsEmpty() const noexcept {

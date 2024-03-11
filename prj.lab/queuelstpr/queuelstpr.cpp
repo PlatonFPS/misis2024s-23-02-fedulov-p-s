@@ -15,28 +15,28 @@ QueueLstPr::QueueLstPr(const QueueLstPr& copy) {
 }
 
 QueueLstPr::QueueLstPr(QueueLstPr&& copy) noexcept {
-  if (!copy.IsEmpty()) {
-    head_ = new Node { copy.head_->value, nullptr };
-    Node* temp = head_;
-    copy.head_ = copy.head_->next;
-    Node* copy_temp = copy.head_->next;
-    while (copy_temp != nullptr) {
-      temp->next = new Node{ copy_temp->value, nullptr };
-      temp = temp->next;
-      copy_temp = copy_temp->next;
-    }
-  }
+  std::swap(head_, copy.head_);
+  std::swap(tail_, copy.tail_);
 }
 
 QueueLstPr::~QueueLstPr() {
   Clear();
 }
 
-QueueLstPr& QueueLstPr::operator=(const QueueLstPr& copy) {
+QueueLstPr& QueueLstPr::operator=(const QueueLstPr& value) {
+  if (this != &value) {
+    
+  }
   return *this;
 }
 
-QueueLstPr& QueueLstPr::operator=(QueueLstPr&& copy) noexcept {
+QueueLstPr& QueueLstPr::operator=(QueueLstPr&& value) noexcept {
+  if (this != &value) {
+    head_ = value.head_;
+    tail_ = value.tail_;
+    value.head_ = nullptr;
+    value.tail_ = nullptr;
+  }
   return *this;
 }
 
