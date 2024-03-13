@@ -4,6 +4,8 @@
 #include<queuelstpr/queuelstpr.hpp>
 #include<complex/complex.hpp>
 
+#include <chrono>
+
 float a(1.0f);
 float b(2.0f);
 float c(3.0f);
@@ -85,4 +87,15 @@ TEST_CASE("sort test") {
   CHECK_EQ(queue.Top(), c);
   queue.Pop();
   CHECK_EQ(queue.IsEmpty(), true);
+}
+
+TEST_CASE("time test") {
+  QueueLstPr queue;
+  auto start = std::chrono::steady_clock::now();
+  for (int i = 0; i < 1000000; i++) {
+    queue.Push(1);
+  }
+  auto end = std::chrono::steady_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
 }
