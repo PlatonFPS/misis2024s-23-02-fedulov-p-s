@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstddef>
+
 class QueueLstPr {
 public:
   QueueLstPr() = default;
@@ -28,4 +30,5 @@ private:
   };
   Node* head_ = nullptr;
   Node* tail_ = nullptr;
+  ptrdiff_t size_ = 0;
 };

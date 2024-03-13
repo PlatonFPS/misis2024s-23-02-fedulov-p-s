@@ -3,6 +3,7 @@
 
 QueueLstPr::QueueLstPr(const QueueLstPr& copy) {
   if (!copy.IsEmpty()) {
+    size_ = copy.size_;
     head_ = new Node { copy.head_->value, nullptr };
     Node* temp = head_;
     Node* copy_temp = copy.head_->next;
@@ -17,6 +18,7 @@ QueueLstPr::QueueLstPr(const QueueLstPr& copy) {
 QueueLstPr::QueueLstPr(QueueLstPr&& copy) noexcept {
   std::swap(head_, copy.head_);
   std::swap(tail_, copy.tail_);
+  std::swap(size_, copy.size_);
 }
 
 QueueLstPr::~QueueLstPr() {
@@ -25,7 +27,21 @@ QueueLstPr::~QueueLstPr() {
 
 QueueLstPr& QueueLstPr::operator=(const QueueLstPr& value) {
   if (this != &value) {
-    
+    while (size_ > value.size_) Pop();
+    Node* head = head_;
+    Node* vHead = value.head_;
+    while (head != nullptr && vHead != nullptr) {
+      head->value = vHead->value;
+      head = head->next;
+      vHead = vHead->next;
+    }
+    if (head == nullptr) {
+      while (vHead != nullptr) {
+        head->next = new Node{ vHead->value, nullptr };
+        head = head->next;
+        vHead = vHead->next;
+      }
+    }
   }
   return *this;
 }
@@ -34,8 +50,10 @@ QueueLstPr& QueueLstPr::operator=(QueueLstPr&& value) noexcept {
   if (this != &value) {
     head_ = value.head_;
     tail_ = value.tail_;
+    size_ = value.size_;
     value.head_ = nullptr;
     value.tail_ = nullptr;
+    value.size_ = 0;
   }
   return *this;
 }
@@ -58,6 +76,7 @@ void QueueLstPr::Push(float value) {
       temp->next = new Node{ value, temp->next };
     }
   }
+  size_ += 1;
 }
 
 float& QueueLstPr::Top() {
@@ -80,6 +99,7 @@ void QueueLstPr::Pop() noexcept {
     head_ = head_->next;
     delete temp;
     temp = nullptr;
+    size_ -= 1;
   }
 }
 
