@@ -90,12 +90,36 @@ TEST_CASE("sort test") {
 }
 
 TEST_CASE("time test") {
-  QueueLstPr queue;
-  auto start = std::chrono::steady_clock::now();
-  for (int i = 0; i < 1000000; i++) {
-    queue.Push(1);
+  QueueLstPr queue1;
+  for (int i = 0; i < 1000; i++) {
+    queue1.Push(1);
   }
+  auto start = std::chrono::steady_clock::now();
+  QueueLstPr queue2(queue1);
   auto end = std::chrono::steady_clock::now();
+  CHECK_EQ(queue2.Top(), 1);
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  start = std::chrono::steady_clock::now();
+  QueueLstPr queue3(std::move(queue1));
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(queue3.Top(), 1);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  QueueLstPr queue4;
+  for(int i = 0; i < 1000; i++) {
+    queue4.Push(1);
+  }
+  start = std::chrono::steady_clock::now();
+  QueueLstPr queue5 = queue4;
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(queue5.Top(), 1);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  start = std::chrono::steady_clock::now();
+  QueueLstPr queue6 = std::move(queue4);
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(queue6.Top(), 1);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
 }

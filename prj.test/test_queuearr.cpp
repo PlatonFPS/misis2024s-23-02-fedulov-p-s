@@ -122,3 +122,39 @@ TEST_CASE("Cycle") {
   CHECK_EQ(queue3.IsEmpty(), queue.IsEmpty());
   CHECK_EQ(queue3.IsEmpty(), true);
 }
+
+TEST_CASE("time test") {
+  QueueArr queue1;
+  for (int i = 0; i < 10000; i++) {
+    queue1.Push(a);
+  }
+  auto start = std::chrono::steady_clock::now();
+  QueueArr queue2(queue1);
+  auto end = std::chrono::steady_clock::now();
+  CHECK_EQ(queue2.Top(), a);
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  start = std::chrono::steady_clock::now();
+  QueueArr queue3(std::move(queue1));
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(queue3.Top(), a);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  QueueArr queue4;
+  for (int i = 0; i < 10000; i++) {
+    queue4.Push(a);
+  }
+  QueueArr queue5;
+  start = std::chrono::steady_clock::now();
+  queue5 = queue4;
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(queue5.Top(), a);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  start = std::chrono::steady_clock::now();
+  QueueArr queue6 = std::move(queue4);
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(queue6.Top(), a);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+}

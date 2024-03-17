@@ -29,7 +29,8 @@ StackLst& StackLst::operator=(const StackLst& value) {
   if (this != &value) {
     //reserving space
     if (value.size_ > size_) {
-      for (int i = 0; i < value.size_ - size_; i += 1) Push(Complex(0, 0));
+      int diff = value.size_ - size_;
+      for (int i = 0; i < diff; i += 1) Push(Complex(0, 0));
     }
     else {
       for (int i = 0; i < size_ - value.size_; i += 1) Pop();

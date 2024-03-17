@@ -46,3 +46,39 @@ TEST_CASE("Copy") {
   stack.Pop();
   CHECK_EQ(stack2.Top(), stack.Top());
 }
+
+TEST_CASE("time test") {
+  StackLst stack1;
+  for (int i = 0; i < 10000; i++) {
+    stack1.Push(a);
+  }
+  auto start = std::chrono::steady_clock::now();
+  StackLst stack2(stack1);
+  auto end = std::chrono::steady_clock::now();
+  CHECK_EQ(stack2.Top(), a);
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  start = std::chrono::steady_clock::now();
+  StackLst stack3(std::move(stack1));
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(stack3.Top(), a);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  StackLst stack4;
+  for (int i = 0; i < 10000; i++) {
+    stack4.Push(a);
+  }
+  StackLst stack5;
+  start = std::chrono::steady_clock::now();
+  stack5 = stack4;
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(stack5.Top(), a);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  start = std::chrono::steady_clock::now();
+  StackLst stack6 = std::move(stack4);
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(stack6.Top(), a);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+}

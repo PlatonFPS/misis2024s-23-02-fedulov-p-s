@@ -4,6 +4,8 @@
 #include<queuelst/queuelst.hpp>
 #include<complex/complex.hpp>
 
+#include <chrono>
+
 Complex a(1, 2);
 Complex b(1, 3);
 
@@ -70,4 +72,39 @@ TEST_CASE("Push, Pop, Top, Clear") {
   CHECK_NOTHROW(queue.Top());
   queue.Clear();
   CHECK_EQ(queue.IsEmpty(), true);
+}
+
+TEST_CASE("time test") {
+  QueueLst queue1;
+  for (int i = 0; i < 1000; i++) {
+    queue1.Push(a);
+  }
+  auto start = std::chrono::steady_clock::now();
+  QueueLst queue2(queue1);
+  auto end = std::chrono::steady_clock::now();
+  CHECK_EQ(queue2.Top(), a);
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  start = std::chrono::steady_clock::now();
+  QueueLst queue3(std::move(queue1));
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(queue3.Top(), a);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  QueueLst queue4;
+  for (int i = 0; i < 1000; i++) {
+    queue4.Push(a);
+  }
+  start = std::chrono::steady_clock::now();
+  QueueLst queue5 = queue4;
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(queue5.Top(), a);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  start = std::chrono::steady_clock::now();
+  QueueLst queue6 = std::move(queue4);
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(queue6.Top(), a);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
 }
