@@ -48,6 +48,8 @@ TEST_CASE("Copy") {
 }
 
 TEST_CASE("time test") {
+  long long diff = 0;
+
   StackArr stack1;
   for (int i = 0; i < 10000; i++) {
     stack1.Push(a);
@@ -59,11 +61,17 @@ TEST_CASE("time test") {
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
   start = std::chrono::steady_clock::now();
+  diff = duration.count();
+
   StackArr stack3(std::move(stack1));
   end = std::chrono::steady_clock::now();
   CHECK_EQ(stack3.Top(), a);
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  diff -= duration.count();
+
+  CHECK(diff > duration.count() * 10);
+
   StackArr stack4;
   for (int i = 0; i < 10000; i++) {
     stack4.Push(a);
@@ -75,10 +83,15 @@ TEST_CASE("time test") {
   CHECK_EQ(stack5.Top(), a);
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  diff = duration.count();
+
   start = std::chrono::steady_clock::now();
   StackArr stack6 = std::move(stack4);
   end = std::chrono::steady_clock::now();
   CHECK_EQ(stack6.Top(), a);
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+  diff -= duration.count();
+
+  CHECK(diff > duration.count() * 10);
 }
