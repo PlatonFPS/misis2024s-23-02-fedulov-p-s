@@ -32,15 +32,12 @@ QueueLstPr& QueueLstPr::operator=(const QueueLstPr& value) {
     Node* vHead = value.head_;
     while (head != nullptr && vHead != nullptr) {
       head->value = vHead->value;
-      head = head->next;
       vHead = vHead->next;
+      head = head->next;
     }
-    if (head == nullptr) {
-      while (vHead != nullptr) {
-        head->next = new Node{ vHead->value, nullptr };
-        head = head->next;
-        vHead = vHead->next;
-      }
+    while (vHead != nullptr) {
+      Push(vHead->value);
+      vHead = vHead->next;
     }
   }
   return *this;

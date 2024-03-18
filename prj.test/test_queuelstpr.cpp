@@ -90,36 +90,54 @@ TEST_CASE("sort test") {
 }
 
 TEST_CASE("time test") {
+  long long diff = 0;
+
   QueueLstPr queue1;
-  for (int i = 0; i < 1000; i++) {
-    queue1.Push(1);
+  for (int i = 0; i < 10000; i++) {
+    queue1.Push(a);
   }
   auto start = std::chrono::steady_clock::now();
   QueueLstPr queue2(queue1);
   auto end = std::chrono::steady_clock::now();
-  CHECK_EQ(queue2.Top(), 1);
+  CHECK_EQ(queue2.Top(), a);
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+  diff = duration.count();
+
   start = std::chrono::steady_clock::now();
   QueueLstPr queue3(std::move(queue1));
   end = std::chrono::steady_clock::now();
-  CHECK_EQ(queue3.Top(), 1);
+  CHECK_EQ(queue3.Top(), a);
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+  diff -= duration.count();
+
+  CHECK(diff > duration.count() * 10);
+
   QueueLstPr queue4;
-  for(int i = 0; i < 1000; i++) {
-    queue4.Push(1);
+  for (int i = 0; i < 10000; i++) {
+    queue4.Push(a);
   }
+  QueueLstPr queue5;
   start = std::chrono::steady_clock::now();
-  QueueLstPr queue5 = queue4;
+  queue5 = queue4;
   end = std::chrono::steady_clock::now();
-  CHECK_EQ(queue5.Top(), 1);
+  CHECK_EQ(queue5.Top(), a);
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+  diff = duration.count();
+
   start = std::chrono::steady_clock::now();
   QueueLstPr queue6 = std::move(queue4);
   end = std::chrono::steady_clock::now();
-  CHECK_EQ(queue6.Top(), 1);
+  CHECK_EQ(queue6.Top(), a);
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+  diff -= duration.count();
+
+  CHECK(diff > duration.count() * 10);
 }

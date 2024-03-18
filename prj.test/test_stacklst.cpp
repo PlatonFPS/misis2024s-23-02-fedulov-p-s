@@ -60,14 +60,16 @@ TEST_CASE("time test") {
   CHECK_EQ(stack2.Top(), a);
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
-  start = std::chrono::steady_clock::now();
+
   diff = duration.count();
 
+  start = std::chrono::steady_clock::now();
   StackLst stack3(std::move(stack1));
   end = std::chrono::steady_clock::now();
   CHECK_EQ(stack3.Top(), a);
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
   diff -= duration.count();
 
   CHECK(diff > duration.count() * 10);
@@ -83,6 +85,7 @@ TEST_CASE("time test") {
   CHECK_EQ(stack5.Top(), a);
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
   diff = duration.count();
 
   start = std::chrono::steady_clock::now();
@@ -91,6 +94,7 @@ TEST_CASE("time test") {
   CHECK_EQ(stack6.Top(), a);
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
   diff -= duration.count();
 
   CHECK(diff > duration.count() * 10);

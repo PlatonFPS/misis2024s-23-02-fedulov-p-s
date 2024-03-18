@@ -208,3 +208,56 @@ TEST_CASE("comparison test") {
 
   CHECK(bitset == bitset2);
 }
+
+TEST_CASE("time test") {
+  long long diff = 0;
+
+  BitSet bit1(100000);
+  for (int i = 0; i < 100000; i++) {
+    bit1.Set(i, 1);
+  }
+  auto start = std::chrono::steady_clock::now();
+  BitSet bit2(bit1);
+  auto end = std::chrono::steady_clock::now();
+  CHECK_EQ(bit2.Get(0), 1);
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+  diff = duration.count();
+
+  start = std::chrono::steady_clock::now();
+  BitSet bit3(std::move(bit1));
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(bit3.Get(0), 1);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+  diff -= duration.count();
+
+  CHECK(diff > duration.count() * 10);
+
+  BitSet bit4(100000);
+  for (int i = 0; i < 100000; i++) {
+    bit4.Set(i, 1);
+  }
+  BitSet bit5;
+  start = std::chrono::steady_clock::now();
+  bit5 = bit4;
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(bit5.Get(0), 1);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+  diff = duration.count();
+
+  start = std::chrono::steady_clock::now();
+  BitSet bit6 = std::move(bit4);
+  end = std::chrono::steady_clock::now();
+  CHECK_EQ(bit6.Get(0), 1);
+  duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+  std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+  diff -= duration.count();
+
+  CHECK(diff > duration.count() * 10);
+}

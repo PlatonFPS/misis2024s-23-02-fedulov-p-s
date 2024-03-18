@@ -89,6 +89,8 @@ TEST_CASE("DynArr test") {
 }
 
 TEST_CASE("time test") {
+  long long diff = 0;
+
   DynArr arr1(10000);
   for (int i = 0; i < 10000; i++) {
     arr1[i] = 1;
@@ -99,15 +101,23 @@ TEST_CASE("time test") {
   CHECK_EQ(arr2[0], 1);
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+  diff = duration.count();
+
   start = std::chrono::steady_clock::now();
   DynArr arr3(std::move(arr1));
   end = std::chrono::steady_clock::now();
   CHECK_EQ(arr3[0], 1);
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+  diff -= duration.count();
+
+  CHECK(diff > duration.count() * 10);
+
   DynArr arr4(10000);
   for (int i = 0; i < 10000; i++) {
-    arr4[0] = 1;
+    arr4[i] = 1;
   }
   DynArr arr5;
   start = std::chrono::steady_clock::now();
@@ -116,10 +126,17 @@ TEST_CASE("time test") {
   CHECK_EQ(arr5[0], 1);
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+  diff = duration.count();
+
   start = std::chrono::steady_clock::now();
   DynArr arr6 = std::move(arr4);
   end = std::chrono::steady_clock::now();
   CHECK_EQ(arr6[0], 1);
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
+
+  diff -= duration.count();
+
+  CHECK(diff > duration.count() * 10);
 }
