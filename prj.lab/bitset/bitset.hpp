@@ -22,9 +22,19 @@ public:
   bool Get(const int32_t index) const;
   void Set(const int32_t index, const bool value);
 
+  bool operator==(const BitSet& other) const;
+  bool operator!=(const BitSet& other) const;
+
   BitSet operator~() const;
+  BitSet operator&(const BitSet& other) const;
+  BitSet& operator&=(const BitSet& other);
+  BitSet operator|(const BitSet& other) const;
+  BitSet& operator|=(const BitSet& other);
+  BitSet operator^(const BitSet& other) const;
+  BitSet& operator^=(const BitSet& other);
   
 private:
   std::vector<uint32_t> bits_;
   int32_t size_ = 0;
 };
+

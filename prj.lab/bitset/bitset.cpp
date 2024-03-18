@@ -65,10 +65,71 @@ void BitSet::Set(const int32_t index, const bool value) {
   }
 }
 
+bool BitSet::operator==(const BitSet& other) const {
+  if (size_ != other.size_) {
+    return false;
+  }
+  for (size_t i = 0; i < bits_.size(); ++i) {
+    if (bits_[i] != other.bits_[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool BitSet::operator!=(const BitSet& other) const {
+  return !(*this == other);
+}
+
 BitSet BitSet::operator~() const {
   BitSet result(*this);
   for (size_t i = 0; i < result.bits_.size(); ++i) {
     result.bits_[i] = ~result.bits_[i];
   }
   return result;
+}
+
+BitSet BitSet::operator&(const BitSet& other) const {
+  BitSet result(*this);
+  for (size_t i = 0; i < result.bits_.size(); ++i) {
+    result.bits_[i] &= other.bits_[i];
+  }
+  return result;
+}
+
+BitSet& BitSet::operator&=(const BitSet& other) {
+  for (size_t i = 0; i < other.bits_.size(); ++i) {
+    bits_[i] &= other.bits_[i];
+  }
+  return *this;
+}
+
+BitSet BitSet::operator|(const BitSet& other) const {
+  BitSet result(*this);
+  for (size_t i = 0; i < result.bits_.size(); ++i) {
+    result.bits_[i] |= other.bits_[i];
+  }
+  return result;
+}
+
+BitSet& BitSet::operator|=(const BitSet& other) {
+  for (size_t i = 0; i < other.bits_.size(); ++i) {
+    bits_[i] |= other.bits_[i];
+  }
+  return *this;
+}
+
+BitSet BitSet::operator^(const BitSet& other) const {
+  BitSet result(*this);
+  for (size_t i = 0; i < result.bits_.size(); ++i) {
+    result.bits_[i] ^= other.bits_[i];
+  }
+  return result;
+}
+
+BitSet& BitSet::operator^=(const BitSet& other) {
+  for (size_t i = 0; i < other.bits_.size(); ++i) {
+    bits_[i] ^= other.bits_[i];
+  }
+  return *this;
 }
