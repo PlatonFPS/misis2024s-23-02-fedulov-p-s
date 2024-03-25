@@ -90,6 +90,9 @@ BitSet BitSet::operator~() const {
 }
 
 BitSet BitSet::operator&(const BitSet& other) const {
+  if(size_ != other.size_) {
+    throw std::invalid_argument("BitSets have different sizes");
+  }
   BitSet result(*this);
   for (size_t i = 0; i < result.bits_.size(); ++i) {
     result.bits_[i] &= other.bits_[i];
@@ -98,6 +101,9 @@ BitSet BitSet::operator&(const BitSet& other) const {
 }
 
 BitSet& BitSet::operator&=(const BitSet& other) {
+  if (size_ != other.size_) {
+    throw std::invalid_argument("BitSets have different sizes");
+  }
   for (size_t i = 0; i < other.bits_.size(); ++i) {
     bits_[i] &= other.bits_[i];
   }
@@ -105,6 +111,9 @@ BitSet& BitSet::operator&=(const BitSet& other) {
 }
 
 BitSet BitSet::operator|(const BitSet& other) const {
+  if (size_ != other.size_) {
+    throw std::invalid_argument("BitSets have different sizes");
+  }
   BitSet result(*this);
   for (size_t i = 0; i < result.bits_.size(); ++i) {
     result.bits_[i] |= other.bits_[i];
@@ -113,6 +122,9 @@ BitSet BitSet::operator|(const BitSet& other) const {
 }
 
 BitSet& BitSet::operator|=(const BitSet& other) {
+  if (size_ != other.size_) {
+    throw std::invalid_argument("BitSets have different sizes");
+  }
   for (size_t i = 0; i < other.bits_.size(); ++i) {
     bits_[i] |= other.bits_[i];
   }
@@ -120,6 +132,9 @@ BitSet& BitSet::operator|=(const BitSet& other) {
 }
 
 BitSet BitSet::operator^(const BitSet& other) const {
+  if (size_ != other.size_) {
+    throw std::invalid_argument("BitSets have different sizes");
+  }
   BitSet result(*this);
   for (size_t i = 0; i < result.bits_.size(); ++i) {
     result.bits_[i] ^= other.bits_[i];
@@ -128,6 +143,9 @@ BitSet BitSet::operator^(const BitSet& other) const {
 }
 
 BitSet& BitSet::operator^=(const BitSet& other) {
+  if (size_ != other.size_) {
+    throw std::invalid_argument("BitSets have different sizes");
+  }
   for (size_t i = 0; i < other.bits_.size(); ++i) {
     bits_[i] ^= other.bits_[i];
   }

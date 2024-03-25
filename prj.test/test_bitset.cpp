@@ -157,6 +157,14 @@ TEST_CASE("bit operations test") {
   CHECK_EQ(bitset5.Get(5), 1);
   CHECK_EQ(bitset5.Get(6), 1);
   CHECK_EQ(bitset5.Get(7), 1);
+
+  bitset2.Resize(7);
+  CHECK_THROWS_AS(bitset2.Set(7, 1), std::out_of_range);
+  CHECK_THROWS(bitset2 & bitset);
+  CHECK_THROWS(bitset2 | bitset);
+  CHECK_THROWS(bitset2 ^ bitset);
+  CHECK_FALSE(bitset2 == bitset);
+  CHECK(bitset2 != bitset);
 }
 
 TEST_CASE("comparison test") {
@@ -207,6 +215,23 @@ TEST_CASE("comparison test") {
   CHECK_NOTHROW(bitset2.Set(7, 0));
 
   CHECK(bitset == bitset2);
+}
+
+TEST_CASE("bigger size") {
+  BitSet bitset(38);
+  CHECK_EQ(bitset.Size(), 38);
+  CHECK_NOTHROW(bitset.Set(32, 1));
+  CHECK_NOTHROW(bitset.Set(33, 0));
+  CHECK_NOTHROW(bitset.Set(34, 1));
+  CHECK_NOTHROW(bitset.Set(35, 0));
+  CHECK_NOTHROW(bitset.Set(36, 1));
+  CHECK_NOTHROW(bitset.Set(37, 0));
+  CHECK_EQ(bitset.Get(32), 1);
+  CHECK_EQ(bitset.Get(33), 0);
+  CHECK_EQ(bitset.Get(34), 1);
+  CHECK_EQ(bitset.Get(35), 0);
+  CHECK_EQ(bitset.Get(36), 1);
+  CHECK_EQ(bitset.Get(37), 0);
 }
 
 TEST_CASE("time test") {
