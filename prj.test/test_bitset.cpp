@@ -5,14 +5,14 @@
 TEST_CASE("ctor") {
   BitSet bitset(8);
   CHECK_EQ(bitset.Size(), 8);
-  CHECK_NOTHROW(bitset.Set(0, 1));
-  CHECK_NOTHROW(bitset.Set(1, 0));
-  CHECK_NOTHROW(bitset.Set(2, 1));
-  CHECK_NOTHROW(bitset.Set(3, 0));
-  CHECK_NOTHROW(bitset.Set(4, 1));
-  CHECK_NOTHROW(bitset.Set(5, 0));
-  CHECK_NOTHROW(bitset.Set(6, 1));
-  CHECK_NOTHROW(bitset.Set(7, 0));
+  CHECK_NOTHROW(bitset.Set(0, true));
+  CHECK_NOTHROW(bitset.Set(1, false));
+  CHECK_NOTHROW(bitset.Set(2, true));
+  CHECK_NOTHROW(bitset.Set(3, false));
+  CHECK_NOTHROW(bitset.Set(4, true));
+  CHECK_NOTHROW(bitset.Set(5, false));
+  CHECK_NOTHROW(bitset.Set(6, true));
+  CHECK_NOTHROW(bitset.Set(7, false));
   CHECK_EQ(bitset.Size(), 8);
   CHECK_EQ(bitset.Get(0), 1);
   CHECK_EQ(bitset.Get(1), 0);
@@ -27,14 +27,14 @@ TEST_CASE("ctor") {
 TEST_CASE("resize test") {
   BitSet bitset(8);
   CHECK_EQ(bitset.Size(), 8);
-  CHECK_NOTHROW(bitset.Set(0, 1));
-  CHECK_NOTHROW(bitset.Set(1, 0));
-  CHECK_NOTHROW(bitset.Set(2, 1));
-  CHECK_NOTHROW(bitset.Set(3, 0));
-  CHECK_NOTHROW(bitset.Set(4, 1));
-  CHECK_NOTHROW(bitset.Set(5, 0));
-  CHECK_NOTHROW(bitset.Set(6, 1));
-  CHECK_NOTHROW(bitset.Set(7, 0));
+  CHECK_NOTHROW(bitset.Set(0, true));
+  CHECK_NOTHROW(bitset.Set(1, false));
+  CHECK_NOTHROW(bitset.Set(2, true));
+  CHECK_NOTHROW(bitset.Set(3, false));
+  CHECK_NOTHROW(bitset.Set(4, true));
+  CHECK_NOTHROW(bitset.Set(5, false));
+  CHECK_NOTHROW(bitset.Set(6, true));
+  CHECK_NOTHROW(bitset.Set(7, false));
   
   bitset.Resize(10);
   CHECK_EQ(bitset.Size(), 10);
@@ -54,14 +54,14 @@ TEST_CASE("resize test") {
 TEST_CASE("clear test") {
   BitSet bitset(8);
   CHECK_EQ(bitset.Size(), 8);
-  CHECK_NOTHROW(bitset.Set(0, 1));
-  CHECK_NOTHROW(bitset.Set(1, 0));
-  CHECK_NOTHROW(bitset.Set(2, 1));
-  CHECK_NOTHROW(bitset.Set(3, 0));
-  CHECK_NOTHROW(bitset.Set(4, 1));
-  CHECK_NOTHROW(bitset.Set(5, 0));
-  CHECK_NOTHROW(bitset.Set(6, 1));
-  CHECK_NOTHROW(bitset.Set(7, 0));
+  CHECK_NOTHROW(bitset.Set(0, true));
+  CHECK_NOTHROW(bitset.Set(1, false));
+  CHECK_NOTHROW(bitset.Set(2, true));
+  CHECK_NOTHROW(bitset.Set(3, false));
+  CHECK_NOTHROW(bitset.Set(4, true));
+  CHECK_NOTHROW(bitset.Set(5, false));
+  CHECK_NOTHROW(bitset.Set(6, true));
+  CHECK_NOTHROW(bitset.Set(7, false));
 
   bitset.Clear();
   CHECK_THROWS_AS(bitset.Get(0), std::out_of_range);
@@ -70,14 +70,14 @@ TEST_CASE("clear test") {
 TEST_CASE("out of range test") {
   BitSet bitset(8);
   CHECK_EQ(bitset.Size(), 8);
-  CHECK_NOTHROW(bitset.Set(0, 1));
-  CHECK_NOTHROW(bitset.Set(1, 0));
-  CHECK_NOTHROW(bitset.Set(2, 1));
-  CHECK_NOTHROW(bitset.Set(3, 0));
-  CHECK_NOTHROW(bitset.Set(4, 1));
-  CHECK_NOTHROW(bitset.Set(5, 0));
-  CHECK_NOTHROW(bitset.Set(6, 1));
-  CHECK_NOTHROW(bitset.Set(7, 0));
+  CHECK_NOTHROW(bitset.Set(0, true));
+  CHECK_NOTHROW(bitset.Set(1, false));
+  CHECK_NOTHROW(bitset.Set(2, true));
+  CHECK_NOTHROW(bitset.Set(3, false));
+  CHECK_NOTHROW(bitset.Set(4, true));
+  CHECK_NOTHROW(bitset.Set(5, false));
+  CHECK_NOTHROW(bitset.Set(6, true));
+  CHECK_NOTHROW(bitset.Set(7, false));
 
   CHECK_THROWS_AS(bitset.Get(8), std::out_of_range);
   CHECK_THROWS_AS(bitset.Get(-1), std::out_of_range);
@@ -90,14 +90,14 @@ TEST_CASE("out of range test") {
 TEST_CASE("bit operations test") {
   BitSet bitset(8);
   CHECK_EQ(bitset.Size(), 8);
-  CHECK_NOTHROW(bitset.Set(0, 1));
-  CHECK_NOTHROW(bitset.Set(1, 0));
-  CHECK_NOTHROW(bitset.Set(2, 1));
-  CHECK_NOTHROW(bitset.Set(3, 0));
-  CHECK_NOTHROW(bitset.Set(4, 1));
-  CHECK_NOTHROW(bitset.Set(5, 0));
-  CHECK_NOTHROW(bitset.Set(6, 1));
-  CHECK_NOTHROW(bitset.Set(7, 0));
+  CHECK_NOTHROW(bitset.Set(0, true));
+  CHECK_NOTHROW(bitset.Set(1, false));
+  CHECK_NOTHROW(bitset.Set(2, true));
+  CHECK_NOTHROW(bitset.Set(3, false));
+  CHECK_NOTHROW(bitset.Set(4, true));
+  CHECK_NOTHROW(bitset.Set(5, false));
+  CHECK_NOTHROW(bitset.Set(6, true));
+  CHECK_NOTHROW(bitset.Set(7, false));
 
   BitSet bitset1(8);
   CHECK_EQ(bitset1.Size(), 8);
@@ -113,14 +113,14 @@ TEST_CASE("bit operations test") {
 
   BitSet bitset2(8);
   CHECK_EQ(bitset2.Size(), 8);
-  CHECK_NOTHROW(bitset2.Set(0, 1));
-  CHECK_NOTHROW(bitset2.Set(1, 1));
-  CHECK_NOTHROW(bitset2.Set(2, 1));
-  CHECK_NOTHROW(bitset2.Set(3, 1));
-  CHECK_NOTHROW(bitset2.Set(4, 1));
-  CHECK_NOTHROW(bitset2.Set(5, 1));
-  CHECK_NOTHROW(bitset2.Set(6, 1));
-  CHECK_NOTHROW(bitset2.Set(7, 1));
+  CHECK_NOTHROW(bitset2.Set(0, true));
+  CHECK_NOTHROW(bitset2.Set(1, true));
+  CHECK_NOTHROW(bitset2.Set(2, true));
+  CHECK_NOTHROW(bitset2.Set(3, true));
+  CHECK_NOTHROW(bitset2.Set(4, true));
+  CHECK_NOTHROW(bitset2.Set(5, true));
+  CHECK_NOTHROW(bitset2.Set(6, true));
+  CHECK_NOTHROW(bitset2.Set(7, true));
 
   BitSet bitset3(8);
   CHECK_EQ(bitset3.Size(), 8);
@@ -170,49 +170,49 @@ TEST_CASE("bit operations test") {
 TEST_CASE("comparison test") {
   BitSet bitset(8);
   CHECK_EQ(bitset.Size(), 8);
-  CHECK_NOTHROW(bitset.Set(0, 1));
-  CHECK_NOTHROW(bitset.Set(1, 0));
-  CHECK_NOTHROW(bitset.Set(2, 1));
-  CHECK_NOTHROW(bitset.Set(3, 0));
-  CHECK_NOTHROW(bitset.Set(4, 1));
-  CHECK_NOTHROW(bitset.Set(5, 0));
-  CHECK_NOTHROW(bitset.Set(6, 1));
-  CHECK_NOTHROW(bitset.Set(7, 0));
+  CHECK_NOTHROW(bitset.Set(0, true));
+  CHECK_NOTHROW(bitset.Set(1, false));
+  CHECK_NOTHROW(bitset.Set(2, true));
+  CHECK_NOTHROW(bitset.Set(3, false));
+  CHECK_NOTHROW(bitset.Set(4, true));
+  CHECK_NOTHROW(bitset.Set(5, false));
+  CHECK_NOTHROW(bitset.Set(6, true));
+  CHECK_NOTHROW(bitset.Set(7, false));
 
   BitSet bitset1(8);
   CHECK_EQ(bitset1.Size(), 8);
-  CHECK_NOTHROW(bitset1.Set(0, 1));
-  CHECK_NOTHROW(bitset1.Set(1, 0));
-  CHECK_NOTHROW(bitset1.Set(2, 1));
-  CHECK_NOTHROW(bitset1.Set(3, 0));
-  CHECK_NOTHROW(bitset1.Set(4, 1));
-  CHECK_NOTHROW(bitset1.Set(5, 0));
-  CHECK_NOTHROW(bitset1.Set(6, 1));
-  CHECK_NOTHROW(bitset1.Set(7, 0));
+  CHECK_NOTHROW(bitset1.Set(0, true));
+  CHECK_NOTHROW(bitset1.Set(1, false));
+  CHECK_NOTHROW(bitset1.Set(2, true));
+  CHECK_NOTHROW(bitset1.Set(3, false));
+  CHECK_NOTHROW(bitset1.Set(4, true));
+  CHECK_NOTHROW(bitset1.Set(5, false));
+  CHECK_NOTHROW(bitset1.Set(6, true));
+  CHECK_NOTHROW(bitset1.Set(7, false));
 
   CHECK(bitset == bitset1);
   
-  CHECK_NOTHROW(bitset1.Set(0, 0));
+  CHECK_NOTHROW(bitset1.Set(0, false));
 
   CHECK(bitset != bitset1);
 
   BitSet bitset2(8);
   CHECK_EQ(bitset2.Size(), 8);
-  CHECK_NOTHROW(bitset2.Set(0, 1));
-  CHECK_NOTHROW(bitset2.Set(1, 1));
-  CHECK_NOTHROW(bitset2.Set(2, 1));
-  CHECK_NOTHROW(bitset2.Set(3, 1));
-  CHECK_NOTHROW(bitset2.Set(4, 1));
-  CHECK_NOTHROW(bitset2.Set(5, 1));
-  CHECK_NOTHROW(bitset2.Set(6, 1));
-  CHECK_NOTHROW(bitset2.Set(7, 1));
+  CHECK_NOTHROW(bitset2.Set(0, true));
+  CHECK_NOTHROW(bitset2.Set(1, true));
+  CHECK_NOTHROW(bitset2.Set(2, true));
+  CHECK_NOTHROW(bitset2.Set(3, true));
+  CHECK_NOTHROW(bitset2.Set(4, true));
+  CHECK_NOTHROW(bitset2.Set(5, true));
+  CHECK_NOTHROW(bitset2.Set(6, true));
+  CHECK_NOTHROW(bitset2.Set(7, true));
 
   CHECK(bitset != bitset2);
 
-  CHECK_NOTHROW(bitset2.Set(1, 0));
-  CHECK_NOTHROW(bitset2.Set(3, 0));
-  CHECK_NOTHROW(bitset2.Set(5, 0));
-  CHECK_NOTHROW(bitset2.Set(7, 0));
+  CHECK_NOTHROW(bitset2.Set(1, false));
+  CHECK_NOTHROW(bitset2.Set(3, false));
+  CHECK_NOTHROW(bitset2.Set(5, false));
+  CHECK_NOTHROW(bitset2.Set(7, false));
 
   CHECK(bitset == bitset2);
 }
@@ -220,12 +220,12 @@ TEST_CASE("comparison test") {
 TEST_CASE("bigger size") {
   BitSet bitset(38);
   CHECK_EQ(bitset.Size(), 38);
-  CHECK_NOTHROW(bitset.Set(32, 1));
-  CHECK_NOTHROW(bitset.Set(33, 0));
-  CHECK_NOTHROW(bitset.Set(34, 1));
-  CHECK_NOTHROW(bitset.Set(35, 0));
-  CHECK_NOTHROW(bitset.Set(36, 1));
-  CHECK_NOTHROW(bitset.Set(37, 0));
+  CHECK_NOTHROW(bitset.Set(32, true));
+  CHECK_NOTHROW(bitset.Set(33, false));
+  CHECK_NOTHROW(bitset.Set(34, true));
+  CHECK_NOTHROW(bitset.Set(35, false));
+  CHECK_NOTHROW(bitset.Set(36, true));
+  CHECK_NOTHROW(bitset.Set(37, false));
   CHECK_EQ(bitset.Get(32), 1);
   CHECK_EQ(bitset.Get(33), 0);
   CHECK_EQ(bitset.Get(34), 1);
@@ -285,4 +285,31 @@ TEST_CASE("time test") {
   diff -= duration.count();
 
   CHECK(diff > duration.count() * 10);
+}
+
+TEST_CASE("operator[] test") {
+  BitSet bitset(8);
+  CHECK_NOTHROW(bitset.Set(0, true));
+  CHECK_NOTHROW(bitset.Set(1, false));
+  CHECK_NOTHROW(bitset.Set(2, true));
+  CHECK_NOTHROW(bitset.Set(3, false));
+  CHECK_NOTHROW(bitset.Set(4, true));
+  CHECK_NOTHROW(bitset.Set(5, false));
+  CHECK_NOTHROW(bitset.Set(6, true));
+  CHECK_NOTHROW(bitset.Set(7, false));
+
+  CHECK_EQ(bitset[0], true);
+  CHECK_EQ(bitset[1], false);
+  CHECK_EQ(bitset[2], true);
+  CHECK_EQ(bitset[3], false);
+  CHECK_EQ(bitset[4], true);
+  CHECK_EQ(bitset[5], false);
+  CHECK_EQ(bitset[6], true);
+  CHECK_EQ(bitset[7], false);
+
+  bool temp = false;
+  for (int i = 0; i < 8; i++) {
+    temp = bitset[i];
+    CHECK_EQ(temp, bitset[i]);
+  }
 }

@@ -5,6 +5,19 @@
 
 class BitSet {
 public:
+  class BiA {
+  public:
+    BiA(BitSet& bitset, const int32_t index);
+
+    operator bool() const;
+
+    void operator=(const bool value);
+
+  private:
+    BitSet& bitset_;
+    int32_t index_;
+  };
+
   BitSet() = default;
   BitSet(int32_t size);
   BitSet(const BitSet& other);
@@ -22,6 +35,8 @@ public:
   bool Get(const int32_t index) const;
   void Set(const int32_t index, const bool value);
 
+  BiA operator[](const int32_t index);
+
   bool operator==(const BitSet& other) const;
   bool operator!=(const BitSet& other) const;
 
@@ -32,7 +47,7 @@ public:
   BitSet& operator|=(const BitSet& other);
   BitSet operator^(const BitSet& other) const;
   BitSet& operator^=(const BitSet& other);
-  
+
 private:
   std::vector<uint32_t> bits_;
   int32_t size_ = 0;

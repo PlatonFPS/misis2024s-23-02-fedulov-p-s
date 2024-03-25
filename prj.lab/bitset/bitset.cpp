@@ -2,6 +2,23 @@
 
 #include <stdexcept>
 
+BitSet::BiA::BiA(BitSet& bitset, const int32_t index)
+  : bitset_(bitset)
+  , index_(index) {
+}
+
+BitSet::BiA::operator bool() const {
+  return bitset_.Get(index_);
+}
+
+void BitSet::BiA::operator=(const bool value) {
+  bitset_.Set(index_, value);
+}
+
+BitSet::BiA BitSet::operator[](int32_t index) {
+  return BitSet::BiA(*this, index);
+}
+
 BitSet::BitSet(int32_t size)
   : bits_(size)
   , size_(size) {
