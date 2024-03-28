@@ -212,7 +212,7 @@ int main() {
   glm::vec3 cubeColor(1.0f, 1.0f, 1.0f);
   glm::vec3 result = lightColor * cubeColor;
 
-  glm::vec3 lightPos(0.0f, 0.0f, 10.0f);
+  glm::vec3 lightPos(0.0f, 3.0f, 0.0f);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
@@ -240,11 +240,11 @@ int main() {
   glGenBuffers(1, &VBO);
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
   unsigned int VAO;
   glGenVertexArrays(1, &VAO);
   glBindVertexArray(VAO);
-
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
   //vertex position
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
@@ -254,11 +254,10 @@ int main() {
   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
 
+  //light source setup
   unsigned int lightVAO;
   glGenVertexArrays(1, &lightVAO);
   glBindVertexArray(lightVAO);
-
-  glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
@@ -328,14 +327,15 @@ int main() {
     lightShader.SetVec3("lightColor", lightColor);
 
     glm::mat4 lightModel = glm::mat4(1.0f);
-    glm::translate(lightModel, lightPos);
-    glm::scale(lightModel, glm::vec3(0.2f));
+    lightModel = glm::translate(lightModel, lightPos);
+    lightModel = glm::scale(lightModel, glm::vec3(0.5f));
 
     lightShader.SetMat4("model", lightModel);
     lightShader.SetMat4("view", view);
     lightShader.SetMat4("projection", projection);
 
     glBindVertexArray(lightVAO);
+    
     glDrawArrays(GL_TRIANGLES, 0, 36);
 
     glfwSwapBuffers(window);
