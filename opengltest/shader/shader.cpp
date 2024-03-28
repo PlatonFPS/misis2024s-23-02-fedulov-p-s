@@ -91,8 +91,12 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath) {
   glDeleteShader(fragment);
 }
 
-void Shader::Use() {
+void Shader::Bind() {
   glUseProgram(ID);
+}
+
+void Shader::UnBind() {
+  glUseProgram(0);
 }
 
 void Shader::SetBool(const std::string& name, bool value) const {

@@ -286,7 +286,7 @@ int main() {
     processInput(window);
     
     //cube render
-    shader.Use();
+    shader.Bind();
     shader.SetInt("texture1", 0);
     shader.SetVec3("lightColor", lightColor);
     shader.SetVec3("objectColor", cubeColor);
@@ -322,8 +322,10 @@ int main() {
       glDrawArrays(GL_TRIANGLES, 0, 36);
     }
 
+    shader.UnBind();
+
     //drawing light source
-    lightShader.Use();
+    lightShader.Bind();
     lightShader.SetVec3("lightColor", lightColor);
 
     glm::mat4 lightModel = glm::mat4(1.0f);
@@ -337,6 +339,8 @@ int main() {
     glBindVertexArray(lightVAO);
     
     glDrawArrays(GL_TRIANGLES, 0, 36);
+
+    lightShader.UnBind();
 
     glfwSwapBuffers(window);
     glfwPollEvents();
