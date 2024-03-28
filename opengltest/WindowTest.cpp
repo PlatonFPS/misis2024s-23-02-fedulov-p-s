@@ -208,11 +208,11 @@ int main() {
   };
 
   //light setup
-  glm::vec3 lightColor(1.0f, 1.0f, 0.0f);
+  glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
   glm::vec3 cubeColor(1.0f, 1.0f, 1.0f);
   glm::vec3 result = lightColor * cubeColor;
 
-  glm::vec3 lightPos(0.0f, 0.0f, 0.0f);
+  glm::vec3 lightPos(0.0f, 0.0f, 10.0f);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
@@ -289,6 +289,8 @@ int main() {
     //cube render
     shader.Use();
     shader.SetInt("texture1", 0);
+    shader.SetVec3("lightColor", lightColor);
+    shader.SetVec3("objectColor", cubeColor);
 
     cameraDirection.x = cos(yaw) * cos(pitch);
     cameraDirection.y = sin(pitch);
@@ -323,6 +325,7 @@ int main() {
 
     //drawing light source
     lightShader.Use();
+    lightShader.SetVec3("lightColor", lightColor);
 
     glm::mat4 lightModel = glm::mat4(1.0f);
     glm::translate(lightModel, lightPos);
