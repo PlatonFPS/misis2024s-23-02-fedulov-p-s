@@ -102,7 +102,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
 }
 
 int main() {
-  std::string prefix = std::filesystem::current_path().string() + "/../../../../../../opengltest/";
+  std::string prefix = std::filesystem::current_path().string() + "/../../../../../opengltest/";
 
   glfwInit();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
