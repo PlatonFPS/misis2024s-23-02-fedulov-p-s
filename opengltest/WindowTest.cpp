@@ -238,7 +238,7 @@ int main() {
 
   float radius = 5.0f;
   float angle = 0.0f;
-  const float angleSpeed = 50.0f;
+  const float angleSpeed = 1.0f;
 
   glm::vec3 lightPos(sin(glm::radians(angle)) * radius, 3.0f, cos(glm::radians(angle)) * radius);
 
@@ -331,7 +331,7 @@ int main() {
     shader.SetVec3("lightColor", lightColor);
     shader.SetVec3("objectColor", cubeColor);
     shader.SetVec3("lightPos", lightPos);
-
+    shader.SetVec3("viewPos", cameraPos);
 
     std::cout << pitch << ' ' << yaw << '\n';
     cameraDirection.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
