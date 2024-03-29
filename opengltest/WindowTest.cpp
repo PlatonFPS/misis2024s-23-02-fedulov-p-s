@@ -15,10 +15,14 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+int Widht = 800;
+int Height = 600;
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
   glViewport(0, 0, width, height);
-  std::cout << "User resized window to " << width << "x" << height << '\n';
+  Widht = width;
+  Height = height;
 }
 
 float xOffset = 0;
@@ -26,15 +30,13 @@ float yOffset = 0;
 float stepOffset = 0.005f;
 float maxABSValue = 3.0f;
 
-float xScroll = 0.5f;
-float yScroll = 0.0f;
-float scrollMultiplier = 0.025f;
 float deltaTime;
 
 float radius = 5.0f;
 
-float yaw = 1.5f * std::numbers::pi;
-float pitch = std::numbers::pi;
+float yaw = 90;
+float pitch = 0;
+const float sensitivity = 0.3f;
 
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 5.0f);
 glm::vec3 cameraDirection;
@@ -89,19 +91,37 @@ void DebugColor(float time) {
   float phaseZ = (sin(time + pi * (4 / 3)) / 2.0) + 0.5;
 }
 
-void clamp(float& value) {
-  if (value < -1.0) value = 1.0f;
-  if (value > 1.0) value = -1.0f;
+void clampPitch() {
+  if (pitch > 89.0f)
+    pitch = 89.0f;
+  if (pitch < -89.0f)
+    pitch = -89.0f;
+  
 }
 
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
-  yScroll -= yoffset * scrollMultiplier;
-  xScroll += xoffset * scrollMultiplier;
-  clamp(xScroll);
-  clamp(yScroll);
-  yaw = (xScroll + 1) * std::numbers::pi;
-  pitch = (yScroll + 1) * std::numbers::pi;
+float xLast;
+float yLast;
+bool firstInput = true;
+void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+  if (firstInput) {
+    xLast = xpos;
+    yLast = ypos;
+    firstInput = false;
+  }
+  float xOff = xpos - xLast;
+  float yOff = ypos - yLast;
+  xLast = xpos;
+  yLast = ypos;
+  
+  xOff *= sensitivity;
+  yOff *= sensitivity;
+
+  yaw += xOff;
+  pitch += yOff;
+
+  clampPitch();
 }
+
 
 int main() {
   std::string prefix = std::filesystem::current_path().string() + "/../../../../../opengltest/";
@@ -111,7 +131,7 @@ int main() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-  GLFWwindow* window = glfwCreateWindow(800, 600, "Hello World", NULL, NULL);
+  GLFWwindow* window = glfwCreateWindow(Widht, Height, "Hello World", NULL, NULL);
   if (window == NULL) {
     std::cout << "Failed to create GLFW window" << '\n';
     glfwTerminate();
@@ -128,7 +148,7 @@ int main() {
   glViewport(0, 0, 800, 600);
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-  glfwSetScrollCallback(window, scroll_callback);
+  glfwSetCursorPosCallback(window, mouse_callback);
 
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -304,9 +324,11 @@ int main() {
     shader.SetVec3("objectColor", cubeColor);
     shader.SetVec3("lightPos", lightPos);
 
-    cameraDirection.x = cos(yaw) * cos(pitch);
-    cameraDirection.y = sin(pitch);
-    cameraDirection.z = sin(yaw) * cos(pitch);
+
+    std::cout << pitch << ' ' << yaw << '\n';
+    cameraDirection.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    cameraDirection.y = sin(glm::radians(pitch));
+    cameraDirection.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 
     glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
     cameraRight = glm::normalize(glm::cross(up, cameraDirection));
