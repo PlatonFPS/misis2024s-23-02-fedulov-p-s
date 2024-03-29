@@ -238,7 +238,7 @@ int main() {
 
   float radius = 5.0f;
   float angle = 0.0f;
-  const float angleSpeed = 1.0f;
+  const float angleSpeed = 50.0f;
 
   glm::vec3 lightPos(sin(glm::radians(angle)) * radius, 3.0f, cos(glm::radians(angle)) * radius);
 
