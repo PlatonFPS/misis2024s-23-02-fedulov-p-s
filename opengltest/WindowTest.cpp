@@ -51,19 +51,23 @@ void processInput(GLFWwindow* window)
   }
   double xpos, ypos;
   glfwGetCursorPos(window, &xpos, &ypos);
-  if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+  if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS
+     || glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
     xOffset -= stepOffset;
     cameraPos -= deltaTime * cameraSpeed * glm::normalize(glm::cross(cameraUp, cameraDirection));
   }
-  if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+  if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS
+    || glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
     xOffset += stepOffset;
     cameraPos += deltaTime * cameraSpeed * glm::normalize(glm::cross(cameraUp, cameraDirection));
   }
-  if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+  if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS
+    || glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
     yOffset -= stepOffset;
     cameraPos += deltaTime * cameraSpeed * cameraDirection;
   }
-  if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+  if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS
+    || glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
     yOffset += stepOffset;
     cameraPos -= deltaTime * cameraSpeed * cameraDirection;
   }
@@ -83,7 +87,6 @@ void DebugColor(float time) {
   float phaseX = (sin(time + pi) / 2.0) + 0.5;
   float phaseY = (sin(time + pi * (2 / 3)) / 2.0) + 0.5;
   float phaseZ = (sin(time + pi * (4 / 3)) / 2.0) + 0.5;
-  std::cout << phaseX << " " << phaseY << " " << phaseZ << '\n';
 }
 
 void clamp(float& value) {
@@ -98,7 +101,6 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset){
   clamp(yScroll);
   yaw = (xScroll + 1) * std::numbers::pi;
   pitch = (yScroll + 1) * std::numbers::pi;
-  std::cout << (xScroll + 1) * 180 << "|" << (yScroll + 1) * 180 << '\n';
 }
 
 int main() {
@@ -127,6 +129,8 @@ int main() {
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
   glfwSetScrollCallback(window, scroll_callback);
+
+  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
   float vertices[] = {
     -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // top left front 
