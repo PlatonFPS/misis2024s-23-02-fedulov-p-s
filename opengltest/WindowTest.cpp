@@ -129,47 +129,47 @@ int main() {
   glfwSetScrollCallback(window, scroll_callback);
 
   float vertices[] = {
-    -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, // top left front 
-    -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bottom left front 
-    0.5f, -0.5f, 0.5f, 1.0f, 0.0f, // bottom right front 
-    -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, // top left front 
-    0.5f, 0.5f, 0.5f, 1.0f, 1.0f, // top right front
-    0.5f, -0.5f, 0.5f, 1.0f, 0.0f, // bottom right front 
+    -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // top left front 
+    -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left front 
+    0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, // bottom right front 
+    -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // top left front 
+    0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, // top right front
+    0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, // bottom right front 
 
-    -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top left back
-    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, // bottom left back 
-    0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // bottom right back 
-    -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top left back 
-    0.5f, 0.5f, -0.5f, 1.0f, 1.0f, // top right back
-    0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // bottom right back
+    -0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f, // top left back
+    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, // bottom left back 
+    0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, // bottom right back 
+    -0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f, // top left back 
+    0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, // top right back
+    0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, // bottom right back
 
-    0.5f, 0.5f, 0.5f, 0.0f, 1.0f, // top left right
-    0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bottom left right
-    0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // bottom right right
-    0.5f, 0.5f, 0.5f, 0.0f, 1.0f, // top left right
-    0.5f, 0.5f, -0.5f, 1.0f, 1.0f, // top right right
-    0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // bottom right right
+    0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // top left right
+    0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, // bottom left right
+    0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right right
+    0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // top left right
+    0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right right
+    0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right right
 
-    -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, // top left left
-    -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bottom left left
-    -0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // bottom right left
-    -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, // top left left
-    -0.5f, 0.5f, -0.5f, 1.0f, 1.0f, // top right left
-    -0.5f, -0.5f, -0.5f, 1.0f, 0.0f, // bottom right left
+    -0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // top left left
+    -0.5f, -0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f, // bottom left left
+    -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right left
+    -0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // top left left
+    -0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right left
+    -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right left
 
-    -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top left up
-    -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, // bottom left up
-    0.5f, 0.5f, 0.5f, 1.0f, 0.0f, // bottom right up
-    -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // top left up
-    0.5f, 0.5f, -0.5f, 1.0f, 1.0f, // top right up
-    0.5f, 0.5f, 0.5f, 1.0f, 0.0f, // bottom right up
+    -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // top left up
+    -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, // bottom left up
+    0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right up
+    -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // top left up
+    0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // top right up
+    0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right up
 
-    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // top left bottom
-    -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, // bottom left bottom
-    0.5f, -0.5f, 0.5f, 1.0f, 0.0f, // bottom right bottom
-    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, // top left bottom
-    0.5f, -0.5f, -0.5f, 1.0f, 1.0f, // top right bottom
-    0.5f, -0.5f, 0.5f, 1.0f, 0.0f, // bottom right bottom
+    -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, // top left bottom
+    -0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, // bottom left bottom
+    0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, // bottom right bottom
+    -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, // top left bottom
+    0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f, // top right bottom
+    0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, // bottom right bottom
   };
 
   std::vector<glm::vec3> cubePositions{
@@ -218,13 +218,17 @@ int main() {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);  float borderColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
-  glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  float borderColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
+  glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+
   stbi_set_flip_vertically_on_load(true);
 
   int width, height, nrChannels;
   std::string s_texture = prefix + "test.png";
-  unsigned char* data = stbi_load(s_texture.c_str(), &width, &height,&nrChannels, 0);
+  unsigned char* data = stbi_load(s_texture.c_str(), &width, &height,&nrChannels, 0);
+
   unsigned int texture1;
   glGenTextures(1, &texture1);
 
@@ -247,19 +251,23 @@ int main() {
   glBindVertexArray(VAO);
 
   //vertex position
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
 
-  //vertex texture
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+  //normal
+  glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
   glEnableVertexAttribArray(1);
+
+  //vertex texture
+  glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+  glEnableVertexAttribArray(2);
 
   //light source setup
   unsigned int lightVAO;
   glGenVertexArrays(1, &lightVAO);
   glBindVertexArray(lightVAO);
 
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
 
   std::string vert = prefix + "shaders/SimpleShader.vert";
@@ -290,6 +298,7 @@ int main() {
     shader.SetInt("texture1", 0);
     shader.SetVec3("lightColor", lightColor);
     shader.SetVec3("objectColor", cubeColor);
+    shader.SetVec3("lightPos", lightPos);
 
     cameraDirection.x = cos(yaw) * cos(pitch);
     cameraDirection.y = sin(pitch);
