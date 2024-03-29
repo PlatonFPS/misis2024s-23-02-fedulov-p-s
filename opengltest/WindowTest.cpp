@@ -236,7 +236,11 @@ int main() {
   glm::vec3 cubeColor(1.0f, 1.0f, 1.0f);
   glm::vec3 result = lightColor * cubeColor;
 
-  glm::vec3 lightPos(0.0f, 3.0f, 0.0f);
+  float radius = 5.0f;
+  float angle = 0.0f;
+  const float angleSpeed = 50.0f;
+
+  glm::vec3 lightPos(sin(glm::radians(angle)) * radius, 3.0f, cos(glm::radians(angle)) * radius);
 
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
@@ -317,6 +321,10 @@ int main() {
     //input
     processInput(window);
     
+    //calculations
+    angle += deltaTime * angleSpeed;
+    lightPos = glm::vec3(sin(glm::radians(angle)) * radius, 3.0f, cos(glm::radians(angle)) * radius);
+
     //cube render
     shader.Bind();
     shader.SetInt("texture1", 0);
