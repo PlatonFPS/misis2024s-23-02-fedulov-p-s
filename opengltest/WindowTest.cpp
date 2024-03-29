@@ -333,7 +333,6 @@ int main() {
     shader.SetVec3("lightPos", lightPos);
     shader.SetVec3("viewPos", cameraPos);
 
-    std::cout << pitch << ' ' << yaw << '\n';
     cameraDirection.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     cameraDirection.y = sin(glm::radians(pitch));
     cameraDirection.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
