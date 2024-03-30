@@ -73,6 +73,12 @@ void processInput(GLFWwindow* window)
     yOffset += stepOffset;
     cameraPos -= deltaTime * cameraSpeed * cameraDirection;
   }
+  if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT)) {
+    cameraPos -= deltaTime * cameraSpeed * cameraUp;
+  }
+  if (glfwGetKey(window, GLFW_KEY_SPACE)) {
+    cameraPos += deltaTime * cameraSpeed * cameraUp;
+  }
   if (xOffset > maxABSValue) xOffset = maxABSValue;
   if (xOffset < -maxABSValue) xOffset = -maxABSValue;
   if (yOffset > maxABSValue) yOffset = maxABSValue;
