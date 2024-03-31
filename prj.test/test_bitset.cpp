@@ -312,4 +312,30 @@ TEST_CASE("operator[] test") {
     temp = bitset[i];
     CHECK_EQ(temp, bitset[i]);
   }
+
+  CHECK_NOTHROW(bitset.Resize(40));
+  CHECK_EQ(bitset.Size(), 40);
+  CHECK_NOTHROW(bitset.Set(32, true));
+  CHECK_NOTHROW(bitset.Set(33, false));
+  CHECK_NOTHROW(bitset.Set(34, true));
+  CHECK_NOTHROW(bitset.Set(35, false));
+  CHECK_NOTHROW(bitset.Set(36, true));
+  CHECK_NOTHROW(bitset.Set(37, false));
+  CHECK_NOTHROW(bitset.Set(38, true));
+  CHECK_NOTHROW(bitset.Set(39, false));
+
+  CHECK_EQ(bitset[32], true);
+  CHECK_EQ(bitset[33], false);
+  CHECK_EQ(bitset[34], true);
+  CHECK_EQ(bitset[35], false);
+  CHECK_EQ(bitset[36], true);
+  CHECK_EQ(bitset[37], false);
+  CHECK_EQ(bitset[38], true);
+  CHECK_EQ(bitset[39], false);
+
+  temp = false;
+  for (int i = 0; i < 40; i++) {
+    temp = bitset[i];
+    CHECK_EQ(temp, bitset[i]);
+  }
 }
