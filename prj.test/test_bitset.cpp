@@ -342,6 +342,8 @@ TEST_CASE("operator[] test") {
 }
 
 TEST_CASE("unformatted io") {
+  std::string prefix = "/../../../../prj.test/io/";
+
   BitSet bitset(8);
   CHECK_NOTHROW(bitset.Set(0, true));
   CHECK_NOTHROW(bitset.Set(1, false));
@@ -362,7 +364,8 @@ TEST_CASE("unformatted io") {
   CHECK_EQ(bitset.Get(7), false);
   CHECK_EQ(bitset.Size(), 8);
 
-  std::ofstream out_file("io/bitset_io");
+  std::ofstream out_file("C:/misis2024s-23-02-fedulov-p-s/prj.test/io/bitset_io");
+  std::cout << out_file.is_open() << '\n';
   bitset.Write(out_file);
   out_file.close();
 
@@ -376,7 +379,8 @@ TEST_CASE("unformatted io") {
   CHECK_NOTHROW(bitset.Set(7, true));
   CHECK_NOTHROW(bitset.Resize(9));
 
-  std::ifstream in_file("io/bitset_io");
+  std::ifstream in_file("C:/misis2024s-23-02-fedulov-p-s/prj.test/io/bitset_io");
+  std::cout << in_file.is_open() << '\n';
   bitset.Read(in_file);
   in_file.close();
 
