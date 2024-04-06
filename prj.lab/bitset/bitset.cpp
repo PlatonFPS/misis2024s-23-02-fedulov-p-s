@@ -5,27 +5,61 @@
 #include <iostream>
 #include <fstream>
 
+const uint32_t BeginMarker = 0;
+const uint32_t EndMarker = -1;
+
 void BitSet::Write(std::ofstream& out) const {
+  out.write((char*)&BeginMarker, sizeof(uint32_t));
+
   out.write((char*)&size_, sizeof(int32_t));
-  for (uint32_t bit : bits_) {
-    out.write((char*)&bit, sizeof(uint32_t));
+
+  uint32_t control_sum = 0;
+  for (int i_bit = 0; i_bit < bits_.size(); i_bit += 1) {
+    out.write((char*)&bits_[i_bit], sizeof(uint32_t));
+    control_sum += bits_[i_bit];
   }
+  out.write((char*)&control_sum, sizeof(uint32_t));
+
+  out.write((char*)&EndMarker, sizeof(uint32_t));
 }
 
 void BitSet::Read(std::ifstream& in) {
-  Clear();
+  char* marker = new char[sizeof(uint32_t)];
+  in.read((char*)marker, sizeof(uint32_t));
+  int marker_int = *reinterpret_cast<uint32_t*>(marker);
+  if(marker_int != BeginMarker) {
+    throw std::invalid_argument("Missing begin marker");
+  }
+
   char* size_buf = new char[sizeof(int32_t)];
   in.read(size_buf, sizeof(int32_t));
   int32_t size = *reinterpret_cast<int32_t*>(size_buf);
   delete[] size_buf;
   Resize(size);
-  std::cout << size << '\n';
   char* buf = new char[sizeof(uint32_t)];
+
+  uint32_t sum = 0;
   for (int i_bit = 0; i_bit < bits_.size(); i_bit += 1) {
     in.read(buf, sizeof(uint32_t));
     bits_[i_bit] = *reinterpret_cast<uint32_t*>(buf);
+    sum += bits_[i_bit];
   }
   delete[] buf;
+
+  char* control_sum = new char[sizeof(uint32_t)];
+  in.read(control_sum, sizeof(uint32_t));
+  uint32_t control_sum_int = *reinterpret_cast<uint32_t*>(control_sum);
+  if (control_sum_int != sum) {
+    throw std::invalid_argument("Sum of bits is not equal to control sum");
+  }
+
+  marker = new char[sizeof(uint32_t)];
+  in.read((char*)marker, sizeof(uint32_t));
+  marker_int = *reinterpret_cast<uint32_t*>(marker);
+  if (marker_int != EndMarker) {
+    throw std::invalid_argument("Missing end marker");
+  }
+  delete[] marker;
 }
 
 BitSet::BiA::BiA(BitSet& bitset, const int32_t index)
