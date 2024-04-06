@@ -28,6 +28,7 @@ void BitSet::Read(std::ifstream& in) {
   in.read((char*)marker, sizeof(uint32_t));
   int marker_int = *reinterpret_cast<uint32_t*>(marker);
   if(marker_int != BeginMarker) {
+    std::cout << "Missing begin marker" << '\n';
     throw std::invalid_argument("Missing begin marker");
   }
 
@@ -36,9 +37,9 @@ void BitSet::Read(std::ifstream& in) {
   int32_t size = *reinterpret_cast<int32_t*>(size_buf);
   delete[] size_buf;
   Resize(size);
-  char* buf = new char[sizeof(uint32_t)];
 
   uint32_t sum = 0;
+  char* buf = new char[sizeof(uint32_t)];
   for (int i_bit = 0; i_bit < bits_.size(); i_bit += 1) {
     in.read(buf, sizeof(uint32_t));
     bits_[i_bit] = *reinterpret_cast<uint32_t*>(buf);
@@ -50,6 +51,7 @@ void BitSet::Read(std::ifstream& in) {
   in.read(control_sum, sizeof(uint32_t));
   uint32_t control_sum_int = *reinterpret_cast<uint32_t*>(control_sum);
   if (control_sum_int != sum) {
+    std::cout << "Sum of bits is not equal to control sum" << '\n';
     throw std::invalid_argument("Sum of bits is not equal to control sum");
   }
 
@@ -57,6 +59,7 @@ void BitSet::Read(std::ifstream& in) {
   in.read((char*)marker, sizeof(uint32_t));
   marker_int = *reinterpret_cast<uint32_t*>(marker);
   if (marker_int != EndMarker) {
+    std::cout << "Missing end marker" << '\n';
     throw std::invalid_argument("Missing end marker");
   }
   delete[] marker;

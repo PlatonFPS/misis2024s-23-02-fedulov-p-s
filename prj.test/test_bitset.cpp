@@ -363,7 +363,9 @@ TEST_CASE("unformatted io") {
   out_file.close();
 
   std::ifstream in_file(ROOT + "prj.test/io/bitset_io");
+  std::cout << "00\n";
   bitset2.Read(in_file);
+  std::cout << "01\n";
   bitset.Read(in_file);
   in_file.close();
 
@@ -383,7 +385,9 @@ TEST_CASE("unformatted io") {
   out_file.close();
 
   in_file.open(ROOT + "prj.test/io/bitset_io");
+  std::cout << "10\n";
   bitset.Read(in_file);
+  std::cout << "11\n";
   bitset2.Read(in_file);
   in_file.close();
 
@@ -403,7 +407,9 @@ TEST_CASE("unformatted io") {
   out_file.close();
 
   in_file.open(ROOT + "prj.test/io/bitset_io");
+  std::cout << "20\n";
   bitset2.Read(in_file);
+  std::cout << "21\n";
   bitset.Read(in_file);
   in_file.close();
 
@@ -423,7 +429,9 @@ TEST_CASE("unformatted io") {
   out_file.close();
 
   in_file.open(ROOT + "prj.test/io/bitset_io");
+  std::cout << "30\n";
   bitset.Read(in_file);
+  std::cout << "31\n";
   bitset2.Read(in_file);
   in_file.close();
 
