@@ -374,6 +374,7 @@ TEST_CASE("unformatted io") {
   CHECK_NOTHROW(bitset.Set(5, true));
   CHECK_NOTHROW(bitset.Set(6, false));
   CHECK_NOTHROW(bitset.Set(7, true));
+  CHECK_NOTHROW(bitset.Resize(9));
 
   std::ifstream in_file("io/bitset_io");
   bitset.Read(in_file);

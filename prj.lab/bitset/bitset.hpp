@@ -40,7 +40,6 @@ public:
 
   void Write(std::ofstream& out) const;
   void Read(std::ifstream& in) const;
-  explicit operator char* () const;
 
   bool operator==(const BitSet& other) const;
   bool operator!=(const BitSet& other) const;
