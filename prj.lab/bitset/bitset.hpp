@@ -39,7 +39,7 @@ public:
   BiA operator[](const int32_t index);
 
   void Write(std::ofstream& out) const;
-  void Read(std::ifstream& in) const;
+  void Read(std::ifstream& in);
 
   bool operator==(const BitSet& other) const;
   bool operator!=(const BitSet& other) const;

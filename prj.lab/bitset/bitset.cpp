@@ -1,27 +1,28 @@
-#include "bitset.hpp"
+﻿#include "bitset.hpp"
 
 #include <stdexcept>
 #include <cstdint>
+#include <iostream>
 #include <fstream>
 
 void BitSet::Write(std::ofstream& out) const {
+  out.write((char*)&size_, sizeof(int32_t));
   for (uint32_t bit : bits_) {
     out.write((char*)&bit, sizeof(uint32_t));
   }
-  //out.write((char*)&size_, sizeof(int32_t));
 }
 
-void BitSet::Read(std::ifstream& in) const {
+void BitSet::Read(std::ifstream& in) {
+  char* size = new char[sizeof(int32_t)];
+  in.read(size, sizeof(int32_t));
+  size_ = *reinterpret_cast<int32_t*>(size);
+  Resize(size_);
   char* buf = new char[sizeof(uint32_t)];
-  for(uint32_t bit : bits_) {
+  for (int i_bit = 0; i_bit < bits_.size(); i_bit += 1) {
     in.read(buf, sizeof(uint32_t));
-    bit = *reinterpret_cast<uint32_t*>(buf);
+    bits_[i_bit] = *reinterpret_cast<uint32_t*>(buf);
   }
   delete[] buf;
-  //char* size = new char[sizeof(int32_t)];
-  //in.read(size, sizeof(size_));
-  //auto it = *reinterpret_cast<int32_t*>(size);
-  //size_ = 2;
 }
 
 BitSet::BiA::BiA(BitSet& bitset, const int32_t index)
