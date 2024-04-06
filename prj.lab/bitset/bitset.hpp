@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <cstdint>
+#include <fstream>
 
 class BitSet {
 public:
@@ -36,6 +37,10 @@ public:
   void Set(const int32_t index, const bool value);
 
   BiA operator[](const int32_t index);
+
+  void Write(std::ofstream& out) const;
+  void Read(std::ifstream& in) const;
+  explicit operator char* () const;
 
   bool operator==(const BitSet& other) const;
   bool operator!=(const BitSet& other) const;

@@ -1,6 +1,23 @@
 #include "bitset.hpp"
 
 #include <stdexcept>
+#include <cstdint>
+#include <fstream>
+
+void BitSet::Write(std::ofstream& out) const {
+  out.write((char*)*this, sizeof(*this));
+}
+
+void BitSet::Read(std::ifstream& in) const {
+  char* data = (char*)*this;
+  in.read((char*)*data, sizeof(*this));
+  //implement conversion back from char*
+}
+
+BitSet::operator char* () const {
+  //implement conversion to char*
+  return (char*)bits_.data();
+}
 
 BitSet::BiA::BiA(BitSet& bitset, const int32_t index)
   : bitset_(bitset)

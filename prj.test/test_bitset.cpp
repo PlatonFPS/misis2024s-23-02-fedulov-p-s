@@ -1,6 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 #include <bitset/bitset.hpp>
+#include <fstream>
 
 TEST_CASE("ctor") {
   BitSet bitset(8);
@@ -338,4 +339,53 @@ TEST_CASE("operator[] test") {
     temp = bitset[i];
     CHECK_EQ(temp, bitset[i]);
   }
+}
+
+TEST_CASE("unformatted io") {
+  BitSet bitset(8);
+  CHECK_NOTHROW(bitset.Set(0, true));
+  CHECK_NOTHROW(bitset.Set(1, false));
+  CHECK_NOTHROW(bitset.Set(2, true));
+  CHECK_NOTHROW(bitset.Set(3, false));
+  CHECK_NOTHROW(bitset.Set(4, true));
+  CHECK_NOTHROW(bitset.Set(5, false));
+  CHECK_NOTHROW(bitset.Set(6, true));
+  CHECK_NOTHROW(bitset.Set(7, false));
+
+  CHECK_EQ(bitset.Get(0), true);
+  CHECK_EQ(bitset.Get(1), false);
+  CHECK_EQ(bitset.Get(2), true);
+  CHECK_EQ(bitset.Get(3), false);
+  CHECK_EQ(bitset.Get(4), true);
+  CHECK_EQ(bitset.Get(5), false);
+  CHECK_EQ(bitset.Get(6), true);
+  CHECK_EQ(bitset.Get(7), false);
+  CHECK_EQ(bitset.Size(), 8);
+
+  std::ofstream out_file("io/bitset_io");
+  bitset.Write(out_file);
+  out_file.close();
+
+  CHECK_NOTHROW(bitset.Set(0, false));
+  CHECK_NOTHROW(bitset.Set(1, true));
+  CHECK_NOTHROW(bitset.Set(2, false));
+  CHECK_NOTHROW(bitset.Set(3, true));
+  CHECK_NOTHROW(bitset.Set(4, false));
+  CHECK_NOTHROW(bitset.Set(5, true));
+  CHECK_NOTHROW(bitset.Set(6, false));
+  CHECK_NOTHROW(bitset.Set(7, true));
+
+  std::ifstream in_file("io/bitset_io");
+  bitset.Read(in_file);
+  in_file.close();
+
+  CHECK_EQ(bitset.Get(0), true);
+  CHECK_EQ(bitset.Get(1), false);
+  CHECK_EQ(bitset.Get(2), true);
+  CHECK_EQ(bitset.Get(3), false);
+  CHECK_EQ(bitset.Get(4), true);
+  CHECK_EQ(bitset.Get(5), false);
+  CHECK_EQ(bitset.Get(6), true);
+  CHECK_EQ(bitset.Get(7), false);
+  CHECK_EQ(bitset.Size(), 8);
 }
