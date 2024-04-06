@@ -17,6 +17,7 @@ void BitSet::Read(std::ifstream& in) {
   char* size_buf = new char[sizeof(int32_t)];
   in.read(size_buf, sizeof(int32_t));
   int32_t size = *reinterpret_cast<int32_t*>(size_buf);
+  delete[] size_buf;
   Resize(size);
   std::cout << size << '\n';
   char* buf = new char[sizeof(uint32_t)];
