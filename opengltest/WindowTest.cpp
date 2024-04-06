@@ -260,7 +260,7 @@ int main() {
   stbi_set_flip_vertically_on_load(true);
 
   int width, height, nrChannels;
-  std::string s_texture = prefix + "test.png";
+  std::string s_texture = prefix + "container2.png";
   unsigned char* data = stbi_load(s_texture.c_str(), &width, &height,&nrChannels, 0);
 
   unsigned int texture1;
@@ -273,6 +273,18 @@ int main() {
   glGenerateMipmap(GL_TEXTURE_2D);
 
   stbi_image_free(data);
+
+  s_texture = prefix + "container2_specular.png";
+  data = stbi_load(s_texture.c_str(), &width, &height, &nrChannels, 0);
+
+  unsigned int texture2;
+  glGenTextures(1, &texture2);
+
+  glActiveTexture(GL_TEXTURE1);
+  glBindTexture(GL_TEXTURE_2D, texture2);
+
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+  glGenerateMipmap(GL_TEXTURE_2D);
 
   unsigned int VBO;
   glGenBuffers(1, &VBO);
@@ -295,6 +307,12 @@ int main() {
   //vertex texture
   glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
   glEnableVertexAttribArray(2);
+
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, texture1);
+
+  glActiveTexture(GL_TEXTURE1);
+  glBindTexture(GL_TEXTURE_2D, texture2);
 
   //light source setup
   unsigned int lightVAO;
@@ -334,6 +352,7 @@ int main() {
     //cube render
     shader.Bind();
     shader.SetInt("texture1", 0);
+    shader.SetInt("texture2", 1);
     shader.SetVec3("lightColor", lightColor);
     shader.SetVec3("objectColor", cubeColor);
     shader.SetVec3("lightPos", lightPos);
@@ -354,9 +373,6 @@ int main() {
     glm::mat4 projection;
     projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
     shader.SetMat4("projection", projection);
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture1);
 
     glBindVertexArray(VAO);
 

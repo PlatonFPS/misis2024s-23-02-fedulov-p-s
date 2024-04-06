@@ -7,6 +7,7 @@ in vec3 FragPos;
 out vec4 FragColor;
 
 uniform sampler2D texture1;
+uniform sampler2D texture2;
 uniform vec3 lightColor;
 uniform vec3 objectColor;
 uniform vec3 lightPos;
@@ -30,5 +31,7 @@ void main()
 
   vec3 finalColor = (ambient + diffuse + specular) * lightColor * objectColor;
 
-  FragColor = texture(texture1, TexCoord) * vec4(finalColor, 1.0);
+  //FragColor = (texture(texture2, TexCoord)) * vec4(finalColor, 1.0);
+  //FragColor = (texture(texture1, TexCoord) + texture(texture2, TexCoord)) / 2 * vec4(finalColor, 1.0);
+  FragColor = vec4(finalColor, 1.0);
 }
