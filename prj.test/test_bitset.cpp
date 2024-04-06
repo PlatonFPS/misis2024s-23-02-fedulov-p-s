@@ -364,9 +364,23 @@ TEST_CASE("unformatted io") {
   CHECK_EQ(bitset.Get(7), false);
   CHECK_EQ(bitset.Size(), 8);
 
+  BitSet bitset2 = ~bitset;
+  CHECK_NOTHROW(bitset2.Resize(10));
+  CHECK_NOTHROW(bitset2.Set(0, false));
+  CHECK_NOTHROW(bitset2.Set(1, true));
+  CHECK_NOTHROW(bitset2.Set(2, false));
+  CHECK_NOTHROW(bitset2.Set(3, true));
+  CHECK_NOTHROW(bitset2.Set(4, false));
+  CHECK_NOTHROW(bitset2.Set(5, true));
+  CHECK_NOTHROW(bitset2.Set(6, false));
+  CHECK_NOTHROW(bitset2.Set(7, true));
+  CHECK_NOTHROW(bitset2.Set(8, false));
+  CHECK_NOTHROW(bitset2.Set(9, true));
+
   std::ofstream out_file("C:/misis2024s-23-02-fedulov-p-s/prj.test/io/bitset_io");
   std::cout << out_file.is_open() << '\n';
   bitset.Write(out_file);
+  bitset2.Write(out_file);
   out_file.close();
 
   CHECK_NOTHROW(bitset.Set(0, false));
@@ -381,16 +395,29 @@ TEST_CASE("unformatted io") {
 
   std::ifstream in_file("C:/misis2024s-23-02-fedulov-p-s/prj.test/io/bitset_io");
   std::cout << in_file.is_open() << '\n';
+  bitset2.Read(in_file);
   bitset.Read(in_file);
   in_file.close();
 
-  CHECK_EQ(bitset.Get(0), true);
-  CHECK_EQ(bitset.Get(1), false);
-  CHECK_EQ(bitset.Get(2), true);
-  CHECK_EQ(bitset.Get(3), false);
-  CHECK_EQ(bitset.Get(4), true);
-  CHECK_EQ(bitset.Get(5), false);
-  CHECK_EQ(bitset.Get(6), true);
-  CHECK_EQ(bitset.Get(7), false);
-  CHECK_EQ(bitset.Size(), 8);
+  CHECK_EQ(bitset2.Size(), 8);
+  CHECK_EQ(bitset2.Get(0), true);
+  CHECK_EQ(bitset2.Get(1), false);
+  CHECK_EQ(bitset2.Get(2), true);
+  CHECK_EQ(bitset2.Get(3), false);
+  CHECK_EQ(bitset2.Get(4), true);
+  CHECK_EQ(bitset2.Get(5), false);
+  CHECK_EQ(bitset2.Get(6), true);
+  CHECK_EQ(bitset2.Get(7), false);
+
+  CHECK_EQ(bitset.Size(), 10);
+  CHECK_EQ(bitset.Get(0), false);
+  CHECK_EQ(bitset.Get(1), true);
+  CHECK_EQ(bitset.Get(2), false);
+  CHECK_EQ(bitset.Get(3), true);
+  CHECK_EQ(bitset.Get(4), false);
+  CHECK_EQ(bitset.Get(5), true);
+  CHECK_EQ(bitset.Get(6), false);
+  CHECK_EQ(bitset.Get(7), true);
+  CHECK_EQ(bitset.Get(8), false);
+  CHECK_EQ(bitset.Get(9), true);
 }

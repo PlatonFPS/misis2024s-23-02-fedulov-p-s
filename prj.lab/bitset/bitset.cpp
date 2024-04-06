@@ -13,10 +13,12 @@ void BitSet::Write(std::ofstream& out) const {
 }
 
 void BitSet::Read(std::ifstream& in) {
-  char* size = new char[sizeof(int32_t)];
-  in.read(size, sizeof(int32_t));
-  size_ = *reinterpret_cast<int32_t*>(size);
-  Resize(size_);
+  Clear();
+  char* size_buf = new char[sizeof(int32_t)];
+  in.read(size_buf, sizeof(int32_t));
+  int32_t size = *reinterpret_cast<int32_t*>(size_buf);
+  Resize(size);
+  std::cout << size << '\n';
   char* buf = new char[sizeof(uint32_t)];
   for (int i_bit = 0; i_bit < bits_.size(); i_bit += 1) {
     in.read(buf, sizeof(uint32_t));
