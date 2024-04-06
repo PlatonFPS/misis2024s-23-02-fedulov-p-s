@@ -351,8 +351,9 @@ int main() {
 
     //cube render
     shader.Bind();
-    shader.SetInt("texture1", 0);
-    shader.SetInt("texture2", 1);
+    shader.SetInt("material.diffuse", 0);
+    shader.SetInt("material.specular", 1);
+    shader.SetFloat("material.shininess", 32.0f);
     shader.SetVec3("lightColor", lightColor);
     shader.SetVec3("objectColor", cubeColor);
     shader.SetVec3("lightPos", lightPos);
