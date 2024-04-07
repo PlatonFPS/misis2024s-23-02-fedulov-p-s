@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 
-const uint32_t BeginMarker = 0;
+const uint32_t BeginMarker = 0; 
 const uint32_t EndMarker = -1;
 
 void BitSet::Write(std::ofstream& out) const {
@@ -70,19 +70,18 @@ void BitSet::Read(std::ifstream& in) {
 const int bits_in_line = 32;
 
 std::ostream& BitSet::WriteToStream(std::ostream& out) const {
-  out << size_ << '\n';
   if (size_ == 0) {
     return out;
   }
+  out << size_ << '\n';
   int i = 0;
   for (i = 0; i < size_; i += 1) {
     out << Get(i);
     if (i % bits_in_line == bits_in_line - 1) {
-      out << " " << (i / bits_in_line) * bits_in_line + 1 
+      out << ' ' << (i / bits_in_line) * bits_in_line + 1
           << '-' << (i / bits_in_line + 1) * bits_in_line << '\n';
     }
   }
-  
   if (size_ % bits_in_line != 0) {
     for (int j = 0; j <= bits_in_line - i % bits_in_line; j += 1) {
       out << ' ';
@@ -94,22 +93,32 @@ std::ostream& BitSet::WriteToStream(std::ostream& out) const {
 
 std::istream& BitSet::ReadFromStream(std::istream& in) {
   if (in.good()) {
-    in >> size_;
-    Resize(size_);
+    int32_t size;
+    in >> size;
+    BitSet temp(size);
     std::string line;
     std::getline(in, line);
     for (int i_line = 0; i_line < size_ / bits_in_line; i_line += 1) {
       std::getline(in, line);
       for (int i_bit = 0; i_bit < bits_in_line; i_bit += 1) {
-        Set(i_bit + i_line * bits_in_line, line[i_bit] == '1');
+        if (line[i_bit] != '0' && line[i_bit] != '1') {
+          in.setstate(std::ios::failbit);
+          return in;
+        }
+        temp.Set(i_bit + i_line * bits_in_line, line[i_bit] == '1');
       }
     }
     if (size_ % bits_in_line != 0) {
       std::getline(in, line);
       for (int i_bit = 0; i_bit < size_ % bits_in_line; i_bit += 1) {
-        Set(i_bit + (size_ / bits_in_line) * bits_in_line, line[i_bit] == '1');
+        if (line[i_bit] != '0' && line[i_bit] != '1') {
+          in.setstate(std::ios::failbit);
+          return in;
+        }
+        temp.Set(i_bit + (size_ / bits_in_line) * bits_in_line, line[i_bit] == '1');
       }
     }
+    *this = std::move(temp);
   }
   return in;
 }

@@ -2,7 +2,7 @@
 
 #include <complex/complex.hpp>
 
-class QueueLst {
+class QueueLst final {
 public:
   QueueLst() = default;
 	QueueLst(const QueueLst& copy);

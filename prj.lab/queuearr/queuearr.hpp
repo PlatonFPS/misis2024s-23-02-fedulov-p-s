@@ -4,7 +4,7 @@
 #include <memory>
 #include <complex/complex.hpp>
 
-class QueueArr {
+class QueueArr final {
 public:
   QueueArr() = default;
 	QueueArr(const QueueArr& copy);

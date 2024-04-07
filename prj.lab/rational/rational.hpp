@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <iosfwd>
 
-class Rational {
+class Rational final {
 public:
   Rational() = default;
   explicit Rational(const int64_t number);

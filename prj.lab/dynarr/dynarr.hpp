@@ -5,7 +5,7 @@
 #include <cstddef>
 #include <memory>
 
-class DynArr {
+class DynArr final {
 public:
   DynArr() = default;
   explicit DynArr(const DynArr& copy);

@@ -4,7 +4,7 @@
 #include <memory>
 #include<complex/complex.hpp>
 
-class StackArr {
+class StackArr final {
 public:
   StackArr() = default;
   explicit StackArr(const StackArr& copy);

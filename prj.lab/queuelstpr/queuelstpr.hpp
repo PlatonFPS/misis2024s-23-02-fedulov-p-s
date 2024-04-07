@@ -2,7 +2,7 @@
 
 #include <cstddef>
 
-class QueueLstPr {
+class QueueLstPr final {
 public:
   QueueLstPr() = default;
   QueueLstPr(const QueueLstPr& copy);

@@ -4,7 +4,7 @@
 
 #include<complex/complex.hpp>
 
-class StackLst {
+class StackLst final {
 public:
   [[nodiscard]] StackLst() = default;
   [[nodiscard]] explicit StackLst(const StackLst& copy);
