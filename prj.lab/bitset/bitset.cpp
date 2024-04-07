@@ -17,7 +17,7 @@ void BitSet::Write(std::ofstream& out) const {
   uint32_t control_sum = 0;
   for (int i_bit = 0; i_bit < bits_.size(); i_bit += 1) {
     out.write((char*)&bits_[i_bit], sizeof(uint32_t));
-    control_sum += bits_[i_bit];
+    control_sum ^= bits_[i_bit];
   }
   out.write((char*)&control_sum, sizeof(uint32_t));
 
@@ -44,7 +44,7 @@ void BitSet::Read(std::ifstream& in) {
   for (int i_bit = 0; i_bit < bits_.size(); i_bit += 1) {
     in.read(buf, sizeof(uint32_t));
     bits_[i_bit] = *reinterpret_cast<uint32_t*>(buf);
-    sum += bits_[i_bit];
+    sum ^= bits_[i_bit];
   }
   delete[] buf;
 
@@ -66,6 +66,8 @@ void BitSet::Read(std::ifstream& in) {
   delete[] marker;
 }
 
+const int bits_in_line = 32;
+
 std::ostream& BitSet::WriteToStream(std::ostream& out) const {
   out << size_ << '\n';
   if (size_ == 0) {
@@ -74,16 +76,17 @@ std::ostream& BitSet::WriteToStream(std::ostream& out) const {
   int i = 0;
   for (i = 0; i < size_; i += 1) {
     out << Get(i);
-    if (i % 32 == 31) {
-      out << " " << (i / 32) * 32 + 1 << '-' << (i / 32) * 32 + 32 << '\n';
+    if (i % bits_in_line == bits_in_line - 1) {
+      out << " " << (i / bits_in_line) * bits_in_line + 1 << '-'
+                 << (i / bits_in_line + 1) * bits_in_line << '\n';
     }
   }
   
-  if (size_ % 32 != 0) {
-    for (int j = 0; j <= 32 - i % 32; j += 1) {
+  if (size_ % bits_in_line != 0) {
+    for (int j = 0; j <= bits_in_line - i % bits_in_line; j += 1) {
       out << ' ';
     }
-    out << (i / 32) * 32 + 1 << '-' << size_ << '\n';
+    out << (i / bits_in_line) * bits_in_line + 1 << '-' << size_ << '\n';
   }
   return out;
 }
@@ -94,16 +97,16 @@ std::istream& BitSet::ReadFromStream(std::istream& in) {
     Resize(size_);
     std::string line;
     std::getline(in, line);
-    for (int i_line = 0; i_line < size_/ 32; i_line += 1) {
+    for (int i_line = 0; i_line < size_ / bits_in_line; i_line += 1) {
       std::getline(in, line);
-      for (int i_bit = 0; i_bit < 32; i_bit += 1) {
-        Set(i_bit + i_line * 32, line[i_bit] == '1');
+      for (int i_bit = 0; i_bit < bits_in_line; i_bit += 1) {
+        Set(i_bit + i_line * bits_in_line, line[i_bit] == '1');
       }
     }
-    if (size_ % 32 != 0) {
+    if (size_ % bits_in_line != 0) {
       std::getline(in, line);
-      for (int i_bit = 0; i_bit < size_ % 32; i_bit += 1) {
-        Set(i_bit + (size_ / 32) * 32, line[i_bit] == '1');
+      for (int i_bit = 0; i_bit < size_ % bits_in_line; i_bit += 1) {
+        Set(i_bit + (size_ / bits_in_line) * bits_in_line, line[i_bit] == '1');
       }
     }
   }
