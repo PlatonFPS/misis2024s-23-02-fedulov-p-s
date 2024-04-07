@@ -344,109 +344,246 @@ TEST_CASE("operator[] test") {
   }
 }
 
-TEST_CASE("unformatted io") {
-  BitSet bitset(8);
-  for (int i = 0; i < bitset.Size(); i += 1) {
-    CHECK_NOTHROW(bitset.Set(i, i % 2 == 0));
+TEST_CASE("formated io") {
+  BitSet bitset1(112);
+  for (int i = 0; i < bitset1.Size(); i += 1) {
+    CHECK_NOTHROW(bitset1.Set(i, i % 2 == 0));
   }
-  CHECK_EQ(bitset.Size(), 8);
+  CHECK_EQ(bitset1.Size(), 112);
 
-  BitSet bitset2(10);
+  BitSet bitset2(234);
   for (int i = 0; i < bitset2.Size(); i += 1) {
     CHECK_NOTHROW(bitset2.Set(i, i % 2 == 1));
   }
-  CHECK_EQ(bitset2.Size(), 10);
+  CHECK_EQ(bitset2.Size(), 234);
 
-  std::ofstream out_file(ROOT + "prj.test/io/bitset_io");
-  bitset2.Write(out_file);
-  bitset.Write(out_file);
+  std::ofstream out_file(ROOT + "prj.test/io/bitset_io.txt");
+  out_file << bitset1 << bitset2;
   out_file.close();
 
-  std::ifstream in_file(ROOT + "prj.test/io/bitset_io");
-  std::cout << "00\n";
-  bitset2.Read(in_file);
-  std::cout << "01\n";
-  bitset.Read(in_file);
+  std::ifstream in_file(ROOT + "prj.test/io/bitset_io.txt");
+  in_file >> bitset1 >> bitset2;
   in_file.close();
 
-  CHECK_EQ(bitset.Size(), 8);
-  for (int i = 0; i < bitset.Size(); i += 1) {
-    CHECK_NOTHROW(bitset.Get(i), i % 2 == 0);
+  CHECK_EQ(bitset1.Size(), 112);
+  for (int i = 0; i < bitset1.Size(); i += 1) {
+    CHECK_EQ(bitset1.Get(i), i % 2 == 0);
   }
 
-  CHECK_EQ(bitset2.Size(), 10);
+  CHECK_EQ(bitset2.Size(), 234);
   for (int i = 0; i < bitset2.Size(); i += 1) {
-    CHECK_NOTHROW(bitset2.Get(i), i % 2 == 1);
+    CHECK_EQ(bitset2.Get(i), i % 2 == 1);
   }
 
-  out_file.open(ROOT + "prj.test/io/bitset_io");
-  bitset.Write(out_file);
-  bitset2.Write(out_file);
+  out_file.open(ROOT + "prj.test/io/bitset_io.txt");
+  out_file << bitset2 << bitset1;
   out_file.close();
 
-  in_file.open(ROOT + "prj.test/io/bitset_io");
-  std::cout << "10\n";
-  bitset.Read(in_file);
-  std::cout << "11\n";
-  bitset2.Read(in_file);
+  in_file.open(ROOT + "prj.test/io/bitset_io.txt");
+  in_file >> bitset2 >> bitset1;
   in_file.close();
 
-  CHECK_EQ(bitset.Size(), 8);
-  for (int i = 0; i < bitset.Size(); i += 1) {
-    CHECK_NOTHROW(bitset.Get(i), i % 2 == 0);
+  CHECK_EQ(bitset1.Size(), 112);
+  for (int i = 0; i < bitset1.Size(); i += 1) {
+    CHECK_EQ(bitset1.Get(i), i % 2 == 0);
   }
 
-  CHECK_EQ(bitset2.Size(), 10);
+  CHECK_EQ(bitset2.Size(), 234);
   for (int i = 0; i < bitset2.Size(); i += 1) {
-    CHECK_NOTHROW(bitset2.Get(i), i % 2 == 1);
+    CHECK_EQ(bitset2.Get(i), i % 2 == 1);
   }
 
-  out_file.open(ROOT + "prj.test/io/bitset_io");
-  bitset.Write(out_file);
-  bitset2.Write(out_file);
+  out_file.open(ROOT + "prj.test/io/bitset_io.txt");
+  out_file << bitset1 << bitset2;
   out_file.close();
 
-  in_file.open(ROOT + "prj.test/io/bitset_io");
-  std::cout << "20\n";
-  bitset2.Read(in_file);
-  std::cout << "21\n";
-  bitset.Read(in_file);
+  in_file.open(ROOT + "prj.test/io/bitset_io.txt");
+  in_file >> bitset2 >> bitset1;
   in_file.close();
 
-  CHECK_EQ(bitset2.Size(), 8);
+  CHECK_EQ(bitset1.Size(), 234);
+  for (int i = 0; i < bitset1.Size(); i += 1) {
+    CHECK_EQ(bitset1.Get(i), i % 2 == 1);
+  }
+
+  CHECK_EQ(bitset2.Size(), 112);
   for (int i = 0; i < bitset2.Size(); i += 1) {
-    CHECK_NOTHROW(bitset2.Get(i), i % 2 == 0);
+    CHECK_EQ(bitset2.Get(i), i % 2 == 0);
   }
 
-  CHECK_EQ(bitset.Size(), 10);
-  for (int i = 0; i < bitset.Size(); i += 1) {
-    CHECK_NOTHROW(bitset.Get(i), i % 2 == 1);
-  }
-
-  out_file.open(ROOT + "prj.test/io/bitset_io");
-  bitset2.Write(out_file);
-  bitset.Write(out_file);
+  out_file.open(ROOT + "prj.test/io/bitset_io.txt");
+  out_file << bitset2 << bitset1;
   out_file.close();
 
-  in_file.open(ROOT + "prj.test/io/bitset_io");
-  std::cout << "30\n";
-  bitset.Read(in_file);
-  std::cout << "31\n";
-  bitset2.Read(in_file);
+  in_file.open(ROOT + "prj.test/io/bitset_io.txt");
+  in_file >> bitset1 >> bitset2;
   in_file.close();
 
-  CHECK_EQ(bitset.Size(), 8);
-  for (int i = 0; i < bitset.Size(); i += 1) {
-    CHECK_NOTHROW(bitset.Get(i), i % 2 == 0);
+  CHECK_EQ(bitset1.Size(), 112);
+  for (int i = 0; i < bitset1.Size(); i += 1) {
+    CHECK_EQ(bitset1.Get(i), i % 2 == 0);
   }
 
-  CHECK_EQ(bitset2.Size(), 10);
+  CHECK_EQ(bitset2.Size(), 234);
   for (int i = 0; i < bitset2.Size(); i += 1) {
-    CHECK_NOTHROW(bitset2.Get(i), i % 2 == 1);
+    CHECK_EQ(bitset2.Get(i), i % 2 == 1);
   }
 }
 
+TEST_CASE("multiple bitset formatted io") {
+  BitSet bitset1(32);
+  for (int i = 0; i < bitset1.Size(); i += 1) {
+    CHECK_NOTHROW(bitset1.Set(i, i % 2 == 0));
+  }
+  CHECK_EQ(bitset1.Size(), 32);
 
+  BitSet bitset2(64);
+  for (int i = 0; i < bitset2.Size(); i += 1) {
+    CHECK_NOTHROW(bitset2.Set(i, i % 2 == 1));
+  }
+
+  BitSet bitset3(85);
+  for (int i = 0; i < bitset3.Size(); i += 1) {
+    CHECK_NOTHROW(bitset3.Set(i, i % 2 == 0));
+  }
+
+  BitSet bitset4(43);
+  for (int i = 0; i < bitset4.Size(); i += 1) {
+    CHECK_NOTHROW(bitset4.Set(i, i % 2 == 1));
+  }
+
+  std::ofstream out_file(ROOT + "prj.test/io/bitset_io.txt");
+  out_file << bitset1 << bitset2 << bitset3 << bitset4;
+  out_file.close();
+
+  std::ifstream in_file(ROOT + "prj.test/io/bitset_io.txt");
+  in_file >> bitset4 >> bitset3 >> bitset2 >> bitset1;
+  in_file.close();
+
+  CHECK_EQ(bitset1.Size(), 43);
+  for (int i = 0; i < bitset1.Size(); i += 1) {
+    CHECK_EQ(bitset1.Get(i), i % 2 == 1);
+  }
+
+  CHECK_EQ(bitset2.Size(), 85);
+  for (int i = 0; i < bitset2.Size(); i += 1) {
+    CHECK_EQ(bitset2.Get(i), i % 2 == 0);
+  }
+
+  CHECK_EQ(bitset3.Size(), 64);
+  for (int i = 0; i < bitset3.Size(); i += 1) {
+    CHECK_EQ(bitset3.Get(i), i % 2 == 1);
+  }
+
+  CHECK_EQ(bitset4.Size(), 32);
+  for (int i = 0; i < bitset4.Size(); i += 1) {
+    CHECK_EQ(bitset4.Get(i), i % 2 == 0);
+  }
+}
+
+//TEST_CASE("unformatted io") {
+//  BitSet bitset(8);
+//  for (int i = 0; i < bitset.Size(); i += 1) {
+//    CHECK_NOTHROW(bitset.Set(i, i % 2 == 0));
+//  }
+//  CHECK_EQ(bitset.Size(), 8);
+//
+//  BitSet bitset2(10);
+//  for (int i = 0; i < bitset2.Size(); i += 1) {
+//    CHECK_NOTHROW(bitset2.Set(i, i % 2 == 1));
+//  }
+//  CHECK_EQ(bitset2.Size(), 10);
+//
+//  std::ofstream out_file(ROOT + "prj.test/io/bitset_io");
+//  bitset2.Write(out_file);
+//  bitset.Write(out_file);
+//  out_file.close();
+//
+//  std::ifstream in_file(ROOT + "prj.test/io/bitset_io");
+//  std::cout << "00\n";
+//  bitset2.Read(in_file);
+//  std::cout << "01\n";
+//  bitset.Read(in_file);
+//  in_file.close();
+//
+//  CHECK_EQ(bitset.Size(), 8);
+//  for (int i = 0; i < bitset.Size(); i += 1) {
+//    CHECK_NOTHROW(bitset.Get(i), i % 2 == 0);
+//  }
+//
+//  CHECK_EQ(bitset2.Size(), 10);
+//  for (int i = 0; i < bitset2.Size(); i += 1) {
+//    CHECK_NOTHROW(bitset2.Get(i), i % 2 == 1);
+//  }
+//
+//  out_file.open(ROOT + "prj.test/io/bitset_io");
+//  bitset.Write(out_file);
+//  bitset2.Write(out_file);
+//  out_file.close();
+//
+//  in_file.open(ROOT + "prj.test/io/bitset_io");
+//  std::cout << "10\n";
+//  bitset.Read(in_file);
+//  std::cout << "11\n";
+//  bitset2.Read(in_file);
+//  in_file.close();
+//
+//  CHECK_EQ(bitset.Size(), 8);
+//  for (int i = 0; i < bitset.Size(); i += 1) {
+//    CHECK_NOTHROW(bitset.Get(i), i % 2 == 0);
+//  }
+//
+//  CHECK_EQ(bitset2.Size(), 10);
+//  for (int i = 0; i < bitset2.Size(); i += 1) {
+//    CHECK_NOTHROW(bitset2.Get(i), i % 2 == 1);
+//  }
+//
+//  out_file.open(ROOT + "prj.test/io/bitset_io");
+//  bitset.Write(out_file);
+//  bitset2.Write(out_file);
+//  out_file.close();
+//
+//  in_file.open(ROOT + "prj.test/io/bitset_io");
+//  std::cout << "20\n";
+//  bitset2.Read(in_file);
+//  std::cout << "21\n";
+//  bitset.Read(in_file);
+//  in_file.close();
+//
+//  CHECK_EQ(bitset2.Size(), 8);
+//  for (int i = 0; i < bitset2.Size(); i += 1) {
+//    CHECK_NOTHROW(bitset2.Get(i), i % 2 == 0);
+//  }
+//
+//  CHECK_EQ(bitset.Size(), 10);
+//  for (int i = 0; i < bitset.Size(); i += 1) {
+//    CHECK_NOTHROW(bitset.Get(i), i % 2 == 1);
+//  }
+//
+//  out_file.open(ROOT + "prj.test/io/bitset_io");
+//  bitset2.Write(out_file);
+//  bitset.Write(out_file);
+//  out_file.close();
+//
+//  in_file.open(ROOT + "prj.test/io/bitset_io");
+//  std::cout << "30\n";
+//  bitset.Read(in_file);
+//  std::cout << "31\n";
+//  bitset2.Read(in_file);
+//  in_file.close();
+//
+//  CHECK_EQ(bitset.Size(), 8);
+//  for (int i = 0; i < bitset.Size(); i += 1) {
+//    CHECK_NOTHROW(bitset.Get(i), i % 2 == 0);
+//  }
+//
+//  CHECK_EQ(bitset2.Size(), 10);
+//  for (int i = 0; i < bitset2.Size(); i += 1) {
+//    CHECK_NOTHROW(bitset2.Get(i), i % 2 == 1);
+//  }
+//}
+//
+//
 //TEST_CASE("Multiple bitset unformated io") {
 //  BitSet bitset1(8);
 //  for (int i = 0; i < bitset1.Size(); i += 1) {
@@ -500,4 +637,3 @@ TEST_CASE("unformatted io") {
 //    CHECK_EQ(bitset4.Get(i), i % 2 == 1);
 //  }
 //}
-

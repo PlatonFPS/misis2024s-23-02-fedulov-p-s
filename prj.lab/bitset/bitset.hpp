@@ -2,7 +2,7 @@
 
 #include <vector>
 #include <cstdint>
-#include <fstream>
+#include <iosfwd>
 
 class BitSet {
 public:
@@ -41,6 +41,9 @@ public:
   void Write(std::ofstream& out) const;
   void Read(std::ifstream& in);
 
+  std::ostream& WriteToStream(std::ostream& out) const;
+  std::istream& ReadFromStream(std::istream& in);
+
   bool operator==(const BitSet& other) const;
   bool operator!=(const BitSet& other) const;
 
@@ -57,3 +60,10 @@ private:
   int32_t size_ = 0;
 };
 
+inline std::ostream& operator<<(std::ostream& out, const BitSet& bitset) {
+  return bitset.WriteToStream(out);
+}
+
+inline std::istream& operator>>(std::istream& in, BitSet& bitset) {
+  return bitset.ReadFromStream(in);
+}

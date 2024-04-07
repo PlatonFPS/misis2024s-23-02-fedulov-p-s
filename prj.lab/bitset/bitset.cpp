@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <iostream>
 #include <fstream>
+#include <string>
 
 const uint32_t BeginMarker = 0;
 const uint32_t EndMarker = -1;
@@ -63,6 +64,45 @@ void BitSet::Read(std::ifstream& in) {
     throw std::invalid_argument("Missing end marker");
   }
   delete[] marker;
+}
+
+std::ostream& BitSet::WriteToStream(std::ostream& out) const {
+  out << size_ << '\n';
+  if (size_ == 0) {
+    return out;
+  }
+  int i = 0;
+  for (i = 0; i < size_; i += 1) {
+    out << Get(i);
+    if (i % 32 == 31) {
+      out << " " << (i / 32) * 32 + 1 << '-' << (i / 32) * 32 + 32 << '\n';
+    }
+  }
+  for(int j = 0; j <= 32 - i % 32; j += 1) {
+    out << ' ';
+  }
+  out << (i / 32) * 32 + 1 << '-' << size_ << '\n';
+  return out;
+}
+
+std::istream& BitSet::ReadFromStream(std::istream& in) {
+  if (in.good()) {
+    in >> size_;
+    Resize(size_);
+    std::string line;
+    std::getline(in, line);
+    for (int i_line = 0; i_line < size_/ 32; i_line += 1) {
+      std::getline(in, line);
+      for (int i_bit = 0; i_bit < 32; i_bit += 1) {
+        Set(i_bit + i_line * 32, line[i_bit] == '1');
+      }
+    }
+    std::getline(in, line);
+    for (int i_bit = 0; i_bit < size_ % 32; i_bit += 1) {
+      Set(i_bit + (size_ / 32) * 32, line[i_bit] == '1');
+    }
+  }
+  return in;
 }
 
 BitSet::BiA::BiA(BitSet& bitset, const int32_t index)
