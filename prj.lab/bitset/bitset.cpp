@@ -77,8 +77,8 @@ std::ostream& BitSet::WriteToStream(std::ostream& out) const {
   for (i = 0; i < size_; i += 1) {
     out << Get(i);
     if (i % bits_in_line == bits_in_line - 1) {
-      out << " " << (i / bits_in_line) * bits_in_line + 1 << '-'
-                 << (i / bits_in_line + 1) * bits_in_line << '\n';
+      out << " " << (i / bits_in_line) * bits_in_line + 1 
+          << '-' << (i / bits_in_line + 1) * bits_in_line << '\n';
     }
   }
   
