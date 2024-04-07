@@ -78,10 +78,13 @@ std::ostream& BitSet::WriteToStream(std::ostream& out) const {
       out << " " << (i / 32) * 32 + 1 << '-' << (i / 32) * 32 + 32 << '\n';
     }
   }
-  for(int j = 0; j <= 32 - i % 32; j += 1) {
-    out << ' ';
+  
+  if (size_ % 32 != 0) {
+    for (int j = 0; j <= 32 - i % 32; j += 1) {
+      out << ' ';
+    }
+    out << (i / 32) * 32 + 1 << '-' << size_ << '\n';
   }
-  out << (i / 32) * 32 + 1 << '-' << size_ << '\n';
   return out;
 }
 
@@ -97,9 +100,11 @@ std::istream& BitSet::ReadFromStream(std::istream& in) {
         Set(i_bit + i_line * 32, line[i_bit] == '1');
       }
     }
-    std::getline(in, line);
-    for (int i_bit = 0; i_bit < size_ % 32; i_bit += 1) {
-      Set(i_bit + (size_ / 32) * 32, line[i_bit] == '1');
+    if (size_ % 32 != 0) {
+      std::getline(in, line);
+      for (int i_bit = 0; i_bit < size_ % 32; i_bit += 1) {
+        Set(i_bit + (size_ / 32) * 32, line[i_bit] == '1');
+      }
     }
   }
   return in;
