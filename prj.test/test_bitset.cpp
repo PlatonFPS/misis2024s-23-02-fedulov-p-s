@@ -366,6 +366,7 @@ TEST_CASE("formated io") {
   std::ifstream in_file(ROOT + "prj.test/io/bitset_io.txt");
   in_file >> bitset3 >> bitset4;
   in_file.close();
+  std::cout << bitset3.Size() << ' ' << bitset4.Size() << '\n';
 
   /*CHECK_EQ(bitset1.Size(), 112);
   for (int i = 0; i < bitset1.Size(); i += 1) {
