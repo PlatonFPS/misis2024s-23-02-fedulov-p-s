@@ -98,7 +98,7 @@ std::istream& BitSet::ReadFromStream(std::istream& in) {
     BitSet temp(size);
     std::string line;
     std::getline(in, line);
-    for (int i_line = 0; i_line < size_ / bits_in_line; i_line += 1) {
+    for (int i_line = 0; i_line < size / bits_in_line; i_line += 1) {
       std::getline(in, line);
       for (int i_bit = 0; i_bit < bits_in_line; i_bit += 1) {
         if (line[i_bit] != '0' && line[i_bit] != '1') {
@@ -108,14 +108,14 @@ std::istream& BitSet::ReadFromStream(std::istream& in) {
         temp.Set(i_bit + i_line * bits_in_line, line[i_bit] == '1');
       }
     }
-    if (size_ % bits_in_line != 0) {
+    if (size % bits_in_line != 0) {
       std::getline(in, line);
-      for (int i_bit = 0; i_bit < size_ % bits_in_line; i_bit += 1) {
+      for (int i_bit = 0; i_bit < size % bits_in_line; i_bit += 1) {
         if (line[i_bit] != '0' && line[i_bit] != '1') {
           in.setstate(std::ios::failbit);
           return in;
         }
-        temp.Set(i_bit + (size_ / bits_in_line) * bits_in_line, line[i_bit] == '1');
+        temp.Set(i_bit + (size / bits_in_line) * bits_in_line, line[i_bit] == '1');
       }
     }
     *this = std::move(temp);
