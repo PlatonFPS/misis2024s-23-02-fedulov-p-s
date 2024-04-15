@@ -80,43 +80,45 @@ TEST_CASE("Initialization") {
   InitTest<Complex>();
 }
 
-//template <typename T>
-//void CopiedTest(StackLstT<T>& stack1, StackLstT<T>& stack2, const T& a) {
-//  stack1.Clear();
-//
-//  for (int i = 0; i < 100; i += 1) {
-//    CHECK_EQ(stack2.Top(), a);
-//    CHECK_NOTHROW(stack2.Pop());
-//  }
-//
-//  CHECK_NOTHROW(stack1.Push(b));
-//  CHECK_THROW(stack2.Top());
-//  CHECK_NOTHROW(stack1.Pop());
-//}
-//
-//template <typename T>
-//void CopyTest(const T& a, const T& b, const T& c) {
-//  StackLstT<T> stack1;
-//  for (int i = 0; i < 100; i += 1) {
-//    CHECK_NOTHROW(stack1.Push(a));
-//  }
-//
-//  StackLstT<T> stack2(stack1);
-//
-//  CopiedTest(stack1, stack2, a);
-//
-//  for (int i = 0; i < 100; i += 1) {
-//    CHECK_NOTHROW(stack1.Push(a));
-//  }
-//
-//  StackLast<T> stack3 = stack1;
-//
-//  CopiedTest(stack1, stack3);
-//}
-//
-//TEST_CASE("Copy") {
-//  CopyTest<Complex>();
-//}
+template <typename T>
+void CopiedTest() {
+  
+}
+
+template <typename T>
+void CopyTest() {
+  std::vector<T> values;
+  CreateValues<T>(values, 10);
+  std::vector<T>& revValues = values;
+  std::reverse(revValues.begin(), revValues.end());
+  StackLstT<T> stack1;
+
+  FillWithValues<T>(stack1, values);
+  StackLstT<T> stack2(stack1);
+  CHECK(CheckStacks<T>(stack1, stack2));
+
+  FillWithValues<T>(stack1, values);
+  StackLstT<T> stack3(stack1);
+  stack1.Clear();
+  FillWithValues<T>(stack1, revValues);
+  CheckValues<T>(stack3, values);
+  CheckValues<T>(stack1, revValues);
+
+  FillWithValues(stack1, values);
+  stack2 = stack1;
+  CheckStacks<T>(stack1, stack2);
+
+  FillWithValues(stack1, values);
+  stack3 = stack1;
+  stack1.Clear();
+  FillWithValues(stack1, revValues);
+  CheckValues<T>(stack3, values);
+  CheckValues<T>(stack1, revValues);
+}
+
+TEST_CASE("Copy") {
+  CopyTest<Complex>();
+}
 
 //template <typename T>
 //void TimeTest(const T& a, const T& b) {
