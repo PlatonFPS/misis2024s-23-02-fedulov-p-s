@@ -21,3 +21,6 @@ target_link_libraries(test_bitset bitset)
 
 add_executable(test_stacklstt test_stacklstt.cpp)
 target_link_libraries(test_stacklstt stacklstt complex)
+
+add_executable(test_stackarrt test_stackarrt.cpp)
+target_link_libraries(test_stackarrt stackarrt rational)
