@@ -6,8 +6,9 @@
 
 #include <vector>
 #include <algorithm>
+#include <string>
 
-template <typename T> 
+template <class T> 
 void CreateValues(std::vector<T>& values, int32_t size) {
   values.resize(size);
   for (int i = 0; i < values.size(); i += 1) {
@@ -15,14 +16,25 @@ void CreateValues(std::vector<T>& values, int32_t size) {
   }
 }
 
-template <typename T>
+template <>
+void CreateValues<std::string>(std::vector<std::string>& values, int32_t size) {
+  values.resize(size);
+  for (int i = 0; i < values.size(); i += 1) {
+    values[i] = 'a' + i;
+    if (i % 26 == 0 && i != 0) {
+      values[i] += values[i - 1];
+    }
+  }
+}
+
+template <class T>
 void FillWithValues(StackLstT<T>& stack, const std::vector<T>& values) {
   for (int i = 0; i < values.size(); i += 1) {
     stack.Push(values[i]);
   }
 }
 
-template <typename T>
+template <class T>
 bool CheckValues(StackLstT<T>& stack, const std::vector<T>& values) {
   for (int i = 0; i < values.size(); i += 1) {
     if(stack.Top() != values[values.size() - i - 1]) {
@@ -33,7 +45,7 @@ bool CheckValues(StackLstT<T>& stack, const std::vector<T>& values) {
   return true;
 }
 
-template <typename T>
+template <class T>
 bool CheckStacks(StackLstT<T>& stack1, StackLstT<T>& stack2) {
   while(stack1.IsEmpty() == false) {
     if (stack1.Top() != stack2.Top()) {
@@ -48,7 +60,7 @@ bool CheckStacks(StackLstT<T>& stack1, StackLstT<T>& stack2) {
   return true;
 }
 
-template <typename T> 
+template <class T> 
 void InitTest() {
   std::vector<T> values;
   CreateValues<T>(values, 10);
@@ -78,14 +90,12 @@ void InitTest() {
 TEST_CASE("Initialization") {
 
   InitTest<Complex>();
+  InitTest<long double>();
+  InitTest<char>();
+  InitTest<std::string>();
 }
 
-template <typename T>
-void CopiedTest() {
-  
-}
-
-template <typename T>
+template <class T>
 void CopyTest() {
   std::vector<T> values;
   CreateValues<T>(values, 10);
@@ -118,9 +128,12 @@ void CopyTest() {
 
 TEST_CASE("Copy") {
   CopyTest<Complex>();
+  CopyTest<long double>();
+  CopyTest<char>();
+  CopyTest<std::string>();
 }
 
-template <typename T>
+template <class T>
 void TimeTest() {
   std::vector<T> values;
   CreateValues<T>(values, 10000);
@@ -174,4 +187,7 @@ void TimeTest() {
 
 TEST_CASE("time test") {
   TimeTest<Complex>();
+  TimeTest<long double>();
+  TimeTest<char>();
+  TimeTest<std::string>();
 }
