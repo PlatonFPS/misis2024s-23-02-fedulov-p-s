@@ -1,2 +1,5 @@
-#add_subdirectory(opengltest)
-add_subdirectory(VoxelCraft)
+if(BUILD_VOXEL_CRAFT)
+  add_subdirectory(VoxelCraft)
+else()
+  add_subdirectory(opengltest)
+endif()

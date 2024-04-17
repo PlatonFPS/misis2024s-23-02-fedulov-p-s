@@ -6,15 +6,15 @@
 #include <stdexcept>
 
 template <class T>
-class StackArr final {
+class StackArrT final {
 public:
-  StackArr() = default;
-  explicit StackArr(const StackArr& copy);
-  StackArr(StackArr&& copy) noexcept;
-  ~StackArr();
+  StackArrT() = default;
+  explicit StackArrT(const StackArrT& copy);
+  StackArrT(StackArrT&& copy) noexcept;
+  ~StackArrT();
 
-  StackArr& operator=(const StackArr& value);
-  StackArr& operator=(StackArr&& copy) noexcept;
+  StackArrT& operator=(const StackArrT& value);
+  StackArrT& operator=(StackArrT&& copy) noexcept;
 
   [[nodiscard]] bool IsEmpty() const noexcept;
 
@@ -32,7 +32,7 @@ private:
 };
 
 template <class T>
-StackArr<T>::StackArr<T>(const StackArr<T>& copy)
+StackArrT<T>::StackArrT<T>(const StackArrT<T>& copy)
   : top_(copy.top_)
   , capacity_(top_) {
   bottom_ptr_ = std::make_unique<T[]>(capacity_);
@@ -40,21 +40,21 @@ StackArr<T>::StackArr<T>(const StackArr<T>& copy)
 }
 
 template <class T>
-StackArr<T>::StackArr<T>(StackArr<T>&& copy) noexcept {
+StackArrT<T>::StackArrT<T>(StackArrT<T>&& copy) noexcept {
   std::swap(bottom_ptr_, copy.bottom_ptr_);
   std::swap(top_, copy.top_);
   std::swap(capacity_, copy.capacity_);
 }
 
 template <class T>
-StackArr<T>::~StackArr<T>() {
+StackArrT<T>::~StackArrT<T>() {
   bottom_ptr_.reset();
   top_ = 0;
   capacity_ = 0;
 }
 
 template <class T>
-StackArr<T>& StackArr<T>::operator=(const StackArr<T>& value) {
+StackArrT<T>& StackArrT<T>::operator=(const StackArrT<T>& value) {
   if (this != &value) {
     bottom_ptr_.reset();
     top_ = value.top_;
@@ -66,7 +66,7 @@ StackArr<T>& StackArr<T>::operator=(const StackArr<T>& value) {
 }
 
 template <class T>
-StackArr<T>& StackArr<T>::operator=(StackArr<T>&& value) noexcept {
+StackArrT<T>& StackArrT<T>::operator=(StackArrT<T>&& value) noexcept {
   if (this != &value) {
     bottom_ptr_ = std::move(value.bottom_ptr_);
     top_ = value.top_;
@@ -79,12 +79,12 @@ StackArr<T>& StackArr<T>::operator=(StackArr<T>&& value) noexcept {
 }
 
 template <class T>
-bool StackArr<T>::IsEmpty() const noexcept {
+bool StackArrT<T>::IsEmpty() const noexcept {
   return top_ == 0;
 }
 
 template <class T>
-T& StackArr<T>::Top() {
+T& StackArrT<T>::Top() {
   if (top_ == 0) {
     throw std::out_of_range("Can't get top element of empty stack");
   }
@@ -92,7 +92,7 @@ T& StackArr<T>::Top() {
 }
 
 template <class T>
-const T& StackArr<T>::Top() const {
+const T& StackArrT<T>::Top() const {
   if (top_ == 0) {
     throw std::out_of_range("Can't get top element of empty stack");
   }
@@ -100,14 +100,14 @@ const T& StackArr<T>::Top() const {
 }
 
 template <class T>
-void StackArr<T>::Pop() noexcept {
+void StackArrT<T>::Pop() noexcept {
   if (top_ != 0) {
     top_ -= 1;
   }
 }
 
 template <class T>
-void StackArr<T>::Push(const T& value) {
+void StackArrT<T>::Push(const T& value) {
   if (capacity_ == top_) {
     if (capacity_ == 0) {
       capacity_ = 8;
@@ -125,6 +125,6 @@ void StackArr<T>::Push(const T& value) {
 }
 
 template <class T>
-void StackArr<T>::Clear() noexcept {
+void StackArrT<T>::Clear() noexcept {
   top_ = 0;
 }

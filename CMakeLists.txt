@@ -12,7 +12,11 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG bin.dbg)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE bin.rel)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO bin.relwithdbg)
 
-option(BUILD_WITH_SAMPLES "Build prj.cw sample targets" off)
+option(BUILD_WITH_SAMPLES "Build prj.cw sample targets")
+set(BUILD_WITH_SAMPLES ON)
+
+option(BUILD_VOXEL_CRAFT "Builds VoxelCraft instead of opengltest")
+set(BUILD_VOXEL_CRAFT ON)
 
 add_subdirectory(prj.codeforces)
 

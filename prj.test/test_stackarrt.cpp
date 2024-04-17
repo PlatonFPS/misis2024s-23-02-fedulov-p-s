@@ -136,7 +136,7 @@ TEST_CASE("Copy") {
 template <class T>
 void TimeTest() {
   std::vector<T> values;
-  CreateValues<T>(values, 10000);
+  CreateValues<T>(values, 100000);
   long long diff = 0;
 
   StackArrT<T> stack1;
