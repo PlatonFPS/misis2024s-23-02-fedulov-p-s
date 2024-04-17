@@ -1,3 +1,6 @@
 [submodule "prj.cw/VoxelCraft"]
 	path = prj.cw/VoxelCraft
 	url = https://github.com/RexarX/VoxelCraft.git
+[submodule "VoxelCraft"]
+	path = VoxelCraft
+	url = https://github.com/RexarX/VoxelCraft.git
