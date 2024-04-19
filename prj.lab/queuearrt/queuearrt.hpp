@@ -37,8 +37,11 @@ private:
 
 template <class T>
 bool QueueArrT<T>::CompareWithVector(const std::vector<T>& vec) const {
-  for (int i = head_; i < tail_; i += 1) {
-    if(vec[i % capacity_] != *(data_.get() + i % capacity_)) {
+  if (vec.size() != head_ - tail_) {
+    return false;
+  }
+  for (int i = tail_; i < head_; i += 1) {
+    if(vec[i - tail_] != *(data_.get() + i % capacity_)) {
       return false;
     }
   }
@@ -47,10 +50,10 @@ bool QueueArrT<T>::CompareWithVector(const std::vector<T>& vec) const {
 
 template <class T>
 bool QueueArrT<T>::Compare(const QueueArrT<T>& other) const {
-  if(tail_ - head_ != other.tail_ - other.head_) {
+  if(head_ - tail_ != other.head_ - other.tail_) {
     return false;
   }
-  for (int i = head_, j = other.head_; i < tail_ && j < other.tail_; i += 1, j += 1) {
+  for (int i = tail_, j = other.tail_; i < head_ && j < other.head_; i += 1, j += 1) {
     if (*(other.data_.get() + j % other.capacity_) != *(data_.get() + i % capacity_)) {
       return false;
     }

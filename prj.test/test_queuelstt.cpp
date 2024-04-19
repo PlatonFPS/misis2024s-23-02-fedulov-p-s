@@ -1,8 +1,8 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
-#include<queuearrt/queuearrt.hpp>
-#include<complex/complex.hpp>
+#include<queuelstt/queuelstt.hpp>
+#include<rational/rational.hpp>
 
 #include <vector>
 #include <algorithm>
@@ -28,7 +28,7 @@ void CreateValues<std::string>(std::vector<std::string>& values, int32_t size) {
 }
 
 template <class T>
-void FillWithValues(QueueArrT<T>& queue, const std::vector<T>& values) {
+void FillWithValues(QueueLstT<T>& queue, const std::vector<T>& values) {
   for (int i = 0; i < values.size(); i += 1) {
     queue.Push(values[i]);
   }
@@ -38,7 +38,7 @@ template <class T>
 void InitTest() {
   std::vector<T> values;
   CreateValues<T>(values, 10);
-  QueueArrT<T> queue1;
+  QueueLstT<T> queue1;
   CHECK_THROWS(queue1.Top());
   CHECK(queue1.IsEmpty());
   CHECK_NOTHROW(queue1.Pop());
@@ -50,7 +50,7 @@ void InitTest() {
   std::vector<T> revValues = values;
   std::reverse(revValues.begin(), revValues.end());
 
-  QueueArrT<T> queue2;
+  QueueLstT<T> queue2;
 
   FillWithValues<T>(queue2, revValues);
 
@@ -61,7 +61,7 @@ void InitTest() {
 
 TEST_CASE("Initialization") {
 
-  InitTest<Complex>();
+  InitTest<Rational>();
   InitTest<long double>();
   InitTest<char>();
   InitTest<std::string>();
@@ -74,12 +74,12 @@ void CopyTest() {
   std::vector<T> revValues = values;
   std::reverse(revValues.begin(), revValues.end());
 
-  QueueArrT<T> queue1;
+  QueueLstT<T> queue1;
   FillWithValues<T>(queue1, values);
-  QueueArrT<T> queue2(queue1);
+  QueueLstT<T> queue2(queue1);
   CHECK(queue1.Compare(queue2));
 
-  QueueArrT<T> queue3(queue1);
+  QueueLstT<T> queue3(queue1);
   queue1.Clear();
   FillWithValues<T>(queue1, revValues);
   CHECK(queue3.CompareWithVector(values));
@@ -99,7 +99,7 @@ void CopyTest() {
 }
 
 TEST_CASE("Copy") {
-  CopyTest<Complex>();
+  CopyTest<Rational>();
   CopyTest<long double>();
   CopyTest<char>();
   CopyTest<std::string>();
@@ -111,10 +111,10 @@ void TimeTest() {
   CreateValues<T>(values, 10000);
   long long diff = 0;
 
-  QueueArrT<T> queue1;
+  QueueLstT<T> queue1;
   FillWithValues(queue1, values);
   auto start = std::chrono::steady_clock::now();
-  QueueArrT<T> queue2(queue1);
+  QueueLstT<T> queue2(queue1);
   auto end = std::chrono::steady_clock::now();
   CHECK(queue2.CompareWithVector(values));
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -123,7 +123,7 @@ void TimeTest() {
   diff = duration.count();
 
   start = std::chrono::steady_clock::now();
-  QueueArrT<T> queue3(std::move(queue1));
+  QueueLstT<T> queue3(std::move(queue1));
   end = std::chrono::steady_clock::now();
   CHECK(queue3.CompareWithVector(values));
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -133,9 +133,9 @@ void TimeTest() {
 
   CHECK(diff > duration.count() * 10);
 
-  QueueArrT<T> queue4;
+  QueueLstT<T> queue4;
   FillWithValues(queue4, values);
-  QueueArrT<T> queue5;
+  QueueLstT<T> queue5;
   start = std::chrono::steady_clock::now();
   queue5 = queue4;
   end = std::chrono::steady_clock::now();
@@ -146,7 +146,7 @@ void TimeTest() {
   diff = duration.count();
 
   start = std::chrono::steady_clock::now();
-  QueueArrT<T> queue6 = std::move(queue4);
+  QueueLstT<T> queue6 = std::move(queue4);
   end = std::chrono::steady_clock::now();
   CHECK(queue6.CompareWithVector(values));
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -158,7 +158,7 @@ void TimeTest() {
 }
 
 TEST_CASE("time test") {
-  TimeTest<Complex>();
+  TimeTest<Rational>();
   TimeTest<long double>();
   TimeTest<char>();
   TimeTest<std::string>();
