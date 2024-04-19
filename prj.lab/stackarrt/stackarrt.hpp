@@ -8,13 +8,13 @@
 template <class T>
 class StackArrT final {
 public:
-  StackArrT() = default;
-  explicit StackArrT(const StackArrT& copy);
-  StackArrT(StackArrT&& copy) noexcept;
-  ~StackArrT();
+  StackArrT<T>() = default;
+  explicit StackArrT<T>(const StackArrT<T>& copy);
+  StackArrT<T>(StackArrT<T>&& copy) noexcept;
+  ~StackArrT<T>();
 
-  StackArrT& operator=(const StackArrT& value);
-  StackArrT& operator=(StackArrT&& copy) noexcept;
+  StackArrT<T>& operator=(const StackArrT<T>& value);
+  StackArrT<T>& operator=(StackArrT<T>&& copy) noexcept;
 
   [[nodiscard]] bool IsEmpty() const noexcept;
 

@@ -24,3 +24,6 @@ target_link_libraries(test_stacklstt stacklstt complex)
 
 add_executable(test_stackarrt test_stackarrt.cpp)
 target_link_libraries(test_stackarrt stackarrt rational)
+
+add_executable(test_queuearrt test_queuearrt.cpp)
+target_link_libraries(test_queuearrt queuearrt complex)

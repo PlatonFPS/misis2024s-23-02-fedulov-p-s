@@ -1,14 +1,14 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
-#include<stacklstt/stacklstt.hpp>
+#include<queuearrt/queuearrt.hpp>
 #include<complex/complex.hpp>
 
 #include <vector>
 #include <algorithm>
 #include <string>
 
-template <class T> 
+template <class T>
 void CreateValues(std::vector<T>& values, int32_t size) {
   values.resize(size);
   for (int i = 0; i < values.size(); i += 1) {
@@ -28,63 +28,35 @@ void CreateValues<std::string>(std::vector<std::string>& values, int32_t size) {
 }
 
 template <class T>
-void FillWithValues(StackLstT<T>& stack, const std::vector<T>& values) {
+void FillWithValues(QueueArrT<T>& queue, const std::vector<T>& values) {
   for (int i = 0; i < values.size(); i += 1) {
-    stack.Push(values[i]);
+    queue.Push(values[i]);
   }
 }
 
 template <class T>
-bool CheckValues(StackLstT<T>& stack, const std::vector<T>& values) {
-  for (int i = 0; i < values.size(); i += 1) {
-    if(stack.Top() != values[values.size() - i - 1]) {
-      return false;
-    }
-    stack.Pop();
-  }
-  return true;
-}
-
-template <class T>
-bool CheckStacks(StackLstT<T>& stack1, StackLstT<T>& stack2) {
-  while(stack1.IsEmpty() == false) {
-    if (stack1.Top() != stack2.Top()) {
-      return false;
-    }
-    stack1.Pop();
-    stack2.Pop();
-  }
-  if(!stack1.IsEmpty() || !stack2.IsEmpty()) {
-    return false;
-  }
-  return true;
-}
-
-template <class T> 
 void InitTest() {
   std::vector<T> values;
   CreateValues<T>(values, 10);
-  StackLstT<T> stack1;
-  CHECK_THROWS(stack1.Top());
-  CHECK(stack1.IsEmpty());
-  CHECK_NOTHROW(stack1.Pop());
+  QueueArrT<T> queue1;
+  CHECK_THROWS(queue1.Top());
+  CHECK(queue1.IsEmpty());
+  CHECK_NOTHROW(queue1.Pop());
 
-  FillWithValues<T>(stack1, values);
+  FillWithValues<T>(queue1, values);
 
-  CHECK(CheckValues<T>(stack1, values));
+  CHECK(queue1.CompareWithVector(values));
 
   std::vector<T> revValues = values;
   std::reverse(revValues.begin(), revValues.end());
 
-  StackLstT<T> stack2;
-  
-  FillWithValues<T>(stack2, revValues);
+  QueueArrT<T> queue2;
 
-  FillWithValues<T>(stack1, values);
+  FillWithValues<T>(queue2, revValues);
 
-  CHECK(CheckValues<T>(stack2, revValues));
+  CHECK(queue2.CompareWithVector(revValues));
 
-  CHECK(CheckValues<T>(stack1, values));
+  CHECK(queue1.CompareWithVector(values));
 }
 
 TEST_CASE("Initialization") {
@@ -101,29 +73,29 @@ void CopyTest() {
   CreateValues<T>(values, 10);
   std::vector<T> revValues = values;
   std::reverse(revValues.begin(), revValues.end());
-  StackLstT<T> stack1;
+  QueueArrT<T> queue1;
 
-  FillWithValues<T>(stack1, values);
-  StackLstT<T> stack2(stack1);
-  CHECK(CheckStacks<T>(stack1, stack2));
+  FillWithValues<T>(queue1, values);
+  QueueArrT<T> queue2(queue1);
+  CHECK(queue1.Compare(queue2));
 
-  FillWithValues<T>(stack1, values);
-  StackLstT<T> stack3(stack1);
-  stack1.Clear();
-  FillWithValues<T>(stack1, revValues);
-  CHECK(CheckValues<T>(stack3, values));
-  CHECK(CheckValues<T>(stack1, revValues));
+  FillWithValues<T>(queue1, values);
+  QueueArrT<T> queue3(queue1);
+  queue1.Clear();
+  FillWithValues<T>(queue1, revValues);
+  CHECK(queue3.CompareWithVector(values));
+  CHECK(queue1.CompareWithVector(revValues));
 
-  FillWithValues(stack1, values);
-  stack2 = stack1;
-  CHECK(CheckStacks<T>(stack1, stack2));
+  FillWithValues(queue1, values);
+  queue2 = queue1;
+  CHECK(queue1.Compare(queue2));
 
-  FillWithValues(stack1, values);
-  stack3 = stack1;
-  stack1.Clear();
-  FillWithValues(stack1, revValues);
-  CHECK(CheckValues<T>(stack3, values));
-  CHECK(CheckValues<T>(stack1, revValues));
+  FillWithValues(queue1, values);
+  queue3 = queue1;
+  queue1.Clear();
+  FillWithValues(queue1, revValues);
+  CHECK(queue3.CompareWithVector(values));
+  CHECK(queue1.CompareWithVector(revValues));
 }
 
 TEST_CASE("Copy") {
@@ -139,21 +111,21 @@ void TimeTest() {
   CreateValues<T>(values, 10000);
   long long diff = 0;
 
-  StackLstT<T> stack1;
-  FillWithValues(stack1, values);
+  QueueArrT<T> queue1;
+  FillWithValues(queue1, values);
   auto start = std::chrono::steady_clock::now();
-  StackLstT<T> stack2(stack1);
+  QueueArrT<T> queue2(queue1);
   auto end = std::chrono::steady_clock::now();
-  CHECK(CheckValues(stack2, values));
+  CHECK(queue2.CompareWithVector(values));
   auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
 
   diff = duration.count();
 
   start = std::chrono::steady_clock::now();
-  StackLstT<T> stack3(std::move(stack1));
+  QueueArrT<T> queue3(std::move(queue1));
   end = std::chrono::steady_clock::now();
-  CHECK(CheckValues(stack3, values));
+  CHECK(queue3.CompareWithVector(values));
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
 
@@ -161,22 +133,22 @@ void TimeTest() {
 
   CHECK(diff > duration.count() * 10);
 
-  StackLstT<T> stack4;
-  FillWithValues(stack4, values);
-  StackLstT<T> stack5;
+  QueueArrT<T> queue4;
+  FillWithValues(queue4, values);
+  QueueArrT<T> queue5;
   start = std::chrono::steady_clock::now();
-  stack5 = stack4;
+  queue5 = queue4;
   end = std::chrono::steady_clock::now();
-  CHECK(CheckValues(stack5, values));
+  CHECK(queue5.CompareWithVector(values));
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
 
   diff = duration.count();
 
   start = std::chrono::steady_clock::now();
-  StackLstT<T> stack6 = std::move(stack4);
+  QueueArrT<T> queue6 = std::move(queue4);
   end = std::chrono::steady_clock::now();
-  CHECK(CheckValues(stack6, values));
+  CHECK(queue6.CompareWithVector(values));
   duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
   std::cout << "Time taken by function: " << duration.count() << " microseconds" << std::endl;
 

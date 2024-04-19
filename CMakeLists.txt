@@ -16,7 +16,7 @@ option(BUILD_WITH_SAMPLES "Build prj.cw sample targets")
 set(BUILD_WITH_SAMPLES ON)
 
 option(BUILD_VOXEL_CRAFT "Builds VoxelCraft instead of opengltest")
-set(BUILD_VOXEL_CRAFT ON)
+set(BUILD_VOXEL_CRAFT OFF)
 
 add_subdirectory(prj.codeforces)
 

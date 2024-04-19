@@ -73,7 +73,7 @@ void InitTest() {
 
   CHECK(CheckValues<T>(stack1, values));
 
-  std::vector<T>& revValues = values;
+  std::vector<T> revValues = values;
   std::reverse(revValues.begin(), revValues.end());
 
   StackArrT<T> stack2;
@@ -84,7 +84,7 @@ void InitTest() {
 
   CHECK(CheckValues<T>(stack2, revValues));
 
-  CHECK(CheckValues<T>(stack1, revValues));
+  CHECK(CheckValues<T>(stack1, values));
 }
 
 TEST_CASE("Initialization") {
@@ -99,7 +99,7 @@ template <class T>
 void CopyTest() {
   std::vector<T> values;
   CreateValues<T>(values, 10);
-  std::vector<T>& revValues = values;
+  std::vector<T> revValues = values;
   std::reverse(revValues.begin(), revValues.end());
   StackArrT<T> stack1;
 
@@ -136,7 +136,7 @@ TEST_CASE("Copy") {
 template <class T>
 void TimeTest() {
   std::vector<T> values;
-  CreateValues<T>(values, 100000);
+  CreateValues<T>(values, 1000000);
   long long diff = 0;
 
   StackArrT<T> stack1;
