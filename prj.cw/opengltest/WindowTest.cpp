@@ -130,7 +130,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 
 
 int main() {
-  std::string prefix = std::filesystem::current_path().string() + "/../../../../../opengltest/";
+  std::string prefix = std::filesystem::current_path().
+    parent_path().parent_path().parent_path().parent_path().parent_path().parent_path().string() + "/prj.cw/opengltest/";
+
+  std::cout << prefix << '\n';
 
   glfwInit();
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -151,7 +154,7 @@ int main() {
     return -1;
   }
 
-  glViewport(0, 0, 800, 600);
+  glViewport(0, 0, Widht, Height);
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
   glfwSetCursorPosCallback(window, mouse_callback);
@@ -238,9 +241,10 @@ int main() {
   };
 
   //light setup
-  glm::vec3 lightColor(1.0f, 1.0f, 1.0f);
+  glm::vec3 lightDiffuse(1.0f, 1.0f, 1.0f);
+  glm::vec3 lightAmbient(0.1f, 0.1f, 0.1f);
+  glm::vec3 lightSpecular(1.0f, 1.0f, 1.0f);
   glm::vec3 cubeColor(1.0f, 1.0f, 1.0f);
-  glm::vec3 result = lightColor * cubeColor;
 
   float radius = 5.0f;
   float angle = 0.0f;
@@ -348,15 +352,18 @@ int main() {
     //calculations
     angle += deltaTime * angleSpeed;
     lightPos = glm::vec3(sin(glm::radians(angle)) * radius, 3.0f, cos(glm::radians(angle)) * radius);
+    //lightPos = glm::vec3(0.0f, 3.0f, radius);
 
     //cube render
     shader.Bind();
     shader.SetInt("material.diffuse", 0);
     shader.SetInt("material.specular", 1);
     shader.SetFloat("material.shininess", 32.0f);
-    shader.SetVec3("lightColor", lightColor);
+    shader.SetVec3("pointLight.diffuse", lightDiffuse);
+    shader.SetVec3("pointLight.ambient", lightAmbient);
+    shader.SetVec3("pointLight.specular", lightSpecular);
+    shader.SetVec3("pointLight.position", lightPos);
     shader.SetVec3("objectColor", cubeColor);
-    shader.SetVec3("lightPos", lightPos);
     shader.SetVec3("viewPos", cameraPos);
 
     cameraDirection.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
@@ -391,7 +398,7 @@ int main() {
 
     //drawing light source
     lightShader.Bind();
-    lightShader.SetVec3("lightColor", lightColor);
+    lightShader.SetVec3("lightColor", lightDiffuse);
 
     glm::mat4 lightModel = glm::mat4(1.0f);
     lightModel = glm::translate(lightModel, lightPos);
