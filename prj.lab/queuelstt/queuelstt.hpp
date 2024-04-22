@@ -39,7 +39,6 @@ template <class T>
 bool QueueLstT<T>::CompareWithVector(const std::vector<T>& other) const {
   Node* temp = head_;
   for (int i = 0; i < other.size(); i += 1) {
-    std::cout << temp->value << " " << other[i] << '\n';
     if (temp->value != other[i]) {
       return false;
     }

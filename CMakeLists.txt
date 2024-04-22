@@ -27,3 +27,5 @@ add_subdirectory(prj.test)
 if(BUILD_WITH_SAMPLES)
   add_subdirectory(prj.cw)
 endif()
+
+add_subdirectory(prj.app)
