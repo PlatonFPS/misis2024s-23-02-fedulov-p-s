@@ -1,1 +1,8 @@
-No tests were found!!!
+Unable to find executable: D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_dynarr_m.exe
+Unable to find executable: D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_queuearr.exe
+Unable to find executable: D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_queuelst.exe
+Unable to find executable: D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_stackarr_m.exe
+Unable to find executable: D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_stacklst_m.exe
+Errors while running CTest
+Output from these tests are in: D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/build.check/Testing/Temporary/LastTest.log
+Use "--rerun-failed --output-on-failure" to re-run the failed cases verbosely.

@@ -1,21 +1,21 @@
-CHECK: 20240419-073559
-ERROR: lab complex - test build failed
-ERROR: lab complex_io - test build failed
-ERROR: lab complex_m - test build failed
-ERROR: lab rational - test build failed
-ERROR: lab rational_io - test build failed
-ERROR: lab rational_m - test build failed
-ERROR: lab dynarr - test build failed
+CHECK: 20240423-193055
+STATUS: lab complex - test-ok
+STATUS: lab complex_io - test-ok
+STATUS: lab complex_m - test-ok
+STATUS: lab rational - test-ok
+STATUS: lab rational_io - test-ok
+STATUS: lab rational_m - test-ok
+STATUS: lab dynarr - test-ok
 ERROR: lab dynarr_m - test build failed
-ERROR: lab stackarr - test build failed
+STATUS: lab stackarr - test-ok
 ERROR: lab stackarr_m - test build failed
-ERROR: lab stacklst - test build failed
+STATUS: lab stacklst - test-failed
 ERROR: lab stacklst_m - test build failed
 ERROR: lab queuearr - test build failed
-ERROR: lab queuearr_m - test build failed
+STATUS: lab queuearr_m - test-ok
 ERROR: lab queuelst - test build failed
-ERROR: lab queuelst_m - test build failed
-ERROR: lab queuelstpr - test build failed
-ERROR: lab queuelstpr_m - test build failed
-ERROR: lab bitset - test build failed
-ERROR: lab bitset_m - test build failed
+STATUS: lab queuelst_m - test-ok
+STATUS: lab queuelstpr - test-ok
+STATUS: lab queuelstpr_m - test-ok
+STATUS: lab bitset - test-failed
+STATUS: lab bitset_m - test-ok
