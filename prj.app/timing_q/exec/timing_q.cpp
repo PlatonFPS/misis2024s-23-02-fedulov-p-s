@@ -10,29 +10,6 @@
 #include<string>
 #include <functional>
 
-//template <class T, class... Args>
-//long long MeasureTime(int repeatCount, T(*func)(Args...), Args... args) {
-//  Timer timer;
-//
-//  long double sum = 0;
-//  long long count = 0;
-//
-//  timer.Start();
-//  for (int i = 0; i < repeatCount; i += 1) {
-//    func(std::forward(args));
-//  }
-//  timer.Stop();
-//
-//  return timer.GetDuration().count() / repeatCount;
-//}
-
-template <class T>
-void CtorTest(int repetitionCount) {
-  for (int i = 0; i < repetitionCount; i += 1) {
-    T type();
-  }
-}
-
 long long MeasureTime(int repetitionCount, std::function<void(int)> func) {
   Timer timer;
 
@@ -43,15 +20,18 @@ long long MeasureTime(int repetitionCount, std::function<void(int)> func) {
   return timer.GetDuration().count();
 }
 
+template <class T>
+void CtorTest(int repetitionCount) {
+  for (int i = 0; i < repetitionCount; i += 1) {
+    T type();
+  }
+}
+
 int main() {
+  //std::function<void(const int&)> func(QueueLstT<int>::Push);
 
-  //std::cout << "QueueLstT ctor average time test\n";
-  ////auto& ctor = QueueArrT<int>();
-  ////std::cout << "Average time per ctor: " << MeasureTime(1000, ctor) << '\n';
-  //QueueLstT<int> queue;
-  //MeasureTime(1000, &queue.Push, 1);
-
-  std::cout << MeasureTime(100000, &CtorTest<QueueLstT<int>>) << '\n';
+  std::cout << MeasureTime(10000000, &CtorTest<QueueLstT<int>>) << '\n';
+  std::cout << MeasureTime(10000000, &CtorTest<QueueArrT<int>>) << '\n';
 
   Timer timer;
 
