@@ -8,31 +8,50 @@
 #include<iostream>
 #include<chrono>
 #include<string>
+#include <functional>
 
-void MeasureAverageTime(void(*func)(), std::string name, int repeatCount) {
-  std::cout << name << " average time test(" << repeatCount << " repetitions)" << '\n';
+//template <class T, class... Args>
+//long long MeasureTime(int repeatCount, T(*func)(Args...), Args... args) {
+//  Timer timer;
+//
+//  long double sum = 0;
+//  long long count = 0;
+//
+//  timer.Start();
+//  for (int i = 0; i < repeatCount; i += 1) {
+//    func(std::forward(args));
+//  }
+//  timer.Stop();
+//
+//  return timer.GetDuration().count() / repeatCount;
+//}
 
-  Timer timer;
-
-  long double sum = 0;
-  long long count = 0;
-
-  timer.Start();
-  for (int i = 0; i < repeatCount; i += 1) {
-    func();
+template <class T>
+void CtorTest(int repetitionCount) {
+  for (int i = 0; i < repetitionCount; i += 1) {
+    T type();
   }
-  timer.Stop();
-
-  std::cout << "Average time: " << timer.GetDuration().count() / repeatCount << '\n';
 }
 
-void Test() {
-  QueueLstT<int> queue();
+long long MeasureTime(int repetitionCount, std::function<void(int)> func) {
+  Timer timer;
+
+  timer.Start();
+  func(repetitionCount);
+  timer.Stop();
+
+  return timer.GetDuration().count();
 }
 
 int main() {
-  auto it = &Test;
-  MeasureAverageTime(it, "QueueLstT ctor", 100000);
+
+  //std::cout << "QueueLstT ctor average time test\n";
+  ////auto& ctor = QueueArrT<int>();
+  ////std::cout << "Average time per ctor: " << MeasureTime(1000, ctor) << '\n';
+  //QueueLstT<int> queue;
+  //MeasureTime(1000, &queue.Push, 1);
+
+  std::cout << MeasureTime(100000, &CtorTest<QueueLstT<int>>) << '\n';
 
   Timer timer;
 
@@ -53,7 +72,7 @@ int main() {
       queue.Push(i);
     }
     timer.Stop();
-    sum += timer.GetDuration().count() / static_cast<double>(n);
+    sum += timer.GetDuration().count() / n;
     count++;
   }
 
