@@ -22,18 +22,6 @@ public:
     return timer.GetDuration();
   }
 
-  std::chrono::nanoseconds MeasureTime(int repetitionCount, Args... args) {
-    Timer timer;
-
-    timer.Start();
-    for (int i = 0; i < repetitionCount; i += 1) {
-      func_(args...);
-    }
-    timer.Stop();
-
-    return timer.GetDuration();
-  }
-
 private:
   std::function<T(Args...)> func_;
 };

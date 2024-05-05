@@ -1,15 +1,12 @@
 #pragma once
 
-//#include<decorator/decorator.hpp>
-#include<timer/timer.cpp>
+#include<decorator/decorator.hpp>
 
 #include<queuelstt/queuelstt.hpp>
 #include<queuearrt/queuearrt.hpp>
 
 #include<iostream>
-#include<chrono>
 #include<string>
-#include <functional>
 
 template <class T>
 void CtorTest(int repetitionCount) {
@@ -18,46 +15,28 @@ void CtorTest(int repetitionCount) {
   }
 }
 
-#include <functional>
-
-template<class T, class ...Args>
-class Decorator {
-public:
-  Decorator(T(*func)(Args...)) {
-    func_ = std::function<T(Args...)>(func);
+template <class T>
+void PushTest(int repetitionCount) {
+  QueueLstT<T> queue;
+  for (int i = 0; i < repetitionCount; i += 1) {
+    queue.Push(i);
   }
-
-  std::chrono::nanoseconds MeasureTime(Args... args) {
-    Timer timer;
-
-    timer.Start();
-    func_(args...);
-    timer.Stop();
-
-    return timer.GetDuration();
-  }
-
-  std::chrono::nanoseconds MeasureTime(int repetitionCount, Args... args) {
-    Timer timer;
-
-    timer.Start();
-    for (int i = 0; i < repetitionCount; i += 1) {
-      func_(args...);
-    }
-    timer.Stop();
-
-    return timer.GetDuration();
-  }
-
-private:
-  std::function<T(Args...)> func_;
-};
+}
 
 int main() {
   Decorator ctor(&CtorTest<QueueLstT<int>>);
-  std::cout << ctor.MeasureTime(10).count() << '\n';
+  std::cout << ctor.MeasureTime(1).count() << '\n';
   std::cout << ctor.MeasureTime(100).count() << '\n';
   std::cout << ctor.MeasureTime(10000).count() << '\n';
+  std::cout << ctor.MeasureTime(1000000).count() << '\n';
+  std::cout << ctor.MeasureTime(100000000).count() << '\n';
+
+  Decorator push(&PushTest<int>);
+  std::cout << push.MeasureTime(1).count() << '\n';
+  std::cout << push.MeasureTime(100).count() << '\n';
+  std::cout << push.MeasureTime(10000).count() << '\n';
+  std::cout << push.MeasureTime(1000000).count() << '\n';
+  std::cout << push.MeasureTime(100000000).count() << '\n';
 
   /*Timer timer;
 
