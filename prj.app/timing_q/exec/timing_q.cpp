@@ -1,5 +1,6 @@
 #pragma once
 
+//#include<decorator/decorator.hpp>
 #include<timer/timer.cpp>
 
 #include<queuelstt/queuelstt.hpp>
@@ -10,16 +11,6 @@
 #include<string>
 #include <functional>
 
-long long MeasureTime(int repetitionCount, std::function<void(int)> func) {
-  Timer timer;
-
-  timer.Start();
-  func(repetitionCount);
-  timer.Stop();
-
-  return timer.GetDuration().count();
-}
-
 template <class T>
 void CtorTest(int repetitionCount) {
   for (int i = 0; i < repetitionCount; i += 1) {
@@ -27,13 +18,48 @@ void CtorTest(int repetitionCount) {
   }
 }
 
+#include <functional>
+
+template<class T, class ...Args>
+class Decorator {
+public:
+  Decorator(T(*func)(Args...)) {
+    func_ = std::function<T(Args...)>(func);
+  }
+
+  std::chrono::nanoseconds MeasureTime(Args... args) {
+    Timer timer;
+
+    timer.Start();
+    func_(args...);
+    timer.Stop();
+
+    return timer.GetDuration();
+  }
+
+  std::chrono::nanoseconds MeasureTime(int repetitionCount, Args... args) {
+    Timer timer;
+
+    timer.Start();
+    for (int i = 0; i < repetitionCount; i += 1) {
+      func_(args...);
+    }
+    timer.Stop();
+
+    return timer.GetDuration();
+  }
+
+private:
+  std::function<T(Args...)> func_;
+};
+
 int main() {
-  //std::function<void(const int&)> func(QueueLstT<int>::Push);
+  Decorator ctor(&CtorTest<QueueLstT<int>>);
+  std::cout << ctor.MeasureTime(10).count() << '\n';
+  std::cout << ctor.MeasureTime(100).count() << '\n';
+  std::cout << ctor.MeasureTime(10000).count() << '\n';
 
-  std::cout << MeasureTime(10000000, &CtorTest<QueueLstT<int>>) << '\n';
-  std::cout << MeasureTime(10000000, &CtorTest<QueueArrT<int>>) << '\n';
-
-  Timer timer;
+  /*Timer timer;
 
   std::cout << "QueueLstT Push function average time test\n";
 
@@ -83,7 +109,7 @@ int main() {
 
   elementTime = sum / count;
   std::cout << "Average time per element: " << elementTime << '\n';
-  std::cout << "Average elemets per second: " << 10e9 / elementTime << '\n';
+  std::cout << "Average elemets per second: " << 10e9 / elementTime << '\n';*/
 
   return 0;
 }
