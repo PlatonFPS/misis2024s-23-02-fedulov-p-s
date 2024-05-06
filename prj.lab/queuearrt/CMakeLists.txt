@@ -4,3 +4,4 @@ target_include_directories(queuearrt INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>
   $<INSTALL_INTERFACE:include>
 )
+install(TARGETS queuearrt)

@@ -1,170 +1,86 @@
 #pragma once
 
-#include<decorator/decorator.hpp>
-
+#include<timer/timer.cpp>
 #include<queuelstt/queuelstt.hpp>
 #include<queuearrt/queuearrt.hpp>
 
 #include<iostream>
 #include<string>
+#include<map>
 
-template <class T>
-void CtorTest(const int repetitionCount) {
-  for (int i = 0; i < repetitionCount; i += 1) {
-    T type();
+const int kDivisionCount = 25;
+
+void PrintResults(const std::map<long long, int>& map,
+                  const long long min, const long long max) {
+  long long interval = (max - min) / kDivisionCount;
+  long long left = min;
+  long long right = min + interval;
+
+  long long count = 0;
+  long long sum = 0;
+
+  for (auto& it : map) {
+    while (it.first > right) {
+      std::cout << "[" << left << "; " << right << "]: " << sum << '\n';
+      left += interval;
+      right += interval;
+      sum = 0;
+      count = 0;
+    }
+    sum += it.second;
+    count++;
   }
-}
-
-template <class T>
-void CopyCtorTest(const T& copy) {
-  T type(copy);
-}
-template <class T>
-void RValueCopyCtorTest(T& copy) {
-  T type(std::move(copy));
-}
-
-template <class T>
-void AssignmentTest(const T& copy) {
-  T type;
-  type = copy;
-}
-
-template <class T>
-void RValueAssignmentTest(T& copy) {
-  T type;
-  type = std::move(copy);
-}
-
-template <class T>
-void PushTestLst(const int repetitionCount) {
-  QueueLstT<T> queue;
-  for (int i = 0; i < repetitionCount; i += 1) {
-    queue.Push(i);
-  }
-}
-  
-template <class T>
-void PushTestArr(const int repetitionCount) {
-  QueueArrT<T> queue;
-  for (int i = 0; i < repetitionCount; i += 1) {
-    queue.Push(i);
-  }
-}
-
-template <class T>
-void PopTestLst(QueueLstT<T>& queue) {
-  while(!queue.IsEmpty()) {
-    queue.Pop();
-  }
-}
-
-template <class T>
-void PopTestArr(QueueArrT<T>& queue) {
-  while(!queue.IsEmpty()) {
-    queue.Pop();
-  }
+  std::cout << "[" << left << "; " << right << "]: " << sum / count << '\n';
+  sum = 0;
+  count = 0;
+  left += interval;
+  right += interval;
 }
 
 int main() {
-  const int kMinCount = 1;
-  const int kMaxCount = 1e6;
+  const int kMinPow = 0;
+  const int kMaxPow = 3;
   const int kKoef = 10;
+  const int kRepetitionCount = 1000;
+  Timer timer;
+  
+  int count = 1;
+  for (int i = kMinPow; i <= kMaxPow; i += 1) {
 
+    std::cout << "10^" << i << '\n';
+    count *= kKoef;
+    std::map<long long, int> map;
+    long long min = -1;
+    long long max = -1;
 
-  std::cout << "Ctor test\n" << "QueueLstT<int> | QueueArrT<int>\n";
-  Decorator queueLstCtor(&CtorTest<QueueLstT<int>>);
-  Decorator queueArrCtor(&CtorTest<QueueArrT<int>>);
-  for (int i = kMinCount; i <= kMaxCount; i *= kKoef) {
-    std::cout << i << ": ";
-    std::cout << queueLstCtor.MeasureTime(i) << " | ";
-    std::cout << queueArrCtor.MeasureTime(i) << '\n';
-  }
+    for (int j = 0; j < kRepetitionCount; j++) {
 
-  std::cout << "Copy ctor test\n" << "QueueLstT<int> | QueueArrT<int>\n";
-  Decorator queueLstCopyCtor(&CopyCtorTest<QueueLstT<int>>);
-  Decorator queueArrCopyCtor(&CopyCtorTest<QueueArrT<int>>);
-  for (int i = kMinCount; i <= kMaxCount; i *= kKoef) {
-    std::cout << i << ": ";
-    QueueLstT<int> queueLst;
-    QueueArrT<int> queueArr;
-    for (int j = 0; j < i; j += 1) {
-      queueLst.Push(j);
-      queueArr.Push(j);
+      timer.Start();
+      for (int k = 0; k < count; k++) {
+        QueueArrT<int> q;
+        q.Push(1);
+      }
+      timer.Stop();
+
+      auto duration = timer.GetDuration();
+
+      QueueArrT<int> q;
+      timer.Start();
+      for (int k = 0; k < count; k++) {
+        q.Push(1);
+      }
+      timer.Stop();
+
+      long long delta = (duration - timer.GetDuration()).count();
+      if (delta <= 0) continue;
+      map[delta]++;
+
+      if(min == -1 || min > delta) min = delta;
+
+      if(max == -1 || max < delta) max = delta;
     }
-    std::cout << queueLstCopyCtor.MeasureTime(queueLst) << " | ";
-    std::cout << queueArrCopyCtor.MeasureTime(queueArr) << '\n';
+
+    PrintResults(map, min, max);
   }
-
-  std::cout << "RValue copy ctor test\n" << "QueueLstT<int> | QueueArrT<int>\n";
-  Decorator queueLstRValueCtor(&RValueCopyCtorTest<QueueLstT<int>>);
-  Decorator queueArrRValueCtor(&RValueCopyCtorTest<QueueArrT<int>>);
-  for (int i = kMinCount; i <= kMaxCount; i *= kKoef) {
-    std::cout << i << ": ";
-    QueueLstT<int> queueLst;
-    QueueArrT<int> queueArr;
-    for (int j = 0; j < i; j += 1) {
-      queueLst.Push(j);
-      queueArr.Push(j);
-    }
-    std::cout << queueLstRValueCtor.MeasureTime(queueLst) << " | ";
-    std::cout << queueArrRValueCtor.MeasureTime(queueArr) << '\n';
-  }
-
-  std::cout << "Assignment test\n" << "QueueLstT<int> | QueueArrT<int>\n";
-  Decorator queueLstAssignment(&AssignmentTest<QueueLstT<int>>);
-  Decorator queueArrAssignment(&AssignmentTest<QueueArrT<int>>);
-  for (int i = kMinCount; i <= kMaxCount; i *= kKoef) {
-    std::cout << i << ": ";
-    QueueLstT<int> queueLst;
-    QueueArrT<int> queueArr;
-    for (int j = 0; j < i; j += 1) {
-      queueLst.Push(j);
-      queueArr.Push(j);
-    }
-    std::cout << queueLstAssignment.MeasureTime(queueLst) << " | ";
-    std::cout << queueArrAssignment.MeasureTime(queueArr) << '\n';
-  }
-
-  std::cout << "RValue assignment test\n" << "QueueLstT<int> | QueueArrT<int>\n";
-  Decorator queueLstRValueAssignment(&RValueAssignmentTest<QueueLstT<int>>);
-  Decorator queueArrRValueAssignment(&RValueAssignmentTest<QueueArrT<int>>);
-  for (int i = kMinCount; i <= kMaxCount; i *= kKoef) {
-    std::cout << i << ": ";
-    QueueLstT<int> queueLst;
-    QueueArrT<int> queueArr;
-    for (int j = 0; j < i; j += 1) {
-      queueLst.Push(j);
-      queueArr.Push(j);
-    }
-    std::cout << queueLstRValueAssignment.MeasureTime(queueLst) << " | ";
-    std::cout << queueArrRValueAssignment.MeasureTime(queueArr) << '\n';
-  }
-
-  std::cout << "Push test\n" << "QueueLstT<int> | QueueArrT<int>\n";
-  Decorator queueLstPush(&PushTestLst<int>);
-  Decorator queueArrPush(&PushTestArr<int>);
-  for (int i = kMinCount; i <= kMaxCount; i *= kKoef) {
-    std::cout << i << ": ";
-    std::cout << queueLstPush.MeasureTime(i) << " | ";
-    std::cout << queueArrPush.MeasureTime(i) << '\n';
-  }
-
-  std::cout << "Pop test\n" << "QueueLstT<int> | QueueArrT<int>\n";
-  Decorator queueLstPop(&PopTestLst<int>);
-  Decorator queueArrPop(&PopTestArr<int>);
-  for (int i = kMinCount; i <= kMaxCount; i *= kKoef) {
-    std::cout << i << ": ";
-    QueueLstT<int> queueLst;
-    QueueArrT<int> queueArr;
-    for(int j = 0; j < i; j += 1) {
-      queueLst.Push(j);
-      queueArr.Push(j);
-    }
-    std::cout << queueLstPop.MeasureTime(queueLst) << " | ";
-    std::cout << queueArrPop.MeasureTime(queueArr) << '\n';
-  }
-
-
   return 0;
 }
