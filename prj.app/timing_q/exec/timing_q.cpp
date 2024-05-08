@@ -9,6 +9,7 @@
 #include <map>
 #include <array>
 #include <vector>
+#include <math.h>
 
 const int kDivisionCount = 20;
 
@@ -42,7 +43,7 @@ void ProcessResults(const std::map<long long, long long>& map) {
     }
     it++;
   }
-  
+
   //grouping values in intervals
   int divisionCount = (ver.size() < kDivisionCount ? ver.size() : kDivisionCount);
   double interval = static_cast<double>(max - min) / divisionCount;
@@ -64,33 +65,25 @@ void ProcessResults(const std::map<long long, long long>& map) {
     sum += it.second;
   }
 
-  for (int i = 0; i < intervals.size(); i += 1) {
+  for (int i = 0; i < intervals.size(); ++i) {
     std::cout << "[" << min + i * interval << "; " << min + (i + 1) * interval << "]: " << intervals[i] * 100 << "%\n";
   }
 
-  /*long long interval = (max - min) / kDivisionCount;
-  long long left = min;
-  long long right = min + interval;
-
-  long long count = 0;
-  long long sum = 0;
-
-  for (auto& it : map) {
-    while (it.first > right) {
-      std::cout << "[" << left << "; " << right << "]: " << sum << '\n';
-      left += interval;
-      right += interval;
-      sum = 0;
-      count = 0;
-    }
-    sum += it.second;
-    count++;
+  //calculating dispertion
+  long double dispertion = 0;
+  for (int i = 0; i < intervals.size(); ++i) {
+    dispertion += intervals[i] * intervals[i];
   }
-  std::cout << "[" << left << "; " << right << "]: " << sum << '\n';
-  sum = 0;
-  count = 0;
-  left += interval;
-  right += interval;*/
+  dispertion /= intervals.size();
+  dispertion = sqrt(dispertion);
+  std::cout << "Dispertion: " << dispertion * 100 << "%\n";
+
+  //calculation mathematical excpectancy
+  double excpectancy = 0;
+  for (int i = 0; i < intervals.size(); ++i) {
+    excpectancy += intervals[i] * (min + (i + 0.5) * interval);
+  }
+  std::cout << "Excpectancy: " << excpectancy << '\n';
 }
 
 
