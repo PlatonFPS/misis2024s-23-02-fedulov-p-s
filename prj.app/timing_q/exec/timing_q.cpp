@@ -5,14 +5,55 @@
 #include <queuearrt/queuearrt.hpp>
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <map>
 #include <array>
 #include <vector>
 #include <math.h>
+#include <filesystem>
+
+std::string prefix = std::filesystem::current_path().
+                     parent_path().parent_path().parent_path().parent_path().parent_path()
+                     .string() + "\\prj.app\\outdata\\";
+
+void WriteToFile(std::string fileName, std::vector<double> data, long long min, double interval) {
+  std::cout << prefix + fileName << '\n';
+  std::ofstream out(prefix + fileName);
+  if (out.is_open()) {
+    std::cout << "file opened\n";
+    out << "test\n";
+    out.close();
+  }
+  else {
+    std::cout << "Could't open " << fileName << '\n';
+  }
+}
+
+void PrintResults(std::vector<double>& intervals, long long min, double interval) {
+  for (int i = 0; i < intervals.size(); ++i) {
+    std::cout << "[" << min + i * interval << "; " << min + (i + 1) * interval << "]: " << intervals[i] * 100 << "%\n";
+  }
+
+  //calculating dispertion
+  long double dispertion = 0;
+  for (int i = 0; i < intervals.size(); ++i) {
+    dispertion += intervals[i] * intervals[i];
+  }
+  dispertion /= intervals.size();
+  dispertion = sqrt(dispertion);
+  std::cout << "Dispertion: " << dispertion * 100 << "%\n";
+
+  //calculating mathematical excpectancy
+  double excpectancy = 0;
+  for (int i = 0; i < intervals.size(); ++i) {
+    excpectancy += intervals[i] * (min + (i + 0.5) * interval);
+  }
+  std::cout << "Excpectancy: " << excpectancy << '\n';
+}
+
 
 const int kDivisionCount = 20;
-
 const double minPassingVer = 0.05;
 
 void ProcessResults(const std::map<long long, long long>& map) {
@@ -65,27 +106,10 @@ void ProcessResults(const std::map<long long, long long>& map) {
     sum += it.second;
   }
 
-  for (int i = 0; i < intervals.size(); ++i) {
-    std::cout << "[" << min + i * interval << "; " << min + (i + 1) * interval << "]: " << intervals[i] * 100 << "%\n";
-  }
+  PrintResults(intervals, min, interval);
 
-  //calculating dispertion
-  long double dispertion = 0;
-  for (int i = 0; i < intervals.size(); ++i) {
-    dispertion += intervals[i] * intervals[i];
-  }
-  dispertion /= intervals.size();
-  dispertion = sqrt(dispertion);
-  std::cout << "Dispertion: " << dispertion * 100 << "%\n";
-
-  //calculation mathematical excpectancy
-  double excpectancy = 0;
-  for (int i = 0; i < intervals.size(); ++i) {
-    excpectancy += intervals[i] * (min + (i + 0.5) * interval);
-  }
-  std::cout << "Excpectancy: " << excpectancy << '\n';
+  WriteToFile("debug.txt", intervals, min, interval);
 }
-
 
 int main() {
   const int kMinPow = 0;
