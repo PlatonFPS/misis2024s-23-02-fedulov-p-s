@@ -21,7 +21,7 @@ MovementCommand::MovementCommand(double lenght)
 MovementCommand::MovementCommand(std::istream& in) {
   double lenght = 0;
   if (!(in >> lenght)) {
-    std::cout << "Invalid Argument\n";
+    std::cout << "Invalid lenght argument\n";
     lenght = 0;
   }
   lenght_ = lenght;
@@ -112,12 +112,22 @@ int main() {
     if (command == "GO") {
       double x = 0;
       double y = 0;
-      std::cin >> x >> y;
+      if (!(std::cin >> x)) {
+        std::cout << "Invalid x argument";
+        continue;
+      }
+      if (!(std::cin >> y)) {
+        std::cout << "Invalid y argument";
+        continue;
+      }
       stack.PrintCurrentPosition(x, y);
     }
     else if (command == "RE") {
       int count = 0;
-      std::cin >> count;
+      if (!(std::cin >> count)) {
+        std::cout << "Invalid count argument";
+        continue;
+      }
       stack.Pop(count);
     }
     else if (command == "GW") {
@@ -131,6 +141,9 @@ int main() {
     }
     else if (command == "GE") {
       stack.Push(new GoEast(std::cin));
+    }
+    else {
+      std::cout << "Incorrect command: " << command << '\n';
     }
   }
 }
