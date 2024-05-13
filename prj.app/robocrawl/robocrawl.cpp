@@ -21,7 +21,7 @@ MovementCommand::MovementCommand(double lenght)
 MovementCommand::MovementCommand(std::istream& in) {
   double lenght = 0;
   if (!(in >> lenght)) {
-    std::cout << "Invalid lenght argument\n";
+    std::cout << "Invalid lenght argument " << lenght << '\n';
     lenght = 0;
   }
   lenght_ = lenght;
@@ -113,11 +113,11 @@ int main() {
       double x = 0;
       double y = 0;
       if (!(std::cin >> x)) {
-        std::cout << "Invalid x argument";
+        std::cout << "Invalid x argument " << x << '\n';
         continue;
       }
       if (!(std::cin >> y)) {
-        std::cout << "Invalid y argument";
+        std::cout << "Invalid y argument " << y << '\n';
         continue;
       }
       stack.PrintCurrentPosition(x, y);
@@ -125,7 +125,7 @@ int main() {
     else if (command == "RE") {
       int count = 0;
       if (!(std::cin >> count)) {
-        std::cout << "Invalid count argument";
+        std::cout << "Invalid count argument " << count << '\n';
         continue;
       }
       stack.Pop(count);
@@ -144,6 +144,7 @@ int main() {
     }
     else {
       std::cout << "Incorrect command: " << command << '\n';
+      break;
     }
   }
 }
