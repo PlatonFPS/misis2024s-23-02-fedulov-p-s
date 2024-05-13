@@ -15,18 +15,17 @@
 
 std::string prefix = std::filesystem::current_path().
                      parent_path().parent_path().parent_path().parent_path().parent_path()
-                     .string() + "\\prj.app\\outdata\\";
+                     .string() + "/prj.app/timing_q/outdata/";
 
 void WriteToFile(std::string fileName, std::vector<double> data, long long min, double interval) {
-  std::cout << prefix + fileName << '\n';
   std::ofstream out(prefix + fileName);
   if (out.is_open()) {
-    std::cout << "file opened\n";
+    std::cout << "Opened file at " << prefix + fileName << '\n';
     out << "test\n";
     out.close();
   }
   else {
-    std::cout << "Could't open " << fileName << '\n';
+    std::cout << "Could't open file at " << prefix + fileName << '\n';
   }
 }
 
@@ -85,6 +84,21 @@ void ProcessResults(const std::map<long long, long long>& map) {
     it++;
   }
 
+  //recalculating probabilities
+  double oldSum = 0;
+  for (auto& it : ver) {
+    oldSum += it.second;
+  }
+  for (auto& it : ver) {
+    it.second /= oldSum;
+  }
+
+  double check = 0;
+  for (auto& it : ver) {
+    check += it.second;
+  }
+  std::cout << check << '\n';
+
   //grouping values in intervals
   int divisionCount = (ver.size() < kDivisionCount ? ver.size() : kDivisionCount);
   double interval = static_cast<double>(max - min) / divisionCount;
@@ -112,13 +126,16 @@ void ProcessResults(const std::map<long long, long long>& map) {
 }
 
 int main() {
-  const int kMinPow = 0;
+  const int kMinPow = 1;
   const int kMaxPow = 4;
   const int kKoef = 10;
   const int kRepetitionCount = 1e3;
   Timer timer;
   
   int count = 1;
+  for (int i = 0; i < kMinPow; ++i) {
+    count *= kKoef;
+  }
   for (int i = kMinPow; i <= kMaxPow; i += 1) {
 
     std::cout << "10^" << i << '\n';
