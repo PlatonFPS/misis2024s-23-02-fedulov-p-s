@@ -1,6 +1,7 @@
 #include <commands/commands.hpp>
 
 #include <iostream>
+#include <fstream>
 #include <stack>
 
 class CommandStack {
@@ -10,7 +11,7 @@ public:
   void Push(MovementCommand* ptr);
   void Pop(int count);
 
-  void PrintCurrentPosition(double x, double y);
+  void PrintCurrentPosition(double x, double y, std::ostream& out);
 private:
   std::stack<MovementCommand*> commands;
   double x_ = 0;
@@ -32,51 +33,86 @@ void CommandStack::Pop(int count) {
   }
 }
 
-void CommandStack::PrintCurrentPosition(double x, double y) {
-  std::cout << x + x_ << ' ' << y + y_ << '\n';
+void CommandStack::PrintCurrentPosition(double x, double y, std::ostream& out) {
+  out << x + x_ << ' ' << y + y_ << '\n';
 }
 
-int main() {
+int main(int argc, char** argv) {
+  if (argc != 5) {
+    std::cerr << "Usage: " << argv[0] << " <input file>" << '\n';
+    std::cerr << "Invalid amount of arguments: " << argc << '\n';
+    return 1;
+  }
+
+  std::ifstream in;
+  std::ofstream out;
+
+  if (std::string(argv[1]) == "-i") {
+    in.open(std::string(argv[2]));
+  }
+  else if(std::string(argv[1]) == "-o") {
+    out.open(std::string(argv[2]));
+  }
+  else {
+    std::cerr << "Invalid argument: " << argv[1] << '\n';
+    return 1;
+  }
+
+  if (std::string(argv[3]) == "-i") {
+    in.open(std::string(argv[4]));
+  }
+  else if (std::string(argv[3]) == "-o") {
+    out.open(std::string(argv[4]));
+  }
+  else {
+    std::cerr << "Invalid argument: " << argv[3] << '\n';
+    return 1;
+  }
+
   CommandStack stack;
 
   std::string command;
-  while (std::cin >> command) {
+  while (in >> command) {
     if (command == "GO") {
       double x = 0;
       double y = 0;
-      if (!(std::cin >> x)) {
-        PrintError("Invalid x argument " + std::to_string(x));
+      if (!(in >> x)) {
+        out << PrintError("Invalid x argument " + std::to_string(x));
         continue;
       }
-      if (!(std::cin >> y)) {
-        PrintError("Invalid y argument " + std::to_string(y));
+      if (!(in >> y)) {
+        out << PrintError("Invalid y argument " + std::to_string(y));
         continue;
       }
-      stack.PrintCurrentPosition(x, y);
+      stack.PrintCurrentPosition(x, y, out);
     }
     else if (command == "RE") {
       int count = 0;
-      if (!(std::cin >> count)) {
-        PrintError("Invalid count argument " + std::to_string(count));
+      if (!(in >> count)) {
+        out << PrintError("Invalid count argument " + std::to_string(count));
         continue;
       }
       stack.Pop(count);
     }
     else if (command == "GW") {
-      stack.Push(new GoWest(std::cin));
+      stack.Push(new GoWest(in, out));
     }
     else if (command == "GN") {
-      stack.Push(new GoNorth(std::cin));
+      stack.Push(new GoNorth(in, out));
     }
     else if (command == "GS") {
-      stack.Push(new GoSouth(std::cin));
+      stack.Push(new GoSouth(in, out));
     }
     else if (command == "GE") {
-      stack.Push(new GoEast(std::cin));
+      stack.Push(new GoEast(in, out));
     }
     else {
-      PrintError("Invalid command " + command);
+      out << PrintError("Invalid command " + command);
       break;
     }
   }
+
+  in.close();
+  out.close();
+  return 0;
 }

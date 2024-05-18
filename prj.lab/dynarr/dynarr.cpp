@@ -63,8 +63,8 @@ DynArr& DynArr::operator=(const DynArr& value) {
 DynArr& DynArr::operator=(DynArr&& value) noexcept {
   if(this != &value) {
     data_ = std::move(value.data_);
-    size_ = value.Size();
-    capacity_ = value.Capacity();
+    size_ = value.size_;
+    capacity_ = value.capacity_;
     value.data_.release();
     value.size_ = 0;
     value.capacity_ = 0;

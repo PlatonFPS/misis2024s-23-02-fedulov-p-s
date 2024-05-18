@@ -1,12 +1,12 @@
 #include <iostream>
 #include <string>
 
-void PrintError(std::string_view message);
+std::string_view PrintError(const std::string& message);
 
 class MovementCommand {
 public:
   MovementCommand(double lenght);
-  MovementCommand(std::istream& in);
+  MovementCommand(std::istream& in, std::ostream& out);
   virtual ~MovementCommand() = default;
 
   virtual std::pair<double, double> GetDelta() = 0;
@@ -19,7 +19,7 @@ private:
 class GoWest : public MovementCommand {
 public:
   GoWest(double lenght) : MovementCommand(lenght) {}
-  GoWest(std::istream& in) : MovementCommand(in) {}
+  GoWest(std::istream& in, std::ostream& out) : MovementCommand(in, out) {}
 
   std::pair<double, double> GetDelta() override {
     return std::make_pair(-GetLenght(), 0.0);
@@ -29,7 +29,7 @@ public:
 class GoEast : public MovementCommand {
 public:
   GoEast(double lenght) : MovementCommand(lenght) {}
-  GoEast(std::istream& in) : MovementCommand(in) {}
+  GoEast(std::istream& in, std::ostream& out) : MovementCommand(in, out) {}
 
   std::pair<double, double> GetDelta() override {
     return std::make_pair(GetLenght(), 0.0);
@@ -39,7 +39,7 @@ public:
 class GoNorth : public MovementCommand {
 public:
   GoNorth(double lenght) : MovementCommand(lenght) {}
-  GoNorth(std::istream& in) : MovementCommand(in) {}
+  GoNorth(std::istream& in, std::ostream& out) : MovementCommand(in, out) {}
 
   std::pair<double, double> GetDelta() override {
     return std::make_pair(0.0, GetLenght());
@@ -49,7 +49,7 @@ public:
 class GoSouth : public MovementCommand {
 public:
   GoSouth(double lenght) : MovementCommand(lenght) {}
-  GoSouth(std::istream& in) : MovementCommand(in) {}
+  GoSouth(std::istream& in, std::ostream& out) : MovementCommand(in, out) {}
 
   std::pair<double, double> GetDelta() override {
     return std::make_pair(0.0, -GetLenght());
