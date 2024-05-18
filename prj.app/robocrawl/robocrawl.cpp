@@ -1,75 +1,7 @@
+#include <commands/commands.hpp>
+
 #include <iostream>
 #include <stack>
-
-class MovementCommand {
-public:
-  MovementCommand(double lenght);
-  MovementCommand(std::istream& in);
-  virtual ~MovementCommand() = default;
-
-  virtual std::pair<double, double> GetDelta() = 0;
-
-  double GetLenght() const { return lenght_; }
-private:
-  double lenght_ = 0;
-};
-
-MovementCommand::MovementCommand(double lenght) 
-  : lenght_(lenght) {
-}
-
-MovementCommand::MovementCommand(std::istream& in) {
-  double lenght = 0;
-  if (!(in >> lenght)) {
-    std::cout << "Invalid lenght argument " << lenght << '\n';
-    lenght = 0;
-  }
-  lenght_ = lenght;
-}
-
-class GoWest : public MovementCommand {
-public:
-  GoWest(double lenght) : MovementCommand(lenght) {}
-  GoWest(std::istream& in) : MovementCommand(in) {}
-  ~GoWest() override = default;
-
-  std::pair<double, double> GetDelta() override {
-    return std::make_pair(-GetLenght(), 0.0);
-  }
-};
-
-class GoEast : public MovementCommand {
-public:
-  GoEast(double lenght) : MovementCommand(lenght) {}
-  GoEast(std::istream& in) : MovementCommand(in) {}
-  ~GoEast() override = default;
-
-  std::pair<double, double> GetDelta() override {
-    return std::make_pair(GetLenght(), 0.0);
-  }
-};
-
-class GoNorth : public MovementCommand {
-public:
-  GoNorth(double lenght) : MovementCommand(lenght) {}
-  GoNorth(std::istream& in) : MovementCommand(in) {}
-  ~GoNorth() override = default;
-
-  std::pair<double, double> GetDelta() override {
-    return std::make_pair(0.0, GetLenght());
-  }
-};
-
-class GoSouth : public MovementCommand {
-public:
-  GoSouth(double lenght) : MovementCommand(lenght) {}
-  GoSouth(std::istream& in) : MovementCommand(in) {}
-  ~GoSouth() override = default;
-
-  std::pair<double, double> GetDelta() override {
-    return std::make_pair(0.0, -GetLenght());
-  }
-};
 
 class CommandStack {
 public:
@@ -113,11 +45,11 @@ int main() {
       double x = 0;
       double y = 0;
       if (!(std::cin >> x)) {
-        std::cout << "Invalid x argument " << x << '\n';
+        PrintError("Invalid x argument " + std::to_string(x));
         continue;
       }
       if (!(std::cin >> y)) {
-        std::cout << "Invalid y argument " << y << '\n';
+        PrintError("Invalid y argument " + std::to_string(y));
         continue;
       }
       stack.PrintCurrentPosition(x, y);
@@ -125,7 +57,7 @@ int main() {
     else if (command == "RE") {
       int count = 0;
       if (!(std::cin >> count)) {
-        std::cout << "Invalid count argument " << count << '\n';
+        PrintError("Invalid count argument " + std::to_string(count));
         continue;
       }
       stack.Pop(count);
@@ -143,7 +75,7 @@ int main() {
       stack.Push(new GoEast(std::cin));
     }
     else {
-      std::cout << "Incorrect command: " << command << '\n';
+      PrintError("Invalid command " + command);
       break;
     }
   }
