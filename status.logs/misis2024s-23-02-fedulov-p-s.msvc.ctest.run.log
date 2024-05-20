@@ -1,6 +1,15 @@
 Internal ctest changing into directory: D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/build.check
 Test project D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/build.check
       Start  1: doctest_bitset
+Could not find executable D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_bitset.exe
+Looked in the following places:
+D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_bitset.exe
+D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_bitset.exe.exe
+D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/Release/doctest_bitset.exe
+D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/Release/doctest_bitset.exe.exe
+Release/D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_bitset.exe
+Release/D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_bitset.exe.exe
+ 1/20 Test  #1: doctest_bitset ...................***Not Run   0.00 sec
       Start  2: doctest_bitset_m
       Start  3: doctest_complex
       Start  4: doctest_complex_io
@@ -18,7 +27,7 @@ D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/Release/d
 D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/Release/doctest_dynarr_m.exe.exe
 Release/D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_dynarr_m.exe
 Release/D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_dynarr_m.exe.exe
- 1/20 Test #10: doctest_dynarr_m .................***Not Run   0.00 sec
+ 2/20 Test #10: doctest_dynarr_m .................***Not Run   0.00 sec
       Start 11: doctest_queuearr
 Could not find executable D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_queuearr.exe
 Looked in the following places:
@@ -28,7 +37,7 @@ D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/Release/d
 D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/Release/doctest_queuearr.exe.exe
 Release/D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_queuearr.exe
 Release/D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_queuearr.exe.exe
- 2/20 Test #11: doctest_queuearr .................***Not Run   0.00 sec
+ 3/20 Test #11: doctest_queuearr .................***Not Run   0.00 sec
       Start 12: doctest_queuearr_m
       Start 13: doctest_queuelst
 Could not find executable D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_queuelst.exe
@@ -39,7 +48,7 @@ D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/Release/d
 D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/Release/doctest_queuelst.exe.exe
 Release/D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_queuelst.exe
 Release/D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_queuelst.exe.exe
- 3/20 Test #13: doctest_queuelst .................***Not Run   0.00 sec
+ 4/20 Test #13: doctest_queuelst .................***Not Run   0.00 sec
       Start 14: doctest_queuelst_m
       Start 15: doctest_queuelstpr
       Start 16: doctest_queuelstpr_m
@@ -53,9 +62,8 @@ D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/Release/d
 D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/Release/doctest_stackarr_m.exe.exe
 Release/D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_stackarr_m.exe
 Release/D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_stackarr_m.exe.exe
- 4/20 Test #18: doctest_stackarr_m ...............***Not Run   0.00 sec
+ 5/20 Test #18: doctest_stackarr_m ...............***Not Run   0.00 sec
       Start 19: doctest_stacklst
- 5/20 Test  #1: doctest_bitset ...................***Failed    0.05 sec
       Start 20: doctest_stacklst_m
 Could not find executable D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_stacklst_m.exe
 Looked in the following places:
@@ -66,11 +74,11 @@ D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/Release/d
 Release/D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_stacklst_m.exe
 Release/D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/doctest_stacklst_m.exe.exe
  6/20 Test #20: doctest_stacklst_m ...............***Not Run   0.00 sec
- 7/20 Test  #2: doctest_bitset_m .................   Passed    0.05 sec
+ 7/20 Test  #2: doctest_bitset_m .................   Passed    0.04 sec
  8/20 Test  #3: doctest_complex ..................   Passed    0.04 sec
  9/20 Test  #4: doctest_complex_io ...............   Passed    0.04 sec
 10/20 Test  #5: doctest_complex_m ................   Passed    0.04 sec
-11/20 Test  #6: doctest_rational .................   Passed    0.04 sec
+11/20 Test  #6: doctest_rational .................   Passed    0.03 sec
 12/20 Test  #7: doctest_rational_io ..............   Passed    0.03 sec
 13/20 Test  #8: doctest_rational_m ...............   Passed    0.03 sec
 14/20 Test  #9: doctest_dynarr ...................   Passed    0.03 sec
@@ -86,7 +94,7 @@ Release/D:/projects/misis2023f-23-check/misis2024s-23-02-fedulov-p-s/bin.check/d
 Total Test time (real) =   0.06 sec
 
 The following tests FAILED:
-	  1 - doctest_bitset (Failed)
+	  1 - doctest_bitset (Not Run)
 	 10 - doctest_dynarr_m (Not Run)
 	 11 - doctest_queuearr (Not Run)
 	 13 - doctest_queuelst (Not Run)
