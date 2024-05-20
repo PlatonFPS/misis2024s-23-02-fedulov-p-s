@@ -3,25 +3,28 @@
 #include <iostream>
 #include <fstream>
 #include <stack>
+#include <memory>
 
 class CommandStack {
 public:
   CommandStack() = default;
 
-  void Push(MovementCommand* ptr);
+  ~CommandStack() = default;
+
+  void Push(std::unique_ptr<MovementCommand> ptr);
   void Pop(int count);
 
   void PrintCurrentPosition(double x, double y, std::ostream& out);
 private:
-  std::stack<MovementCommand*> commands;
+  std::stack<std::unique_ptr<MovementCommand>> commands;
   double x_ = 0;
   double y_ = 0;
 };
 
-void CommandStack::Push(MovementCommand* ptr){
-  commands.push(ptr);
-  x_ += ptr->GetDelta().first;
-  y_ += ptr->GetDelta().second;
+void CommandStack::Push(std::unique_ptr<MovementCommand> ptr){
+  x_ += ptr.get()->GetDelta().first;
+  y_ += ptr.get()->GetDelta().second;
+  commands.push(std::move(ptr));
 }
 
 void CommandStack::Pop(int count) {
@@ -69,6 +72,14 @@ int main(int argc, char** argv) {
     return 1;
   }
 
+  if (!in.is_open()) {
+    std::cerr << "Could not open input file\n";
+  }
+
+  if (!out.is_open()) {
+    std::cerr << "Could not open output file\n";
+  }
+
   CommandStack stack;
 
   std::string command;
@@ -95,16 +106,16 @@ int main(int argc, char** argv) {
       stack.Pop(count);
     }
     else if (command == "GW") {
-      stack.Push(new GoWest(in, out));
+      stack.Push(std::make_unique<GoWest>(GoWest(in, out)));
     }
     else if (command == "GN") {
-      stack.Push(new GoNorth(in, out));
+      stack.Push(std::make_unique<GoNorth>(GoNorth(in, out)));
     }
     else if (command == "GS") {
-      stack.Push(new GoSouth(in, out));
+      stack.Push(std::make_unique<GoSouth>(GoSouth(in, out)));
     }
     else if (command == "GE") {
-      stack.Push(new GoEast(in, out));
+      stack.Push(std::make_unique<GoEast>(GoEast(in, out)));
     }
     else {
       out << PrintError("Invalid command " + command);
