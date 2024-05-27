@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
 
 std::string PrintError(const std::string& message);
 
@@ -114,3 +115,34 @@ private:
   double y_ = 0;
   std::string name = "GS";
 };
+
+template <class T> 
+T ParseArgument(std::istream& in, bool& success, std::ostream& out) {
+  success = !in.eof();
+  if (!success) {
+    return T();
+  }
+  T argument;
+  in >> argument;
+  success = !in.fail();
+  if (!success) {
+    return T();
+  }
+  return argument;
+}
+
+template <class T>
+std::vector<T> ParseArguments(int n, const std::string& line, bool& success, std::ostream& out) {
+  std::vector<T> arguments(n);
+  std::stringstream str(line);
+  std::string name;
+  str >> name;
+  for (int i = 0; i < n; i++) {
+    arguments[i] = ParseArgument<T>(str, success, out);
+    if (!success) {
+      out << PrintError("Invalid Arguments: " + line);
+      return arguments;
+    }
+  }
+  return arguments;
+}

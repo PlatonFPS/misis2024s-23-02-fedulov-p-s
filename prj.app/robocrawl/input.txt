@@ -4,4 +4,16 @@ GS 1.2
 GE 2.34
 GO 0 0
 RE 3
+GO 0 4.3
+GS -23.4
+GN 32.1
+GW 0
+GO 0 0
+GS 2
 RE 5
+GO 1 1
+GN 2
+GN 3
+RE 2
+GO 0 0
+RE 6

@@ -62,16 +62,13 @@ bool ParseFromLine(const std::string& line, std::ostream& out) {
   return success && found;
 }
 
-std::pair<double, double> ParseTwoDoubleArguments(const std::string& line, bool& success, std::ostream& out) {
-  //todo double double parse
-  return { 0, 0 };
-}
-
 std::unique_ptr<Command> Go::ParseFromLine(const std::string& line, bool& success, std::ostream& out) {
   if (line.find(name) == -1) {
     return std::unique_ptr<Command>(nullptr);
   }
-  return std::unique_ptr<Command>(new Go());
+  std::vector<double> result(std::move(ParseArguments<double>(2, line, success, out)));
+  if (!success) return std::unique_ptr<Command>(new Go());
+  return std::unique_ptr<Command>(new Go(result[0], result[1]));
 }
 
 std::pair<double, double> Go::Execute(bool& success, std::ostream& out) {
@@ -80,23 +77,20 @@ std::pair<double, double> Go::Execute(bool& success, std::ostream& out) {
   std::pair<double, double> temp;
   for (int i = 0; i < MemoryCommand::commands.size(); i++) {
     temp = MemoryCommand::commands[i].get()->Execute(success, out);
-    x_ += temp.first;
-    y_ += temp.second;
+    x += temp.first;
+    y += temp.second;
   }
   out << x << ' ' << y << '\n';
-  return { x_, y_ };
-}
-
-int ParseIntArgument(const std::string& line, bool& success, std::ostream& out) {
-  //todo int parse
-  return 0;
+  return { 0.0, 0.0 };
 }
 
 std::unique_ptr<Command> Re::ParseFromLine(const std::string& line, bool& success, std::ostream& out) {
   if (line.find(name) == -1) {
     return std::unique_ptr<Command>(nullptr);
   }
-  return std::unique_ptr<Command>(new Re());
+  std::vector<int> result(std::move(ParseArguments<int>(1, line, success, out)));
+  if(!success) return std::unique_ptr<Command>(new Re());
+  return std::unique_ptr<Command>(new Re(result[0]));
 }
 
 std::pair<double, double> Re::Execute(bool& success, std::ostream& out) {
@@ -110,16 +104,13 @@ std::pair<double, double> Re::Execute(bool& success, std::ostream& out) {
   return { 0.0, 0.0 };
 }
 
-double ParseDoubleArgument(const std::string& line, bool& success, std::ostream& out) {
-  //todo double parse
-  return 0;
-}
-
 std::unique_ptr<Command> GoWest::ParseFromLine(const std::string& line, bool& success, std::ostream& out) {
   if (line.find(name) == -1) {
     return std::unique_ptr<Command>(nullptr);
   }
-  return std::unique_ptr<Command>(new GoWest());
+  std::vector<double> result(std::move(ParseArguments<double>(1, line, success, out)));
+  if (!success) return std::unique_ptr<Command>(new GoWest());
+  return std::unique_ptr<Command>(new GoWest(result[0]));
 }
 
 std::pair<double, double> GoWest::Execute(bool& success, std::ostream& out) {
@@ -130,7 +121,9 @@ std::unique_ptr<Command> GoNorth::ParseFromLine(const std::string& line, bool& s
   if (line.find(name) == -1) {
     return std::unique_ptr<Command>(nullptr);
   }
-  return std::unique_ptr<Command>(new GoNorth());
+  std::vector<double> result(std::move(ParseArguments<double>(1, line, success, out)));
+  if (!success) return std::unique_ptr<Command>(new GoNorth());
+  return std::unique_ptr<Command>(new GoNorth(result[0]));
 }
 
 std::pair<double, double> GoNorth::Execute(bool& success, std::ostream& out) {
@@ -141,7 +134,9 @@ std::unique_ptr<Command> GoSouth::ParseFromLine(const std::string& line, bool& s
   if (line.find(name) == -1) {
     return std::unique_ptr<Command>(nullptr);
   }
-  return std::unique_ptr<Command>(new GoSouth());
+  std::vector<double> result(std::move(ParseArguments<double>(1, line, success, out)));
+  if (!success) return std::unique_ptr<Command>(new GoSouth());
+  return std::unique_ptr<Command>(new GoSouth(result[0]));
 }
 
 std::pair<double, double> GoSouth::Execute(bool& success, std::ostream& out) {
@@ -152,7 +147,9 @@ std::unique_ptr<Command> GoEast::ParseFromLine(const std::string& line, bool& su
   if (line.find(name) == -1) {
     return std::unique_ptr<Command>(nullptr);
   }
-  return std::unique_ptr<Command>(new GoEast());
+  std::vector<double> result(std::move(ParseArguments<double>(1, line, success, out)));
+  if (!success) return std::unique_ptr<Command>(new GoEast());
+  return std::unique_ptr<Command>(new GoEast(result[0]));
 }
 
 std::pair<double, double> GoEast::Execute(bool& success, std::ostream& out) {
