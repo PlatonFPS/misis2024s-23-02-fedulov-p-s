@@ -1,0 +1,1 @@
+C:\repositories\misis2024s-23-02-fedulov-p-s\out\build\x64-Debug\prj.app\robocrawl\bin.dbg\robocrawl.exe -i C:\repositories\misis2024s-23-02-fedulov-p-s\prj.app\robocrawl\input.txt -o C:\repositories\misis2024s-23-02-fedulov-p-s\prj.app\robocrawl\output.txt

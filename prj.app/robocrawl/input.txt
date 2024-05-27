@@ -1,7 +1,7 @@
-GW 2
-GN 2
-GO 2 2
-GS 10
-GE 23.2
-GO 2.3 5.2
-go
+GN 2.3
+GW 5.6
+GS 1.2
+GE 2.34
+GO 0 0
+RE 3
+RE 5

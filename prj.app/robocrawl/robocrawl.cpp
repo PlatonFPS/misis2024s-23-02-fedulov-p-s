@@ -38,30 +38,24 @@ int CheckArgs(int argc, char** argv, std::ifstream& in, std::ofstream& out) {
     std::cerr << "Could not open input file\n";
     return 1;
   }
-
   if (!out.is_open()) {
     std::cerr << "Could not open output file\n";
     return 1;
   }
+
+  return 0;
 }
 
 int main(int argc, char** argv) {
   std::ifstream in;
   std::ofstream out;
-  
+
   int check = CheckArgs(argc, argv, in, out);
   if (check != 0) return check;
 
-  std::vector<std::unique_ptr<Command>> commandTypes;
-  commandTypes.emplace_back(std::make_unique<GoWest>());
-  commandTypes.emplace_back(std::make_unique<GoNorth>());
-  commandTypes.emplace_back(std::make_unique<GoSouth>());
-  commandTypes.emplace_back(std::make_unique<GoEast>());
-
-  std::vector<std::unique_ptr<Command>> commands;
   std::string line;
   while (std::getline(in, line)) {
-
+    if (!ParseFromLine(line, out)) break;
   }
 
   in.close();

@@ -1,2 +1,2 @@
 @echo off
-cmd /k ""../../out/build/x64-Debug/prj.app/RoboCrawler/bin.dbg/robocrawl.exe" -i "Input.txt" -o "Output.txt""
+cmd /k ""../../out/build/x64-Debug/prj.app/robocrawl/bin.dbg/robocrawl.exe" -i "input.txt" -o "output.txt""
