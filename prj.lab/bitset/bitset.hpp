@@ -8,11 +8,18 @@ class BitSet {
 public:
   class BiA {
   public:
+    BiA() = delete;
+    BiA(const BiA& bia) = delete;
+    BiA(BiA&& bia) noexcept = default;
     BiA(BitSet& bitset, const int32_t index);
+    ~BiA() = default;
 
-    operator bool() const;
+    operator bool() const { return bitset_.Get(index_); }
 
-    void operator=(const bool value);
+    BiA& operator=(const bool value);
+
+    BiA& operator=(const BiA& bia);
+    BiA& operator=(BiA&& bia) noexcept;
 
   private:
     BitSet& bitset_;

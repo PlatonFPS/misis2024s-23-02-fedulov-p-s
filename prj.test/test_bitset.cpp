@@ -636,3 +636,24 @@ TEST_CASE("Multiple bitset unformated io") {
     CHECK_EQ(bitset1.Get(i), i % 2 == 1);
   }
 }
+
+TEST_CASE("BitAccessor test") {
+  BitSet bitset(56);
+  for (int i = 0; i < 56; ++i) {
+    bitset.Set(i, i & 1);
+  }
+  
+  for (int i = 0; i < 56; ++i) {
+    CHECK_EQ(bitset.Get(i), bitset[i]);
+  }
+  
+  for (int i = 0; i < 56; i += 2) {
+    bool temp = bitset[i];
+    bitset[i] = bitset[i + 1];
+    bitset[i + 1] = temp;
+  }
+
+  for (int i = 0; i < 56; ++i) {
+    CHECK_EQ(!(i & 1), bitset[i]);
+  }
+}

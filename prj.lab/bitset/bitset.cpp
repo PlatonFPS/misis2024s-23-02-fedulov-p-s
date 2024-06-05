@@ -128,12 +128,19 @@ BitSet::BiA::BiA(BitSet& bitset, const int32_t index)
   , index_(index) {
 }
 
-BitSet::BiA::operator bool() const {
-  return bitset_.Get(index_);
+BitSet::BiA& BitSet::BiA::operator=(const bool value) {
+  bitset_.Set(index_, value);
+  return *this;
 }
 
-void BitSet::BiA::operator=(const bool value) {
-  bitset_.Set(index_, value);
+BitSet::BiA& BitSet::BiA::operator=(BiA&& bia) noexcept {
+  bitset_.Set(index_, bia.bitset_.Get(bia.index_));
+  return *this;
+}
+
+BitSet::BiA& BitSet::BiA::operator=(const BiA& bia) {
+  bitset_.Set(index_, bia.bitset_.Get(bia.index_));
+  return *this;
 }
 
 BitSet::BiA BitSet::operator[](int32_t index) {
