@@ -8,7 +8,7 @@
 class DynArr final {
 public:
   DynArr() = default;
-  explicit DynArr(const DynArr& copy);
+  DynArr(const DynArr& copy);
   DynArr(DynArr&& other) noexcept;
   explicit DynArr(const ptrdiff_t size);
   ~DynArr() = default;
