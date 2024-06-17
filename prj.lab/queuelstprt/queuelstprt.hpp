@@ -1,26 +1,30 @@
-#pragma once
+﻿#pragma once
 
 #include <cstddef>
 #include <stdexcept>
+#include <vector>
 
 template <class T>
 class QueueLstPrT final {
 public:
-  QueueLstPrT() = default;
-  QueueLstPrT(const QueueLstPrT<T>& copy);
-  QueueLstPrT(QueueLstPrT<T>&& copy) noexcept;
+  QueueLstPrT<T>() = default;
+  QueueLstPrT<T>(const QueueLstPrT<T>& copy);
+  QueueLstPrT<T>(QueueLstPrT<T>&& copy) noexcept;
 
   ~QueueLstPrT();
 
-  QueueLstPrT<T>& operator=(const QueueLstPrT<T>& value);
+  QueueLstPrT<T>& operator=(const QueueLstPrT<T>& values);
   QueueLstPrT<T>& operator=(QueueLstPrT<T>&& value) noexcept;
+
+  bool Compare(const std::vector<T>& values) const;
+  bool Compare(const QueueLstPrT<T>& queue) const;
 
   bool IsEmpty() const noexcept;
 
-  void Push(float value);
+  void Push(T value);
 
-  float& Top();
-  const float& Top() const;
+  T& Top();
+  const T& Top() const;
 
   void Pop() noexcept;
   void Clear() noexcept;
@@ -31,11 +35,36 @@ private:
     Node* next = nullptr;
   };
   Node* head_ = nullptr;
-  Node* tail_ = nullptr;
   ptrdiff_t size_ = 0;
 };
 
-/*QueueLstPr::QueueLstPr(const QueueLstPr& copy) {
+template<class T>
+bool QueueLstPrT<T>::Compare(const std::vector<T>& values) const {
+  Node* temp = head_;
+  for (int i = 0; i < values.size(); ++i) {
+    if (temp == nullptr) return false;
+    if (temp->value != values[i]) return false;
+    temp = temp->next;
+  }
+  return true;
+}
+
+template<class T>
+bool QueueLstPrT<T>::Compare(const QueueLstPrT<T>& queue) const {
+  Node* thisTemp = head_;
+  Node* otherTemp = queue.head_;
+  while (!(thisTemp == nullptr && otherTemp == nullptr)) {
+    if (thisTemp == nullptr) return false;
+    if (otherTemp == nullptr) return false;
+    if (thisTemp->value != otherTemp->value) return false;
+    thisTemp = thisTemp->next;
+    otherTemp = otherTemp->next;
+  }
+  return true;
+}
+
+template <class T>
+QueueLstPrT<T>::QueueLstPrT(const QueueLstPrT<T>& copy) {
   if (!copy.IsEmpty()) {
     size_ = copy.size_;
     head_ = new Node{ copy.head_->value, nullptr };
@@ -49,17 +78,19 @@ private:
   }
 }
 
-QueueLstPr::QueueLstPr(QueueLstPr&& copy) noexcept {
+template <class T>
+QueueLstPrT<T>::QueueLstPrT(QueueLstPrT<T>&& copy) noexcept {
   std::swap(head_, copy.head_);
-  std::swap(tail_, copy.tail_);
   std::swap(size_, copy.size_);
 }
 
-QueueLstPr::~QueueLstPr() {
+template <class T>
+QueueLstPrT<T>::~QueueLstPrT() {
   Clear();
 }
 
-QueueLstPr& QueueLstPr::operator=(const QueueLstPr& value) {
+template <class T>
+QueueLstPrT<T>& QueueLstPrT<T>::operator=(const QueueLstPrT<T>& value) {
   if (this != &value) {
     while (size_ > value.size_) Pop();
     Node* head = head_;
@@ -77,23 +108,24 @@ QueueLstPr& QueueLstPr::operator=(const QueueLstPr& value) {
   return *this;
 }
 
-QueueLstPr& QueueLstPr::operator=(QueueLstPr&& value) noexcept {
+template <class T>
+QueueLstPrT<T>& QueueLstPrT<T>::operator=(QueueLstPrT<T>&& value) noexcept {
   if (this != &value) {
     head_ = value.head_;
-    tail_ = value.tail_;
     size_ = value.size_;
     value.head_ = nullptr;
-    value.tail_ = nullptr;
     value.size_ = 0;
   }
   return *this;
 }
 
-bool QueueLstPr::IsEmpty() const noexcept {
+template <class T>
+bool QueueLstPrT<T>::IsEmpty() const noexcept {
   return (head_ == nullptr);
 }
 
-void QueueLstPr::Push(float value) {
+template <class T>
+void QueueLstPrT<T>::Push(T value) {
   if (IsEmpty()) {
     head_ = new Node{ value, head_ };
   }
@@ -112,21 +144,24 @@ void QueueLstPr::Push(float value) {
   size_ += 1;
 }
 
-float& QueueLstPr::Top() {
+template <class T>
+T& QueueLstPrT<T>::Top() {
   if (IsEmpty()) {
     throw std::logic_error("Queue is empty");
   }
   return head_->value;
 }
 
-const float& QueueLstPr::Top() const {
+template <class T>
+const T& QueueLstPrT<T>::Top() const {
   if (IsEmpty()) {
     throw std::logic_error("Queue is empty");
   }
   return head_->value;
 }
 
-void QueueLstPr::Pop() noexcept {
+template <class T>
+void QueueLstPrT<T>::Pop() noexcept {
   if (!IsEmpty()) {
     Node* temp = head_;
     head_ = head_->next;
@@ -136,8 +171,9 @@ void QueueLstPr::Pop() noexcept {
   }
 }
 
-void QueueLstPr::Clear() noexcept {
+template <class T>
+void QueueLstPrT<T>::Clear() noexcept {
   while (!IsEmpty()) {
     Pop();
   }
-}*/
+}
