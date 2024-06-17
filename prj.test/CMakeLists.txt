@@ -30,3 +30,6 @@ target_link_libraries(test_queuearrt queuearrt complex)
 
 add_executable(test_queuelstt test_queuelstt.cpp)
 target_link_libraries(test_queuelstt queuelstt rational)
+
+add_executable(test_queuelstprt test_queuelstprt.cpp)
+target_link_libraries(test_queuelstprt queuelstprt complex)
