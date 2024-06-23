@@ -342,6 +342,16 @@ TEST_CASE("operator[] test") {
     temp = bitset[i];
     CHECK_EQ(temp, bitset[i]);
   }
+
+  BitSet bitset2(32);
+  for (int i = 0; i < bitset.Size(); i++) {
+    bitset[i] = i % 32;
+  }
+
+  for (int i = 0; i < bitset.Size() - bitset.Size() % 3; i+=3) {
+    bitset[i] = bitset[i + 1] = bitset[i + 2];
+    CHECK((bitset[i] == bitset[i + 1] && bitset[i + 1] == bitset[i + 2]));
+  }
 }
 
 TEST_CASE("formated io") {
